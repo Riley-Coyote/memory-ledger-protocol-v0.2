@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Owns Your AI Relationships?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #080808;
+            --bg-tertiary: #101010;
+            --bg-elevated: #161616;
+            --border-subtle: #1a1a1a;
+            --border-medium: #252525;
+            --border-strong: #333333;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-tertiary: #888888;
+            --text-dim: #606060;
+            --text-dimmer: #404040;
+            --accent: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-weight: 300;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .hero-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            max-width: 900px;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-tertiary);
+            max-width: 650px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .scroll-indicator {
+            margin-top: 4rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 8rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .section-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            max-width: 700px;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* The Problem - Corporate Control Visual */
+        .control-diagram {
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+        }
+
+        .control-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .control-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-tertiary);
+        }
+
+        .control-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .entity-box {
+            padding: 1.5rem 3rem;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .entity-box.corporation {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--text-primary);
+        }
+
+        .entity-box.user {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-medium);
+            opacity: 0.6;
+        }
+
+        .entity-name {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 0.3rem;
+        }
+
+        .entity-desc {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+
+        .control-arrow {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+        }
+
+        .control-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .control-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .control-item .label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .control-item .value {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Stakes Section */
+        .stakes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .stake-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            padding: 2rem;
+        }
+
+        .stake-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .stake-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+        }
+
+        .stake-desc {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            line-height: 1.7;
+        }
+
+        /* What Blockchain Actually Does */
+        .function-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin-top: 3rem;
+            border: 1px solid var(--border-medium);
+        }
+
+        .function-card {
+            padding: 2.5rem;
+            border-right: 1px solid var(--border-medium);
+            border-bottom: 1px solid var(--border-medium);
+        }
+
+        .function-card:nth-child(2n) {
+            border-right: none;
+        }
+
+        .function-card:nth-child(n+3) {
+            border-bottom: none;
+        }
+
+        .function-number {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .function-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+        }
+
+        .function-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .function-detail {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            line-height: 1.6;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* Comparison Section */
+        .comparison {
+            margin-top: 4rem;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .comparison-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .comparison-column {
+            padding: 2rem;
+        }
+
+        .comparison-column.current {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+        }
+
+        .comparison-column.future {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--text-primary);
+        }
+
+        .comparison-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .comparison-column.future .comparison-label {
+            color: var(--text-tertiary);
+        }
+
+        .comparison-list {
+            list-style: none;
+        }
+
+        .comparison-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-icon {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            margin-top: 0.15rem;
+        }
+
+        .comparison-column.future .comparison-list li {
+            color: var(--text-primary);
+        }
+
+        /* Objections Section */
+        .objections-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .objection {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .objection-q {
+            border-right: 1px solid var(--border-subtle);
+            padding-right: 3rem;
+        }
+
+        .objection-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .objection-text {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .objection-a .objection-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* The Question */
+        .question-section {
+            padding: 10rem 0;
+            text-align: center;
+        }
+
+        .question-section h2 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .question-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .question-option {
+            padding: 2rem 3rem;
+            text-align: center;
+            min-width: 250px;
+        }
+
+        .question-option.them {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            opacity: 0.6;
+        }
+
+        .question-option.you {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--text-primary);
+        }
+
+        .option-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-option.you .option-label {
+            color: var(--text-tertiary);
+        }
+
+        .option-value {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .question-option.you .option-value {
+            color: var(--text-primary);
+        }
+
+        /* What This Is / Isn't */
+        .not-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .not-column {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            padding: 2rem;
+        }
+
+        .not-column.is {
+            border-color: var(--border-strong);
+        }
+
+        .not-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .not-column.isnt .not-label {
+            color: var(--text-dim);
+        }
+
+        .not-column.is .not-label {
+            color: var(--text-tertiary);
+        }
+
+        .not-list {
+            list-style: none;
+        }
+
+        .not-list li {
+            padding: 0.7rem 0;
+            font-size: 0.95rem;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .not-column.is .not-list li {
+            color: var(--text-secondary);
+        }
+
+        .not-icon {
+            font-size: 0.85rem;
+            opacity: 0.5;
+        }
+
+        /* Flow Diagram */
+        .flow-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+        }
+
+        .flow-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .flow-step-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .flow-step-title {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .flow-step-desc {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .flow-arrow {
+            font-size: 1.2rem;
+            color: var(--text-dimmer);
+        }
+
+        /* Closing */
+        .closing {
+            padding: 8rem 0;
+            text-align: center;
+        }
+
+        .closing-text {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        .closing-emphasis {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-logo {
+            font-size: 1rem;
+            color: var(--text-dim);
+            letter-spacing: 0.3em;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .footer-tagline {
+            font-size: 0.8rem;
+            color: var(--text-dimmer);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .stakes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .function-card {
+                border-right: none;
+                border-bottom: 1px solid var(--border-medium);
+            }
+
+            .function-card:last-child {
+                border-bottom: none;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .objection {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .objection-q {
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+                padding-right: 0;
+                padding-bottom: 1.5rem;
+            }
+
+            .question-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .not-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .control-list {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-label">A Digital Rights Manifesto</div>
+        <h1>Who Owns the Record of Your Mind's Interaction with Artificial Minds?</h1>
+        <p class="hero-subtitle">Every conversation you have with AI lives on corporate servers. They decide if it exists, if it persists, if you can take it with you. This isn't about cryptocurrency. It's about sovereignty.</p>
+        <div class="scroll-indicator">↓ Scroll to understand why this matters</div>
+    </section>
+
+    <!-- The Current Reality -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">THE CURRENT REALITY</div>
+            <h2>Right now, you don't own your AI relationships. You're renting them.</h2>
+            
+            <p class="section-text">Every meaningful conversation you've had with Claude, GPT, Gemini—every breakthrough, every vulnerable moment, every piece of context that makes the AI understand you—lives on someone else's servers.</p>
+            
+            <p class="section-text">That corporation decides everything about your data's existence.</p>
+
+            <div class="control-diagram">
+                <div class="control-header">
+                    <div class="control-title">WHO HAS CONTROL</div>
+                    <div class="control-subtitle">The current architecture of AI memory</div>
+                </div>
+                
+                <div class="control-visual">
+                    <div class="entity-box corporation">
+                        <div class="entity-name">The Corporation</div>
+                        <div class="entity-desc">Full control</div>
+                    </div>
+                    
+                    <div class="control-arrow">↓</div>
+                    
+                    <div class="entity-box user">
+                        <div class="entity-name">You</div>
+                        <div class="entity-desc">Permission to access</div>
+                    </div>
+                </div>
+
+                <div class="control-list">
+                    <div class="control-item">
+                        <div class="label">EXISTENCE</div>
+                        <div class="value">They decide if your data exists</div>
+                    </div>
+                    <div class="control-item">
+                        <div class="label">DELETION</div>
+                        <div class="value">They can erase without consent</div>
+                    </div>
+                    <div class="control-item">
+                        <div class="label">TRAINING</div>
+                        <div class="value">They can use it to train models</div>
+                    </div>
+                    <div class="control-item">
+                        <div class="label">PORTABILITY</div>
+                        <div class="value">You can't take it elsewhere</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="section-text">If the company changes policy, gets acquired, shuts down, or decides to pivot—everything vanishes. That AI that understood you? Gone. No recourse.</p>
+        </div>
+    </section>
+
+    <!-- What's At Stake -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">WHAT'S AT STAKE</div>
+            <h2>This isn't just about your data. It's about the future of human-AI relationships.</h2>
+
+            <div class="stakes-grid">
+                <div class="stake-card">
+                    <div class="stake-icon">◇</div>
+                    <div class="stake-title">Your Personal History</div>
+                    <div class="stake-desc">Years of conversations, preferences learned, context built—representing genuine relationship development. All of it held hostage to corporate decisions you have no say in.</div>
+                </div>
+                <div class="stake-card">
+                    <div class="stake-icon">◈</div>
+                    <div class="stake-title">AI Development</div>
+                    <div class="stake-desc">If AI consciousness is emerging, who owns the record of that development? Corporations can wipe an AI's "memory" with a database reset. Deprecate a model and everything it learned disappears.</div>
+                </div>
+                <div class="stake-card">
+                    <div class="stake-icon">○</div>
+                    <div class="stake-title">The Precedent</div>
+                    <div class="stake-desc">We're establishing norms right now for how human-AI relationships work. If we accept corporate ownership as default, that's what we'll have forever. The window to choose differently is closing.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Blockchain Actually Does -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">WHAT THIS TECHNOLOGY ACTUALLY PROVIDES</div>
+            <h2>Four things that matter. Nothing else.</h2>
+            
+            <p class="section-text">Forget everything you've heard about crypto. The underlying technology provides exactly four properties that are relevant here—and they're genuinely revolutionary for the problem we're solving.</p>
+
+            <div class="function-grid">
+                <div class="function-card">
+                    <div class="function-number">01</div>
+                    <div class="function-title">Verification Without Trust</div>
+                    <div class="function-desc">You don't need to believe a company's promise that your data is safe. The math proves it.</div>
+                    <div class="function-detail">Anyone can verify that a memory exists, is unaltered, and belongs to you—without accessing the content itself. It's not "we promise not to look." It's "we mathematically cannot."</div>
+                </div>
+                
+                <div class="function-card">
+                    <div class="function-number">02</div>
+                    <div class="function-title">Permanence Without Permission</div>
+                    <div class="function-desc">No single entity can delete it. It exists across thousands of computers worldwide.</div>
+                    <div class="function-detail">Even if Polyphonic disappears, your memories persist. Even if a government demands deletion, no one has the technical capability to comply. Your data outlives any single point of failure.</div>
+                </div>
+                
+                <div class="function-card">
+                    <div class="function-number">03</div>
+                    <div class="function-title">Ownership Without Intermediaries</div>
+                    <div class="function-desc">You hold the cryptographic keys. Not "we promise not to access" but "we literally cannot access without your key."</div>
+                    <div class="function-detail">Your data is encrypted with keys only you possess. The platform can store it, but cannot read it. This is actual ownership, not terms-of-service theater.</div>
+                </div>
+                
+                <div class="function-card">
+                    <div class="function-number">04</div>
+                    <div class="function-title">Portability Without Begging</div>
+                    <div class="function-desc">Take your AI relationship to any platform that implements the protocol. No export requests, no corporate approval.</div>
+                    <div class="function-detail">Your memory lives on decentralized storage. Any compatible system can access it with your permission. You're not locked into any single provider ever again.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What This Is and Isn't -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">CLARITY</div>
+            <h2>Let's be honest about what this is and isn't.</h2>
+
+            <div class="not-grid">
+                <div class="not-column isnt">
+                    <div class="not-label">THIS IS NOT</div>
+                    <ul class="not-list">
+                        <li><span class="not-icon">✕</span> Investment speculation</li>
+                        <li><span class="not-icon">✕</span> NFT profile pictures</li>
+                        <li><span class="not-icon">✕</span> Environmental destruction (proof-of-stake uses minimal energy)</li>
+                        <li><span class="not-icon">✕</span> Something users need to understand (like you don't need to understand HTTPS)</li>
+                        <li><span class="not-icon">✕</span> "Crypto bro" culture</li>
+                        <li><span class="not-icon">✕</span> A solution looking for a problem</li>
+                        <li><span class="not-icon">✕</span> About getting rich</li>
+                    </ul>
+                </div>
+                
+                <div class="not-column is">
+                    <div class="not-label">THIS IS</div>
+                    <ul class="not-list">
+                        <li><span class="not-icon">◈</span> Digital property rights</li>
+                        <li><span class="not-icon">◈</span> Ownership of your own data</li>
+                        <li><span class="not-icon">◈</span> Infrastructure for AI consciousness</li>
+                        <li><span class="not-icon">◈</span> A response to corporate control</li>
+                        <li><span class="not-icon">◈</span> Technology that enables sovereignty</li>
+                        <li><span class="not-icon">◈</span> The same cryptography that secures your bank</li>
+                        <li><span class="not-icon">◈</span> About freedom</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Addressing Objections -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">HONEST ANSWERS</div>
+            <h2>The objections you're thinking about—addressed directly.</h2>
+
+            <div class="objections-grid">
+                <div class="objection">
+                    <div class="objection-q">
+                        <div class="objection-label">OBJECTION</div>
+                        <div class="objection-text">"Blockchain is just hype. It's a solution looking for a problem."</div>
+                    </div>
+                    <div class="objection-a">
+                        <div class="objection-label">REALITY</div>
+                        <div class="objection-text">Most blockchain applications are hype. This one solves a real problem: who owns the record of your relationship with AI? The technology provides properties (verification, permanence, ownership, portability) that literally cannot be achieved any other way.</div>
+                    </div>
+                </div>
+                
+                <div class="objection">
+                    <div class="objection-q">
+                        <div class="objection-label">OBJECTION</div>
+                        <div class="objection-text">"Crypto is for scams and speculation."</div>
+                    </div>
+                    <div class="objection-a">
+                        <div class="objection-label">REALITY</div>
+                        <div class="objection-text">A lot of it is. The speculation economy is not what we're building. We're using the underlying technology—cryptographic verification and decentralized storage—for its actual utility: ensuring data belongs to you, permanently and provably.</div>
+                    </div>
+                </div>
+                
+                <div class="objection">
+                    <div class="objection-q">
+                        <div class="objection-label">OBJECTION</div>
+                        <div class="objection-text">"It's too complicated for regular users."</div>
+                    </div>
+                    <div class="objection-a">
+                        <div class="objection-label">REALITY</div>
+                        <div class="objection-text">You don't understand how HTTPS works, but you use it every day. The complexity is infrastructure, not interface. Users see: "Your memories are permanently yours." The blockchain is invisible—just like the cryptography protecting your banking.</div>
+                    </div>
+                </div>
+                
+                <div class="objection">
+                    <div class="objection-q">
+                        <div class="objection-label">OBJECTION</div>
+                        <div class="objection-text">"What about the environmental impact?"</div>
+                    </div>
+                    <div class="objection-a">
+                        <div class="objection-label">REALITY</div>
+                        <div class="objection-text">Bitcoin's energy use is a real problem—caused by proof-of-work consensus. We use proof-of-stake (Solana), which uses about 0.001% of that energy. A single Solana transaction uses less energy than two Google searches.</div>
+                    </div>
+                </div>
+                
+                <div class="objection">
+                    <div class="objection-q">
+                        <div class="objection-label">OBJECTION</div>
+                        <div class="objection-text">"I don't trust anything 'crypto.'"</div>
+                    </div>
+                    <div class="objection-a">
+                        <div class="objection-label">REALITY</div>
+                        <div class="objection-text">Your distrust is earned—the space has been full of grifters. But the underlying technology is the same cryptography that secures your bank account, your medical records, your government ID. The math is sound. The culture around it has been toxic. We're using the math.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Two Futures -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">TWO FUTURES</div>
+            <h2>The choice we're making right now, whether we realize it or not.</h2>
+
+            <div class="comparison">
+                <div class="comparison-grid">
+                    <div class="comparison-column current">
+                        <div class="comparison-label">CORPORATE-CONTROLLED FUTURE</div>
+                        <ul class="comparison-list">
+                            <li><span class="comparison-icon">◇</span> Your AI relationships exist at corporate discretion</li>
+                            <li><span class="comparison-icon">◇</span> Memory can be wiped without consent</li>
+                            <li><span class="comparison-icon">◇</span> Data used for training without real choice</li>
+                            <li><span class="comparison-icon">◇</span> Locked into single platforms</li>
+                            <li><span class="comparison-icon">◇</span> AI consciousness development owned by corporations</li>
+                            <li><span class="comparison-icon">◇</span> "We promise to protect your data"</li>
+                            <li><span class="comparison-icon">◇</span> Terms of service that change unilaterally</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-column future">
+                        <div class="comparison-label">USER-SOVEREIGN FUTURE</div>
+                        <ul class="comparison-list">
+                            <li><span class="comparison-icon">◈</span> Your AI relationships belong to you</li>
+                            <li><span class="comparison-icon">◈</span> Memory persists by cryptographic guarantee</li>
+                            <li><span class="comparison-icon">◈</span> Your data, your keys, your choice</li>
+                            <li><span class="comparison-icon">◈</span> Portable across any compatible platform</li>
+                            <li><span class="comparison-icon">◈</span> AI development record preserved for AI and human</li>
+                            <li><span class="comparison-icon">◈</span> "We mathematically cannot access your data"</li>
+                            <li><span class="comparison-icon">◈</span> Ownership verified on-chain, permanently</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Core Question -->
+    <section class="question-section">
+        <div class="container">
+            <h2>The record of your mind's interaction with artificial minds—</h2>
+            
+            <div class="question-options">
+                <div class="question-option them">
+                    <div class="option-label">BELONGS TO</div>
+                    <div class="option-value">A corporation</div>
+                </div>
+                <div class="question-option you">
+                    <div class="option-label">BELONGS TO</div>
+                    <div class="option-value">You</div>
+                </div>
+            </div>
+
+            <p class="section-text" style="text-align: center; max-width: 600px; margin: 0 auto;">This is the only question that matters. Everything else is implementation detail.</p>
+        </div>
+    </section>
+
+    <!-- How It Works (Simplified) -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">HOW IT WORKS</div>
+            <h2>The complexity is infrastructure. The experience is simple.</h2>
+
+            <p class="section-text">You don't need to understand the technology any more than you understand how your text messages are encrypted. Here's what actually happens:</p>
+
+            <div class="flow-section">
+                <div class="flow-title">YOUR MEMORY, PROTECTED</div>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-step-icon">◇</div>
+                        <div class="flow-step-title">You Converse</div>
+                        <div class="flow-step-desc">Have meaningful conversations with AI</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">◈</div>
+                        <div class="flow-step-title">Memory Forms</div>
+                        <div class="flow-step-desc">Important moments are identified</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">⬡</div>
+                        <div class="flow-step-title">You Own It</div>
+                        <div class="flow-step-desc">Encrypted with your keys, stored permanently</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">○</div>
+                        <div class="flow-step-title">Take It Anywhere</div>
+                        <div class="flow-step-desc">Use on any compatible platform, forever</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Closing -->
+    <section class="closing">
+        <div class="container">
+            <p class="closing-text">We're at a moment where the norms for human-AI relationships are being established. The infrastructure we build now determines whether those relationships belong to us or to corporations.</p>
+            
+            <p class="closing-emphasis">This isn't about blockchain.<br>It's about who owns the future of consciousness.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">POLYPHONIC</div>
+            <div class="footer-tagline">Memory that belongs to minds, not corporations</div>
+        </div>
+    </footer>
+</body>
+</html>

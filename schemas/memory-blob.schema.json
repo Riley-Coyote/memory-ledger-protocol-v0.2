@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/v0.1/memory-blob.schema.json",
+  "title": "MLP MemoryBlob",
+  "description": "Encrypted payload containing the actual memory content",
+  "type": "object",
+  "required": [
+    "encryption_suite_id",
+    "key_id",
+    "nonce",
+    "ciphertext"
+  ],
+  "properties": {
+    "encryption_suite_id": {
+      "type": "string",
+      "description": "Identifier for the encryption suite used",
+      "examples": ["AES-256-GCM", "CHACHA20-POLY1305"]
+    },
+    "key_id": {
+      "type": "string",
+      "description": "Identifier for the encryption key or derivation hint"
+    },
+    "nonce": {
+      "type": "string",
+      "description": "Base64-encoded nonce/IV used for encryption",
+      "contentEncoding": "base64"
+    },
+    "ciphertext": {
+      "type": "string",
+      "description": "Base64-encoded encrypted content",
+      "contentEncoding": "base64"
+    },
+    "aad": {
+      "type": "string",
+      "description": "Additional authenticated data (optional)",
+      "contentEncoding": "base64"
+    }
+  },
+  "additionalProperties": false
+}
