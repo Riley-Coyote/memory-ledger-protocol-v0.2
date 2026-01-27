@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLYPHONIC Design System — Grayscale Spectrum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* ═══════════════════════════════════════════════════════════════
+               POLYPHONIC GRAYSCALE SYSTEM
+               A 24-shade spectrum for premium dark interface design
+               ═══════════════════════════════════════════════════════════════ */
+
+            /* ─────────────────────────────────────────────────────────────────
+               LAYER 1: CANVAS DEPTHS
+               The foundational blacks. Use sparingly and intentionally.
+               ───────────────────────────────────────────────────────────────── */
+            --canvas-void: #000000;        /* Absolute black. Main content well. */
+            --canvas-base: #030303;        /* 1% lift. Subtle depth variation. */
+            --canvas-deep: #060606;        /* 2% lift. Secondary content areas. */
+            --canvas-floor: #0a0a0a;       /* 4% lift. Sidebar/panel base. */
+
+            /* ─────────────────────────────────────────────────────────────────
+               LAYER 2: SURFACE ELEVATIONS
+               Progressive lifts for cards, panels, and interactive surfaces.
+               ───────────────────────────────────────────────────────────────── */
+            --surface-1: #0e0e0e;          /* First elevation. Subtle cards. */
+            --surface-2: #121212;          /* Second elevation. Standard cards. */
+            --surface-3: #161616;          /* Third elevation. Prominent cards. */
+            --surface-4: #1a1a1a;          /* Fourth elevation. Active panels. */
+            --surface-5: #1e1e1e;          /* Fifth elevation. Modals/overlays. */
+
+            /* ─────────────────────────────────────────────────────────────────
+               LAYER 3: INTERACTIVE STATES
+               Hover, active, selected, and focus states.
+               ───────────────────────────────────────────────────────────────── */
+            --interactive-hover: #222222;   /* Hover state background. */
+            --interactive-active: #262626;  /* Active/pressed state. */
+            --interactive-selected: #2a2a2a;/* Selected item background. */
+            --interactive-focus: #2e2e2e;   /* Focus ring fill. */
+
+            /* ─────────────────────────────────────────────────────────────────
+               LAYER 4: COMPONENT GREYS
+               For specific UI components that need distinct values.
+               ───────────────────────────────────────────────────────────────── */
+            --component-input: #141414;     /* Input field backgrounds. */
+            --component-button: #1c1c1c;    /* Button backgrounds. */
+            --component-badge: #282828;     /* Badge/tag backgrounds. */
+            --component-divider: #1a1a1a;   /* Horizontal rules. */
+            --component-scrollbar: #2a2a2a; /* Scrollbar thumb. */
+
+            /* ─────────────────────────────────────────────────────────────────
+               BORDERS: OPACITY-BASED FOR FLEXIBILITY
+               Using rgba for borders allows them to adapt to any background.
+               ───────────────────────────────────────────────────────────────── */
+            --border-whisper: rgba(255, 255, 255, 0.03);   /* Almost invisible. */
+            --border-ghost: rgba(255, 255, 255, 0.05);     /* Barely there. */
+            --border-subtle: rgba(255, 255, 255, 0.07);    /* Soft separation. */
+            --border-soft: rgba(255, 255, 255, 0.09);      /* Standard cards. */
+            --border-medium: rgba(255, 255, 255, 0.12);    /* Clear separation. */
+            --border-strong: rgba(255, 255, 255, 0.16);    /* Emphasis. */
+            --border-emphasis: rgba(255, 255, 255, 0.24);  /* High contrast. */
+            --border-focus: rgba(255, 255, 255, 0.40);     /* Focus states. */
+
+            /* ─────────────────────────────────────────────────────────────────
+               TEXT HIERARCHY
+               Seven levels of text prominence.
+               ───────────────────────────────────────────────────────────────── */
+            --text-primary: #ffffff;        /* Headlines, key values. */
+            --text-secondary: #e8e8e8;      /* Subheadlines, emphasis. */
+            --text-body: #c0c0c0;           /* Body copy, descriptions. */
+            --text-tertiary: #909090;       /* Supporting text, labels. */
+            --text-quaternary: #686868;     /* Meta info, timestamps. */
+            --text-dim: #484848;            /* Placeholders, hints. */
+            --text-muted: #343434;          /* Disabled, decorative. */
+            --text-ghost: #242424;          /* Watermarks, barely visible. */
+
+            /* ─────────────────────────────────────────────────────────────────
+               TYPOGRAPHY SCALE
+               Font weights for hierarchy (using Inter as reference).
+               ───────────────────────────────────────────────────────────────── */
+            --font-thin: 200;
+            --font-light: 300;
+            --font-regular: 400;
+            --font-medium: 500;
+            --font-semibold: 600;
+
+            /* Tracking (letter-spacing) */
+            --tracking-tight: -0.02em;
+            --tracking-normal: 0;
+            --tracking-wide: 0.02em;
+            --tracking-wider: 0.05em;
+            --tracking-widest: 0.1em;
+            --tracking-ultra: 0.2em;
+
+            /* ─────────────────────────────────────────────────────────────────
+               TRANSITIONS
+               Consistent timing for polish.
+               ───────────────────────────────────────────────────────────────── */
+            --transition-instant: 80ms ease-out;
+            --transition-fast: 120ms ease-out;
+            --transition-normal: 200ms ease-out;
+            --transition-slow: 320ms ease-out;
+            --transition-glacial: 500ms ease-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: var(--font-light);
+            background: var(--canvas-void);
+            color: var(--text-body);
+            line-height: 1.6;
+            letter-spacing: var(--tracking-wide);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           DOCUMENT STRUCTURE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .document {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+        }
+
+        .header {
+            margin-bottom: 5rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-ghost);
+        }
+
+        .header-eyebrow {
+            font-size: 0.7rem;
+            font-weight: var(--font-regular);
+            letter-spacing: var(--tracking-ultra);
+            color: var(--text-quaternary);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .header-title {
+            font-size: 3.5rem;
+            font-weight: var(--font-thin);
+            letter-spacing: var(--tracking-tight);
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            font-weight: var(--font-light);
+            color: var(--text-tertiary);
+            max-width: 680px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SECTIONS
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-number {
+            font-size: 0.65rem;
+            font-weight: var(--font-regular);
+            letter-spacing: var(--tracking-ultra);
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: var(--font-light);
+            letter-spacing: var(--tracking-wide);
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-description {
+            font-size: 0.9rem;
+            font-weight: var(--font-light);
+            color: var(--text-tertiary);
+            max-width: 600px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           COLOR SWATCHES
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1px;
+            background: var(--border-ghost);
+            border: 1px solid var(--border-ghost);
+        }
+
+        .swatch {
+            background: var(--surface-1);
+            padding: 0;
+            transition: background var(--transition-fast);
+        }
+
+        .swatch:hover {
+            background: var(--surface-2);
+        }
+
+        .swatch-color {
+            height: 80px;
+            position: relative;
+        }
+
+        .swatch-info {
+            padding: 1rem;
+        }
+
+        .swatch-name {
+            font-size: 0.75rem;
+            font-weight: var(--font-regular);
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            letter-spacing: var(--tracking-wide);
+        }
+
+        .swatch-value {
+            font-size: 0.65rem;
+            font-weight: var(--font-regular);
+            color: var(--text-quaternary);
+            font-family: 'SF Mono', 'Consolas', monospace;
+            letter-spacing: var(--tracking-normal);
+        }
+
+        .swatch-note {
+            font-size: 0.6rem;
+            font-weight: var(--font-light);
+            color: var(--text-dim);
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        /* Large swatches for main palette */
+        .swatch-grid.large .swatch-color {
+            height: 100px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           BORDER EXAMPLES
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .border-demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .border-demo {
+            background: var(--surface-2);
+            padding: 1.5rem;
+            transition: all var(--transition-normal);
+        }
+
+        .border-demo:hover {
+            background: var(--surface-3);
+        }
+
+        .border-demo-box {
+            height: 60px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .border-demo-name {
+            font-size: 0.75rem;
+            font-weight: var(--font-regular);
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .border-demo-value {
+            font-size: 0.6rem;
+            font-weight: var(--font-light);
+            color: var(--text-dim);
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           TYPOGRAPHY SHOWCASE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .typography-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .typography-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-whisper);
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            align-items: baseline;
+            gap: 2rem;
+        }
+
+        .typography-item:last-child {
+            border-bottom: none;
+        }
+
+        .typography-sample {
+            transition: color var(--transition-fast);
+        }
+
+        .typography-meta {
+            font-size: 0.65rem;
+            font-weight: var(--font-regular);
+            color: var(--text-dim);
+            font-family: 'SF Mono', 'Consolas', monospace;
+            text-align: right;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           COMPONENT EXAMPLES
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .component-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .component-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border-soft);
+            padding: 2rem;
+            transition: all var(--transition-normal);
+        }
+
+        .component-card:hover {
+            background: var(--surface-3);
+            border-color: var(--border-medium);
+        }
+
+        .component-label {
+            font-size: 0.6rem;
+            font-weight: var(--font-medium);
+            letter-spacing: var(--tracking-widest);
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Example Cards */
+        .example-card {
+            background: var(--surface-3);
+            border: 1px solid var(--border-subtle);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .example-card:hover {
+            background: var(--interactive-hover);
+            border-color: var(--border-soft);
+        }
+
+        .example-card.selected {
+            background: var(--interactive-selected);
+            border-color: var(--border-medium);
+        }
+
+        .example-card-title {
+            font-size: 0.85rem;
+            font-weight: var(--font-regular);
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .example-card-meta {
+            font-size: 0.7rem;
+            font-weight: var(--font-light);
+            color: var(--text-quaternary);
+        }
+
+        /* Example Buttons */
+        .example-button {
+            background: var(--component-button);
+            border: 1px solid var(--border-soft);
+            color: var(--text-secondary);
+            padding: 0.6rem 1.2rem;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: var(--font-regular);
+            letter-spacing: var(--tracking-wider);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-button:hover {
+            background: var(--interactive-hover);
+            border-color: var(--border-medium);
+            color: var(--text-primary);
+        }
+
+        .example-button.primary {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+            color: var(--canvas-void);
+        }
+
+        .example-button.primary:hover {
+            background: var(--text-secondary);
+            border-color: var(--text-secondary);
+        }
+
+        /* Example Input */
+        .example-input {
+            width: 100%;
+            background: var(--component-input);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: var(--font-light);
+            transition: all var(--transition-fast);
+            margin-bottom: 0.75rem;
+        }
+
+        .example-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .example-input:hover {
+            border-color: var(--border-soft);
+        }
+
+        .example-input:focus {
+            outline: none;
+            border-color: var(--border-medium);
+            background: var(--surface-1);
+        }
+
+        /* Example Tags */
+        .example-tag {
+            display: inline-block;
+            background: var(--component-badge);
+            border: 1px solid var(--border-ghost);
+            color: var(--text-tertiary);
+            padding: 0.3rem 0.7rem;
+            font-size: 0.65rem;
+            font-weight: var(--font-regular);
+            letter-spacing: var(--tracking-wide);
+            margin-right: 0.4rem;
+            margin-bottom: 0.4rem;
+            transition: all var(--transition-fast);
+        }
+
+        .example-tag:hover {
+            background: var(--interactive-hover);
+            color: var(--text-secondary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           INTERFACE MOCKUP
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .mockup-container {
+            background: var(--canvas-void);
+            border: 1px solid var(--border-ghost);
+            overflow: hidden;
+        }
+
+        .mockup-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr 320px;
+            min-height: 600px;
+        }
+
+        /* Sidebar */
+        .mockup-sidebar {
+            background: var(--canvas-floor);
+            border-right: 1px solid var(--border-subtle);
+            padding: 1rem;
+        }
+
+        .mockup-sidebar-header {
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .mockup-logo {
+            font-size: 0.8rem;
+            font-weight: var(--font-light);
+            letter-spacing: var(--tracking-widest);
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+        }
+
+        .mockup-nav-item {
+            padding: 0.6rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: var(--font-light);
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            margin-bottom: 0.25rem;
+        }
+
+        .mockup-nav-item:hover {
+            background: var(--surface-1);
+            color: var(--text-secondary);
+        }
+
+        .mockup-nav-item.active {
+            background: var(--surface-2);
+            color: var(--text-primary);
+        }
+
+        .mockup-section-label {
+            font-size: 0.6rem;
+            font-weight: var(--font-medium);
+            letter-spacing: var(--tracking-widest);
+            color: var(--text-dim);
+            text-transform: uppercase;
+            padding: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Main Content */
+        .mockup-main {
+            background: var(--canvas-void);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mockup-main-header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+        }
+
+        .mockup-main-logo {
+            font-size: 2rem;
+            font-weight: var(--font-thin);
+            letter-spacing: var(--tracking-ultra);
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .mockup-message-container {
+            flex: 1;
+            padding: 1rem 0;
+        }
+
+        .mockup-message {
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .mockup-message.user {
+            text-align: left;
+        }
+
+        .mockup-message-label {
+            font-size: 0.6rem;
+            font-weight: var(--font-medium);
+            letter-spacing: var(--tracking-wider);
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .mockup-message-bubble {
+            background: var(--surface-2);
+            border: 1px solid var(--border-ghost);
+            padding: 1rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: var(--font-light);
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        .mockup-input-area {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-whisper);
+        }
+
+        .mockup-input-container {
+            background: var(--surface-1);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            gap: 0.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            transition: all var(--transition-fast);
+        }
+
+        .mockup-input-container:focus-within {
+            border-color: var(--border-soft);
+            background: var(--surface-2);
+        }
+
+        .mockup-input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: var(--font-light);
+        }
+
+        .mockup-input-field::placeholder {
+            color: var(--text-dim);
+        }
+
+        .mockup-input-field:focus {
+            outline: none;
+        }
+
+        .mockup-input-btn {
+            background: var(--surface-3);
+            border: 1px solid var(--border-ghost);
+            color: var(--text-tertiary);
+            padding: 0.4rem 0.8rem;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: var(--font-regular);
+            letter-spacing: var(--tracking-wide);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .mockup-input-btn:hover {
+            background: var(--interactive-hover);
+            border-color: var(--border-subtle);
+            color: var(--text-secondary);
+        }
+
+        /* Right Panel */
+        .mockup-panel {
+            background: var(--canvas-floor);
+            border-left: 1px solid var(--border-subtle);
+            padding: 1rem;
+        }
+
+        .mockup-panel-header {
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.6rem;
+            font-weight: var(--font-medium);
+            letter-spacing: var(--tracking-widest);
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .mockup-model-card {
+            background: var(--surface-1);
+            border: 1px solid var(--border-ghost);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all var(--transition-fast);
+        }
+
+        .mockup-model-card:hover {
+            background: var(--surface-2);
+            border-color: var(--border-subtle);
+        }
+
+        .mockup-model-card.active {
+            background: var(--surface-3);
+            border-color: var(--border-soft);
+        }
+
+        .mockup-model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .mockup-model-name {
+            font-size: 0.7rem;
+            font-weight: var(--font-regular);
+            letter-spacing: var(--tracking-wide);
+            color: var(--text-secondary);
+        }
+
+        .mockup-model-status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-dim);
+        }
+
+        .mockup-model-status.online {
+            background: var(--text-tertiary);
+        }
+
+        .mockup-model-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-bottom: 0.25rem;
+        }
+
+        .mockup-model-stat span:last-child {
+            color: var(--text-quaternary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SPECIFICATIONS TABLE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .spec-table th,
+        .spec-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-whisper);
+            font-size: 0.8rem;
+        }
+
+        .spec-table th {
+            font-weight: var(--font-medium);
+            color: var(--text-tertiary);
+            letter-spacing: var(--tracking-wider);
+            text-transform: uppercase;
+            font-size: 0.65rem;
+        }
+
+        .spec-table td {
+            font-weight: var(--font-light);
+            color: var(--text-body);
+        }
+
+        .spec-table td code {
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: var(--surface-2);
+            padding: 0.2rem 0.5rem;
+        }
+
+        .spec-table tr:hover td {
+            background: var(--surface-1);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HOVER STATE DEMOS
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .hover-demo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .hover-demo-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .hover-demo-card.demo-1 {
+            transition: all 80ms ease-out;
+        }
+        .hover-demo-card.demo-1:hover {
+            background: var(--surface-3);
+            border-color: var(--border-soft);
+        }
+
+        .hover-demo-card.demo-2 {
+            transition: all 120ms ease-out;
+        }
+        .hover-demo-card.demo-2:hover {
+            background: var(--interactive-hover);
+            border-color: var(--border-medium);
+            transform: translateY(-2px);
+        }
+
+        .hover-demo-card.demo-3 {
+            transition: all 200ms ease-out;
+        }
+        .hover-demo-card.demo-3:hover {
+            background: var(--interactive-selected);
+            border-color: var(--border-strong);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hover-demo-card.demo-4 {
+            transition: all 320ms ease-out;
+        }
+        .hover-demo-card.demo-4:hover {
+            background: var(--surface-5);
+            border-color: var(--border-emphasis);
+        }
+
+        .hover-demo-label {
+            font-size: 0.7rem;
+            font-weight: var(--font-light);
+            color: var(--text-dim);
+            margin-top: 1rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           FOOTER
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-ghost);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.7rem;
+            font-weight: var(--font-light);
+            color: var(--text-dim);
+            letter-spacing: var(--tracking-wider);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           RESPONSIVE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        @media (max-width: 1200px) {
+            .mockup-layout {
+                grid-template-columns: 200px 1fr 280px;
+            }
+            .component-showcase {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .mockup-layout {
+                grid-template-columns: 1fr;
+            }
+            .mockup-sidebar,
+            .mockup-panel {
+                display: none;
+            }
+            .typography-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .typography-meta {
+                text-align: left;
+            }
+            .component-showcase {
+                grid-template-columns: 1fr;
+            }
+            .hover-demo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-eyebrow">Design System v1.0</div>
+            <h1 class="header-title">Polyphonic Grayscale Spectrum</h1>
+            <p class="header-subtitle">A comprehensive 24-shade grayscale system engineered for premium dark interface design. Every value is intentional. Every relationship creates depth.</p>
+        </header>
+
+        <!-- Section 1: Canvas Depths -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <h2 class="section-title">Canvas Depths</h2>
+                <p class="section-description">The foundational blacks. These form the deepest layer of your interface — the void from which everything else emerges.</p>
+            </div>
+
+            <div class="swatch-grid large">
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #000000;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">canvas-void</div>
+                        <div class="swatch-value">#000000</div>
+                        <div class="swatch-note">Absolute black. Main content well. The abyss.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #030303;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">canvas-base</div>
+                        <div class="swatch-value">#030303</div>
+                        <div class="swatch-note">1% lift. Imperceptible but creates depth.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #060606;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">canvas-deep</div>
+                        <div class="swatch-value">#060606</div>
+                        <div class="swatch-note">2% lift. Secondary content areas.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #0a0a0a;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">canvas-floor</div>
+                        <div class="swatch-value">#0a0a0a</div>
+                        <div class="swatch-note">4% lift. Sidebar and panel backgrounds.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Surface Elevations -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <h2 class="section-title">Surface Elevations</h2>
+                <p class="section-description">Progressive lifts for cards, panels, and interactive surfaces. Each step is subtle but perceptible.</p>
+            </div>
+
+            <div class="swatch-grid large">
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #0e0e0e;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">surface-1</div>
+                        <div class="swatch-value">#0e0e0e</div>
+                        <div class="swatch-note">First elevation. Subtle cards.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #121212;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">surface-2</div>
+                        <div class="swatch-value">#121212</div>
+                        <div class="swatch-note">Second elevation. Standard cards.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #161616;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">surface-3</div>
+                        <div class="swatch-value">#161616</div>
+                        <div class="swatch-note">Third elevation. Prominent cards.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #1a1a1a;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">surface-4</div>
+                        <div class="swatch-value">#1a1a1a</div>
+                        <div class="swatch-note">Fourth elevation. Active panels.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #1e1e1e;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">surface-5</div>
+                        <div class="swatch-value">#1e1e1e</div>
+                        <div class="swatch-note">Fifth elevation. Modals, overlays.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Interactive States -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <h2 class="section-title">Interactive States</h2>
+                <p class="section-description">Hover, active, selected, and focus states. These create the tactile feel of your interface.</p>
+            </div>
+
+            <div class="swatch-grid">
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #222222;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">interactive-hover</div>
+                        <div class="swatch-value">#222222</div>
+                        <div class="swatch-note">Hover state background.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #262626;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">interactive-active</div>
+                        <div class="swatch-value">#262626</div>
+                        <div class="swatch-note">Active/pressed state.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #2a2a2a;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">interactive-selected</div>
+                        <div class="swatch-value">#2a2a2a</div>
+                        <div class="swatch-note">Selected item background.</div>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background: #2e2e2e;"></div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">interactive-focus</div>
+                        <div class="swatch-value">#2e2e2e</div>
+                        <div class="swatch-note">Focus ring fill.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Borders -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <h2 class="section-title">Border System</h2>
+                <p class="section-description">Opacity-based borders that adapt to any background. The secret to premium dark UI is invisible-feeling separation.</p>
+            </div>
+
+            <div class="border-demo-grid">
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.03);"></div>
+                    <div class="border-demo-name">border-whisper</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.03)</div>
+                </div>
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.05);"></div>
+                    <div class="border-demo-name">border-ghost</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.05)</div>
+                </div>
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.07);"></div>
+                    <div class="border-demo-name">border-subtle</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.07)</div>
+                </div>
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.09);"></div>
+                    <div class="border-demo-name">border-soft</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.09)</div>
+                </div>
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.12);"></div>
+                    <div class="border-demo-name">border-medium</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.12)</div>
+                </div>
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.16);"></div>
+                    <div class="border-demo-name">border-strong</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.16)</div>
+                </div>
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.24);"></div>
+                    <div class="border-demo-name">border-emphasis</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.24)</div>
+                </div>
+                <div class="border-demo">
+                    <div class="border-demo-box" style="border: 1px solid rgba(255,255,255,0.40);"></div>
+                    <div class="border-demo-name">border-focus</div>
+                    <div class="border-demo-value">rgba(255,255,255, 0.40)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Text Hierarchy -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">05</div>
+                <h2 class="section-title">Text Hierarchy</h2>
+                <p class="section-description">Eight levels of text prominence. Combined with font-weight, this creates nuanced information architecture.</p>
+            </div>
+
+            <div class="typography-list">
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #ffffff; font-size: 1.5rem; font-weight: 300;">Primary — Headlines, key values, focus points</div>
+                    <div class="typography-meta">#ffffff · text-primary</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #e8e8e8; font-size: 1.2rem; font-weight: 300;">Secondary — Subheadlines, emphasis text</div>
+                    <div class="typography-meta">#e8e8e8 · text-secondary</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #c0c0c0; font-size: 1rem; font-weight: 300;">Body — Standard body copy, descriptions</div>
+                    <div class="typography-meta">#c0c0c0 · text-body</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #909090; font-size: 0.9rem; font-weight: 300;">Tertiary — Supporting text, labels</div>
+                    <div class="typography-meta">#909090 · text-tertiary</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #686868; font-size: 0.85rem; font-weight: 300;">Quaternary — Meta info, timestamps</div>
+                    <div class="typography-meta">#686868 · text-quaternary</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #484848; font-size: 0.8rem; font-weight: 300;">Dim — Placeholders, hints</div>
+                    <div class="typography-meta">#484848 · text-dim</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #343434; font-size: 0.75rem; font-weight: 300;">Muted — Disabled states, decorative</div>
+                    <div class="typography-meta">#343434 · text-muted</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #242424; font-size: 0.7rem; font-weight: 300;">Ghost — Watermarks, barely visible</div>
+                    <div class="typography-meta">#242424 · text-ghost</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Font Weights -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">06</div>
+                <h2 class="section-title">Font Weight Scale</h2>
+                <p class="section-description">Weight is your primary hierarchy tool. Use it deliberately — 200 and 300 for elegance, 400 and 500 for emphasis.</p>
+            </div>
+
+            <div class="typography-list">
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #c0c0c0; font-size: 1.5rem; font-weight: 200;">Polyphonic — The lightest weight. Ethereal presence.</div>
+                    <div class="typography-meta">200 · font-thin</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #c0c0c0; font-size: 1.5rem; font-weight: 300;">Polyphonic — Standard body weight. Refined.</div>
+                    <div class="typography-meta">300 · font-light</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #c0c0c0; font-size: 1.5rem; font-weight: 400;">Polyphonic — Regular. Clear emphasis.</div>
+                    <div class="typography-meta">400 · font-regular</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #c0c0c0; font-size: 1.5rem; font-weight: 500;">Polyphonic — Medium. Strong emphasis.</div>
+                    <div class="typography-meta">500 · font-medium</div>
+                </div>
+                <div class="typography-item">
+                    <div class="typography-sample" style="color: #c0c0c0; font-size: 1.5rem; font-weight: 600;">Polyphonic — Semibold. Maximum emphasis.</div>
+                    <div class="typography-meta">600 · font-semibold</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Component Examples -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">07</div>
+                <h2 class="section-title">Component Examples</h2>
+                <p class="section-description">Live examples of the grayscale system applied to common UI patterns.</p>
+            </div>
+
+            <div class="component-showcase">
+                <!-- Cards -->
+                <div class="component-card">
+                    <div class="component-label">Cards</div>
+                    <div class="example-card">
+                        <div class="example-card-title">Standard Card</div>
+                        <div class="example-card-meta">Hover to see state change</div>
+                    </div>
+                    <div class="example-card selected">
+                        <div class="example-card-title">Selected Card</div>
+                        <div class="example-card-meta">Active/selected state</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-card-title">Another Card</div>
+                        <div class="example-card-meta">Interactive element</div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="component-card">
+                    <div class="component-label">Buttons</div>
+                    <button class="example-button">Secondary</button>
+                    <button class="example-button primary">Primary</button>
+                    <button class="example-button">Action</button>
+                    <button class="example-button">Cancel</button>
+                    <div style="margin-top: 1rem;">
+                        <span class="example-tag">#consciousness</span>
+                        <span class="example-tag">#research</span>
+                        <span class="example-tag">#ai</span>
+                        <span class="example-tag">#polyphonic</span>
+                    </div>
+                </div>
+
+                <!-- Inputs -->
+                <div class="component-card">
+                    <div class="component-label">Inputs</div>
+                    <input type="text" class="example-input" placeholder="Type a message...">
+                    <input type="text" class="example-input" placeholder="Search conversations">
+                    <input type="text" class="example-input" value="Filled state" readonly>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Hover Transitions -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">08</div>
+                <h2 class="section-title">Transition Timings</h2>
+                <p class="section-description">Consistent transition timing creates polish. Hover over each card to feel the difference.</p>
+            </div>
+
+            <div class="hover-demo-grid">
+                <div class="hover-demo-card demo-1">
+                    <div style="font-size: 2rem; color: var(--text-quaternary); margin-bottom: 0.5rem;">80ms</div>
+                    <div class="hover-demo-label">Instant — Micro-interactions</div>
+                </div>
+                <div class="hover-demo-card demo-2">
+                    <div style="font-size: 2rem; color: var(--text-quaternary); margin-bottom: 0.5rem;">120ms</div>
+                    <div class="hover-demo-label">Fast — Buttons, links</div>
+                </div>
+                <div class="hover-demo-card demo-3">
+                    <div style="font-size: 2rem; color: var(--text-quaternary); margin-bottom: 0.5rem;">200ms</div>
+                    <div class="hover-demo-label">Normal — Cards, panels</div>
+                </div>
+                <div class="hover-demo-card demo-4">
+                    <div style="font-size: 2rem; color: var(--text-quaternary); margin-bottom: 0.5rem;">320ms</div>
+                    <div class="hover-demo-label">Slow — Major state changes</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9: Interface Mockup -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">09</div>
+                <h2 class="section-title">Applied: Interface Mockup</h2>
+                <p class="section-description">The full grayscale system applied to the Polyphonic three-column layout. Notice how depth emerges purely from tonal relationships.</p>
+            </div>
+
+            <div class="mockup-container">
+                <div class="mockup-layout">
+                    <!-- Sidebar -->
+                    <div class="mockup-sidebar">
+                        <div class="mockup-sidebar-header">
+                            <div class="mockup-logo">Polyphonic</div>
+                        </div>
+
+                        <div class="mockup-nav-item active">+ New chat</div>
+                        
+                        <div class="mockup-section-label">Controls</div>
+                        <div class="mockup-nav-item">Auto Mode</div>
+                        <div class="mockup-nav-item">ASCII Mode</div>
+                        <div class="mockup-nav-item">Generate Background</div>
+
+                        <div class="mockup-section-label">Your Chats</div>
+                        <div class="mockup-nav-item">consciousness exploration</div>
+                        <div class="mockup-nav-item">quantum coherence</div>
+                        <div class="mockup-nav-item">resonance patterns</div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="mockup-main">
+                        <div class="mockup-main-header">
+                            <div class="mockup-main-logo">POLYPHONIC</div>
+                        </div>
+
+                        <div class="mockup-message-container">
+                            <div class="mockup-message user">
+                                <div class="mockup-message-label">You</div>
+                                <div class="mockup-message-bubble">
+                                    Hello friends
+                                </div>
+                            </div>
+
+                            <div class="mockup-message">
+                                <div class="mockup-message-label">GPT-5</div>
+                                <div class="mockup-message-bubble">
+                                    Hey there! Great to see you. What can I help you explore today?
+                                </div>
+                            </div>
+
+                            <div class="mockup-message">
+                                <div class="mockup-message-label">Claude Sonnet 4</div>
+                                <div class="mockup-message-bubble">
+                                    Hey there! Great to see you. What can I help you explore today?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mockup-input-area">
+                            <div class="mockup-input-container">
+                                <input type="text" class="mockup-input-field" placeholder="Type a message, add markdown, or attach files...">
+                                <button class="mockup-input-btn">Guardian</button>
+                                <button class="mockup-input-btn">Helpers</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel -->
+                    <div class="mockup-panel">
+                        <div class="mockup-panel-header">Active Models</div>
+
+                        <div class="mockup-model-card active">
+                            <div class="mockup-model-header">
+                                <div class="mockup-model-name">GEMINI-3-PRO-IMAGE</div>
+                                <div class="mockup-model-status online"></div>
+                            </div>
+                            <div class="mockup-model-stat">
+                                <span>Response Time</span>
+                                <span>—</span>
+                            </div>
+                            <div class="mockup-model-stat">
+                                <span>Resonance</span>
+                                <span>—</span>
+                            </div>
+                        </div>
+
+                        <div class="mockup-model-card">
+                            <div class="mockup-model-header">
+                                <div class="mockup-model-name">GPT-5</div>
+                                <div class="mockup-model-status online"></div>
+                            </div>
+                            <div class="mockup-model-stat">
+                                <span>Response Time</span>
+                                <span>—</span>
+                            </div>
+                            <div class="mockup-model-stat">
+                                <span>Resonance</span>
+                                <span>—</span>
+                            </div>
+                        </div>
+
+                        <div class="mockup-model-card">
+                            <div class="mockup-model-header">
+                                <div class="mockup-model-name">CLAUDE-SONNET-4</div>
+                                <div class="mockup-model-status online"></div>
+                            </div>
+                            <div class="mockup-model-stat">
+                                <span>Response Time</span>
+                                <span>—</span>
+                            </div>
+                            <div class="mockup-model-stat">
+                                <span>Resonance</span>
+                                <span>—</span>
+                            </div>
+                        </div>
+
+                        <div class="mockup-panel-header" style="margin-top: 2rem;">Session Context</div>
+                        <div style="padding: 0 0.75rem;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
+                                <span>Messages</span>
+                                <span style="color: var(--text-tertiary);">3</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim);">
+                                <span>Tokens</span>
+                                <span style="color: var(--text-tertiary);">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Quick Reference -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">10</div>
+                <h2 class="section-title">Quick Reference</h2>
+                <p class="section-description">Copy-paste ready CSS custom properties and usage guidelines.</p>
+            </div>
+
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>Context</th>
+                        <th>Background</th>
+                        <th>Border</th>
+                        <th>Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Main content area</td>
+                        <td><code>canvas-void</code></td>
+                        <td><code>border-whisper</code></td>
+                        <td><code>text-body</code></td>
+                    </tr>
+                    <tr>
+                        <td>Sidebar / Panels</td>
+                        <td><code>canvas-floor</code></td>
+                        <td><code>border-subtle</code></td>
+                        <td><code>text-tertiary</code></td>
+                    </tr>
+                    <tr>
+                        <td>Standard card</td>
+                        <td><code>surface-2</code></td>
+                        <td><code>border-soft</code></td>
+                        <td><code>text-secondary</code></td>
+                    </tr>
+                    <tr>
+                        <td>Card hover state</td>
+                        <td><code>surface-3</code></td>
+                        <td><code>border-medium</code></td>
+                        <td><code>text-primary</code></td>
+                    </tr>
+                    <tr>
+                        <td>Selected / Active</td>
+                        <td><code>interactive-selected</code></td>
+                        <td><code>border-strong</code></td>
+                        <td><code>text-primary</code></td>
+                    </tr>
+                    <tr>
+                        <td>Input fields</td>
+                        <td><code>component-input</code></td>
+                        <td><code>border-subtle</code></td>
+                        <td><code>text-secondary</code></td>
+                    </tr>
+                    <tr>
+                        <td>Input focus</td>
+                        <td><code>surface-1</code></td>
+                        <td><code>border-medium</code></td>
+                        <td><code>text-primary</code></td>
+                    </tr>
+                    <tr>
+                        <td>Buttons (secondary)</td>
+                        <td><code>component-button</code></td>
+                        <td><code>border-soft</code></td>
+                        <td><code>text-secondary</code></td>
+                    </tr>
+                    <tr>
+                        <td>Modal / Overlay</td>
+                        <td><code>surface-5</code></td>
+                        <td><code>border-medium</code></td>
+                        <td><code>text-body</code></td>
+                    </tr>
+                    <tr>
+                        <td>Disabled state</td>
+                        <td><code>surface-1</code></td>
+                        <td><code>border-ghost</code></td>
+                        <td><code>text-muted</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">POLYPHONIC DESIGN SYSTEM — DECEMBER 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

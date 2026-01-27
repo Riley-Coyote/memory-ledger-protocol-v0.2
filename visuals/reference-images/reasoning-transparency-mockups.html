@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyphonic Reasoning Transparency - Visual Concept Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-tertiary: #111111;
+            --bg-elevated: #181818;
+            --bg-hover: #141414;
+            --border-subtle: #1a1a1a;
+            --border-medium: #222222;
+            --border-strong: #2a2a2a;
+            --border-accent: #333333;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-tertiary: #707070;
+            --text-dim: #505050;
+            --text-dimmer: #303030;
+            --text-dimmest: #1a1a1a;
+            --accent-subtle: #1a1a1a;
+            --confidence-high: #404040;
+            --confidence-med: #2a2a2a;
+            --confidence-low: #1a1a1a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-weight: 200;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            letter-spacing: 0.03em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-medium);
+            padding: 1.5rem 3rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 200;
+            color: var(--text-primary);
+            letter-spacing: 0.4em;
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            margin-top: 0.3rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 3rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 100;
+            color: var(--text-primary);
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-tertiary);
+            font-weight: 200;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        /* Concept Grid */
+        .concept-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* Concept Card */
+        .concept-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 2.5rem;
+        }
+
+        .concept-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .concept-number {
+            font-size: 0.7rem;
+            color: var(--text-dimmer);
+            letter-spacing: 0.3em;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-description {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .concept-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .concept-tag {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-dim);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .concept-tag.premium {
+            border-color: var(--border-medium);
+            color: var(--text-tertiary);
+        }
+
+        /* Mockup Container */
+        .mockup-container {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .mockup-label {
+            font-size: 0.65rem;
+            color: var(--text-dimmer);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ============================================
+           CONCEPT 1: REASONING SUMMARY PANEL
+           ============================================ */
+        
+        .reasoning-summary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+        }
+
+        .reasoning-summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .reasoning-summary-title {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .reasoning-effort-badge {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+        }
+
+        .reasoning-item {
+            margin-bottom: 1.2rem;
+        }
+
+        .reasoning-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .reasoning-item-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .reasoning-item-content {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           CONCEPT 2: INTERACTIVE ASSUMPTION CHIPS
+           ============================================ */
+
+        .assumptions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .assumption-chip {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .assumption-chip:hover {
+            border-color: var(--text-tertiary);
+            background: var(--bg-hover);
+        }
+
+        .assumption-chip.active {
+            border-color: var(--text-primary);
+        }
+
+        .assumption-icon {
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--border-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+
+        .assumption-chip.active .assumption-icon {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .assumption-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .assumption-chip .edit-hint {
+            font-size: 0.65rem;
+            color: var(--text-dimmer);
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           CONCEPT 3: EVIDENCE MAP / CITATIONS
+           ============================================ */
+
+        .evidence-map {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .evidence-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.2rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .evidence-item:hover {
+            border-color: var(--border-medium);
+        }
+
+        .evidence-index {
+            width: 28px;
+            height: 28px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        .evidence-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .evidence-source {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 300;
+        }
+
+        .evidence-snippet {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            font-style: italic;
+            line-height: 1.6;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border-medium);
+        }
+
+        .evidence-claim {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .evidence-claim span {
+            color: var(--text-secondary);
+        }
+
+        .evidence-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.3rem;
+        }
+
+        .evidence-timestamp {
+            font-size: 0.65rem;
+            color: var(--text-dimmer);
+        }
+
+        .evidence-confidence {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        /* ============================================
+           CONCEPT 4: TOOL/ACTION TRACE (AUDIT LOG)
+           ============================================ */
+
+        .trace-container {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+        }
+
+        .trace-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .trace-item:last-child {
+            border-bottom: none;
+        }
+
+        .trace-timestamp {
+            font-size: 0.7rem;
+            color: var(--text-dimmer);
+            font-weight: 400;
+        }
+
+        .trace-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .trace-action {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trace-action-type {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .trace-detail {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            padding-left: 1rem;
+        }
+
+        .trace-result {
+            font-size: 0.75rem;
+            color: var(--text-dimmer);
+            padding-left: 1rem;
+        }
+
+        .trace-result.success {
+            color: var(--text-tertiary);
+        }
+
+        /* ============================================
+           CONCEPT 5: VERIFIER PASS / SELF-CHECK
+           ============================================ */
+
+        .verifier-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .verifier-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.2rem;
+        }
+
+        .verifier-section-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .verifier-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .verifier-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .verifier-icon {
+            width: 6px;
+            height: 6px;
+            background: var(--border-strong);
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .verifier-icon.warning {
+            background: var(--text-tertiary);
+        }
+
+        .confidence-band {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .confidence-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .confidence-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+        }
+
+        .confidence-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, var(--text-dimmer), var(--text-tertiary));
+        }
+
+        .confidence-range {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            background: var(--text-dim);
+            opacity: 0.3;
+        }
+
+        .confidence-value {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        /* ============================================
+           CONCEPT 6: ALTERNATIVES / FORKS VIEW
+           ============================================ */
+
+        .forks-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .fork-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .fork-item:hover {
+            border-color: var(--border-medium);
+        }
+
+        .fork-item.selected {
+            border-color: var(--text-primary);
+            border-width: 2px;
+        }
+
+        .fork-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .fork-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .fork-selected-badge {
+            font-size: 0.65rem;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: var(--bg-elevated);
+            border: 1px solid var(--text-primary);
+            padding: 0.2rem 0.6rem;
+        }
+
+        .fork-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            margin-bottom: 0.8rem;
+        }
+
+        .fork-pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .fork-list {
+            list-style: none;
+        }
+
+        .fork-list-title {
+            font-size: 0.65rem;
+            color: var(--text-dimmer);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .fork-list li {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 0.3rem;
+            padding-left: 0.8rem;
+            position: relative;
+        }
+
+        .fork-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5em;
+            width: 4px;
+            height: 4px;
+            background: var(--border-strong);
+        }
+
+        /* ============================================
+           CONCEPT 7: TELEMETRY DASHBOARD
+           ============================================ */
+
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        .telemetry-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .telemetry-value {
+            font-size: 1.8rem;
+            font-weight: 200;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.3rem;
+        }
+
+        .telemetry-value.mono {
+            font-family: 'SF Mono', monospace;
+            font-size: 1.2rem;
+        }
+
+        .telemetry-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .telemetry-sub {
+            font-size: 0.7rem;
+            color: var(--text-dimmer);
+            margin-top: 0.3rem;
+        }
+
+        /* ============================================
+           CONCEPT 8: PROGRESS STATES
+           ============================================ */
+
+        .progress-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+        }
+
+        .progress-phases {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-phases::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: var(--border-medium);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .progress-phase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-strong);
+            transition: all 0.3s ease;
+        }
+
+        .progress-phase.complete .progress-dot {
+            background: var(--text-tertiary);
+            border-color: var(--text-tertiary);
+        }
+
+        .progress-phase.active .progress-dot {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.1); }
+            50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.05); }
+        }
+
+        .progress-label {
+            font-size: 0.7rem;
+            color: var(--text-dimmer);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .progress-phase.complete .progress-label {
+            color: var(--text-tertiary);
+        }
+
+        .progress-phase.active .progress-label {
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           CONCEPT 9: COLLAPSIBLE REASONING DRAWER
+           ============================================ */
+
+        .drawer-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .drawer-header:hover {
+            background: var(--bg-hover);
+        }
+
+        .drawer-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .drawer-icon {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--border-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            transition: transform 0.3s ease;
+        }
+
+        .drawer-container.open .drawer-icon {
+            transform: rotate(180deg);
+        }
+
+        .drawer-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .drawer-content {
+            border-top: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .drawer-container.open .drawer-content {
+            display: block;
+        }
+
+        /* ============================================
+           CONCEPT 10: AUDIT MODE / REPRODUCE
+           ============================================ */
+
+        .audit-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+        }
+
+        .audit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .audit-title {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .audit-button {
+            background: var(--bg-elevated);
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            padding: 0.5rem 1.2rem;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .audit-button:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .audit-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .audit-step {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .audit-step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        .audit-step-content {
+            padding-top: 0.3rem;
+        }
+
+        .audit-step-title {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .audit-step-detail {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            font-family: 'SF Mono', monospace;
+        }
+
+        /* ============================================
+           CONCEPT 11: LOGPROBS / TOKEN CONFIDENCE
+           ============================================ */
+
+        .logprobs-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+        }
+
+        .logprobs-text {
+            font-size: 1rem;
+            line-height: 2;
+            color: var(--text-secondary);
+        }
+
+        .logprobs-text .token {
+            padding: 0.2rem 0.1rem;
+            margin: 0 1px;
+            border-bottom: 2px solid transparent;
+            cursor: help;
+            transition: all 0.2s ease;
+        }
+
+        .logprobs-text .token.high {
+            background: rgba(255,255,255,0.08);
+            border-bottom-color: var(--text-tertiary);
+        }
+
+        .logprobs-text .token.medium {
+            background: rgba(255,255,255,0.04);
+            border-bottom-color: var(--text-dim);
+        }
+
+        .logprobs-text .token.low {
+            background: rgba(255,255,255,0.02);
+            border-bottom-color: var(--text-dimmer);
+            color: var(--text-tertiary);
+        }
+
+        .logprobs-legend {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .legend-bar {
+            width: 24px;
+            height: 4px;
+        }
+
+        .legend-bar.high { background: var(--text-tertiary); }
+        .legend-bar.medium { background: var(--text-dim); }
+        .legend-bar.low { background: var(--text-dimmer); }
+
+        /* Token Alternatives Popup */
+        .token-alternatives {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .token-alt-header {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .token-alt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .token-alt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .token-alt-item .token-text {
+            color: var(--text-secondary);
+            font-family: 'SF Mono', monospace;
+        }
+
+        .token-alt-item .token-prob {
+            color: var(--text-dim);
+        }
+
+        .token-alt-item.selected {
+            color: var(--text-primary);
+        }
+
+        .token-alt-item.selected .token-text {
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           CONCEPT 12: ENCRYPTED REASONING CONTINUITY
+           ============================================ */
+
+        .continuity-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+        }
+
+        .continuity-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .continuity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .continuity-icon .lock {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--text-tertiary);
+            border-radius: 50% 50% 0 0;
+            position: relative;
+        }
+
+        .continuity-icon .lock::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: -4px;
+            width: 16px;
+            height: 10px;
+            background: var(--text-tertiary);
+        }
+
+        .continuity-info {
+            flex: 1;
+        }
+
+        .continuity-status {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .continuity-status .checkmark {
+            color: var(--text-tertiary);
+        }
+
+        .continuity-detail {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .continuity-hash {
+            font-family: 'SF Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-dimmer);
+            background: var(--bg-primary);
+            padding: 0.8rem 1rem;
+            margin-top: 1rem;
+            border: 1px solid var(--border-subtle);
+            word-break: break-all;
+        }
+
+        .continuity-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .continuity-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-medium);
+            color: var(--text-tertiary);
+            padding: 0.4rem 1rem;
+            font-family: inherit;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .continuity-btn:hover {
+            border-color: var(--text-tertiary);
+            color: var(--text-secondary);
+        }
+
+        /* ============================================
+           CONCEPT 13: SEMANTIC NEIGHBORHOOD
+           ============================================ */
+
+        .semantic-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+        }
+
+        .semantic-viz {
+            height: 300px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .semantic-node {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            cursor: pointer;
+        }
+
+        .semantic-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--text-dimmer);
+            border: 1px solid var(--border-strong);
+            transition: all 0.2s ease;
+        }
+
+        .semantic-node:hover .semantic-dot {
+            background: var(--text-tertiary);
+            transform: scale(1.3);
+        }
+
+        .semantic-node.primary .semantic-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
+        .semantic-node.highlight .semantic-dot {
+            background: var(--text-secondary);
+            border-color: var(--text-secondary);
+        }
+
+        .semantic-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            max-width: 80px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .semantic-node.primary .semantic-label {
+            color: var(--text-primary);
+            font-size: 0.7rem;
+        }
+
+        .semantic-line {
+            position: absolute;
+            height: 1px;
+            background: var(--border-subtle);
+            transform-origin: 0 0;
+        }
+
+        .semantic-legend {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .semantic-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .semantic-legend-dot {
+            width: 8px;
+            height: 8px;
+        }
+
+        .semantic-legend-dot.current { background: var(--text-primary); }
+        .semantic-legend-dot.similar { background: var(--text-secondary); }
+        .semantic-legend-dot.related { background: var(--text-dimmer); }
+
+        /* ============================================
+           CONCEPT 14: THREE-TAB ADVANCED PANEL
+           ============================================ */
+
+        .tabs-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-dim);
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-secondary);
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
+        }
+
+        .tab-content {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Footer */
+        .doc-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .doc-footer-text {
+            font-size: 0.75rem;
+            color: var(--text-dimmer);
+        }
+
+        .doc-footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .doc-footer-link {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        .doc-footer-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .telemetry-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .verifier-container {
+                grid-template-columns: 1fr;
+            }
+
+            .telemetry-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <div class="logo">POLYPHONIC</div>
+                <div class="logo-sub">REASONING TRANSPARENCY CONCEPTS</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h1 class="section-title">Reasoning Transparency</h1>
+            <p class="section-subtitle">
+                A comprehensive visual guide to surfacing AI reasoning processes, decision artifacts, and processing telemetry. 
+                These concepts transform opaque AI responses into auditable, reproducible, and trustworthy interactions for 
+                power users and researchers.
+            </p>
+        </div>
+
+        <!-- Concept Grid -->
+        <div class="concept-grid">
+
+            <!-- ============================================
+                 CONCEPT 1: REASONING SUMMARY PANEL
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 01</div>
+                        <h2 class="concept-title">Reasoning Summary Panel</h2>
+                        <p class="concept-description">
+                            A structured 6–12 line summary that answers "Why should I trust this?" 
+                            Organized by decision-relevant categories rather than step-by-step chains.
+                            Provides immediate transparency without cognitive overload.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">CORE</span>
+                        <span class="concept-tag">ALL MODELS</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="reasoning-summary">
+                        <div class="reasoning-summary-header">
+                            <span class="reasoning-summary-title">Reasoning Summary</span>
+                            <span class="reasoning-effort-badge">EFFORT: HIGH</span>
+                        </div>
+                        
+                        <div class="reasoning-item">
+                            <div class="reasoning-item-label">Goal Understood As</div>
+                            <div class="reasoning-item-content">
+                                Compare quantum coherence durations in biological vs synthetic systems at room temperature
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-item">
+                            <div class="reasoning-item-label">Key Assumptions</div>
+                            <div class="reasoning-item-content">
+                                User has graduate-level physics background • Interested in practical implications • 
+                                Recent literature preferred (2022–2024)
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-item">
+                            <div class="reasoning-item-label">Main Factors Considered</div>
+                            <div class="reasoning-item-content">
+                                Environmental decoherence rates • Protection mechanisms in microtubules • 
+                                Comparison with photosynthetic complexes • Temperature dependence
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-item">
+                            <div class="reasoning-item-label">What I Checked</div>
+                            <div class="reasoning-item-content">
+                                5 peer-reviewed sources • 2 preprints • Cross-validated duration claims across studies
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-item">
+                            <div class="reasoning-item-label">Where I Might Be Wrong</div>
+                            <div class="reasoning-item-content">
+                                Experimental methods vary significantly • Some duration claims are disputed • 
+                                Field is rapidly evolving
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-item">
+                            <div class="reasoning-item-label">How To Verify</div>
+                            <div class="reasoning-item-content">
+                                Check cited Nature Physics 2023 paper directly • Compare with Hameroff's latest response
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 2: INTERACTIVE ASSUMPTION CHIPS
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 02</div>
+                        <h2 class="concept-title">Interactive Assumption Chips</h2>
+                        <p class="concept-description">
+                            Surface hidden fragility as interactive controls. Users can tap to reveal 
+                            alternative assumptions, change parameters, or see how the response would 
+                            differ. Transforms passive consumption into active verification.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">INTERACTIVE</span>
+                        <span class="concept-tag">UX INNOVATION</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP — TAP TO MODIFY</div>
+                    
+                    <div class="assumptions-container">
+                        <div class="assumption-chip active">
+                            <div class="assumption-icon">✓</div>
+                            <span class="assumption-text">Region = US</span>
+                            <span class="edit-hint">tap to change</span>
+                        </div>
+                        
+                        <div class="assumption-chip">
+                            <div class="assumption-icon"></div>
+                            <span class="assumption-text">Currency = USD</span>
+                            <span class="edit-hint">tap to change</span>
+                        </div>
+                        
+                        <div class="assumption-chip active">
+                            <div class="assumption-icon">✓</div>
+                            <span class="assumption-text">No live data used</span>
+                        </div>
+                        
+                        <div class="assumption-chip">
+                            <div class="assumption-icon"></div>
+                            <span class="assumption-text">Assuming current date</span>
+                            <span class="edit-hint">tap to change</span>
+                        </div>
+                        
+                        <div class="assumption-chip active">
+                            <div class="assumption-icon">✓</div>
+                            <span class="assumption-text">Expert audience</span>
+                            <span class="edit-hint">tap for beginner</span>
+                        </div>
+                        
+                        <div class="assumption-chip">
+                            <div class="assumption-icon"></div>
+                            <span class="assumption-text">English preferred</span>
+                            <span class="edit-hint">tap to change</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 3: EVIDENCE MAP / CITATIONS
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 03</div>
+                        <h2 class="concept-title">Evidence Map & Data Lineage</h2>
+                        <p class="concept-description">
+                            Real transparency: not internal thoughts, but external grounding. Shows sources used, 
+                            snippets, timestamps, and which claim each source supports. Makes the research 
+                            process auditable and reproducible.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">RESEARCH</span>
+                        <span class="concept-tag">CITATIONS</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="evidence-map">
+                        <div class="evidence-item">
+                            <div class="evidence-index">1</div>
+                            <div class="evidence-content">
+                                <div class="evidence-source">Nature Physics Vol. 19, pp. 234-241 (2023)</div>
+                                <div class="evidence-snippet">
+                                    "We observed coherent quantum oscillations persisting for 87±12 picoseconds 
+                                    in isolated microtubule preparations at 298K..."
+                                </div>
+                                <div class="evidence-claim">
+                                    Supports: <span>Extended coherence time claim in Key Findings §1</span>
+                                </div>
+                            </div>
+                            <div class="evidence-meta">
+                                <div class="evidence-timestamp">Retrieved 2m ago</div>
+                                <div class="evidence-confidence">High relevance</div>
+                            </div>
+                        </div>
+                        
+                        <div class="evidence-item">
+                            <div class="evidence-index">2</div>
+                            <div class="evidence-content">
+                                <div class="evidence-source">arXiv:2401.04832 (Preprint)</div>
+                                <div class="evidence-snippet">
+                                    "The protection mechanism appears analogous to that observed in 
+                                    photosynthetic reaction centers, suggesting convergent evolution..."
+                                </div>
+                                <div class="evidence-claim">
+                                    Supports: <span>Protection mechanism hypothesis in §3</span>
+                                </div>
+                            </div>
+                            <div class="evidence-meta">
+                                <div class="evidence-timestamp">Retrieved 2m ago</div>
+                                <div class="evidence-confidence">Medium relevance</div>
+                            </div>
+                        </div>
+                        
+                        <div class="evidence-item">
+                            <div class="evidence-index">3</div>
+                            <div class="evidence-content">
+                                <div class="evidence-source">PNAS 120 (42) e2304928120 (2023)</div>
+                                <div class="evidence-snippet">
+                                    "Critics argue that the observed signals may be artifacts of the 
+                                    measurement process rather than genuine quantum coherence..."
+                                </div>
+                                <div class="evidence-claim">
+                                    Supports: <span>Uncertainty acknowledgment in "Where I Might Be Wrong"</span>
+                                </div>
+                            </div>
+                            <div class="evidence-meta">
+                                <div class="evidence-timestamp">Retrieved 3m ago</div>
+                                <div class="evidence-confidence">High relevance</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 4: TOOL/ACTION TRACE
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 04</div>
+                        <h2 class="concept-title">Tool & Action Trace</h2>
+                        <p class="concept-description">
+                            An audit log of behavior—not internal reasoning tokens, but actual observable actions. 
+                            Shows searches, queries, function calls, computations, and refusals with reasons. 
+                            The behavioral fingerprint of each response.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">AUDIT</span>
+                        <span class="concept-tag">REPRODUCIBILITY</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="trace-container">
+                        <div class="trace-item">
+                            <div class="trace-timestamp">00:00.000</div>
+                            <div class="trace-content">
+                                <div class="trace-action">
+                                    <span class="trace-action-type">PARSE</span>
+                                    <span>Analyzing user query structure</span>
+                                </div>
+                                <div class="trace-detail">Detected: comparison request, scientific domain, expertise level: high</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trace-item">
+                            <div class="trace-timestamp">00:00.234</div>
+                            <div class="trace-content">
+                                <div class="trace-action">
+                                    <span class="trace-action-type">SEARCH</span>
+                                    <span>Web search initiated</span>
+                                </div>
+                                <div class="trace-detail">Query: "quantum coherence microtubules room temperature 2023 2024"</div>
+                                <div class="trace-result success">→ 12 results retrieved, 5 selected</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trace-item">
+                            <div class="trace-timestamp">00:01.892</div>
+                            <div class="trace-content">
+                                <div class="trace-action">
+                                    <span class="trace-action-type">FETCH</span>
+                                    <span>Document retrieval</span>
+                                </div>
+                                <div class="trace-detail">URL: nature.com/articles/s41567-023-02104-1</div>
+                                <div class="trace-result success">→ Full text extracted, 3,400 tokens</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trace-item">
+                            <div class="trace-timestamp">00:03.456</div>
+                            <div class="trace-content">
+                                <div class="trace-action">
+                                    <span class="trace-action-type">COMPUTE</span>
+                                    <span>Cross-reference validation</span>
+                                </div>
+                                <div class="trace-detail">Comparing coherence duration claims across 3 sources</div>
+                                <div class="trace-result success">→ Consensus: 80-100 ps range at physiological temp</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trace-item">
+                            <div class="trace-timestamp">00:04.123</div>
+                            <div class="trace-content">
+                                <div class="trace-action">
+                                    <span class="trace-action-type">VERIFY</span>
+                                    <span>Self-check pass initiated</span>
+                                </div>
+                                <div class="trace-detail">Checking for contradictions, missing caveats, outdated claims</div>
+                                <div class="trace-result success">→ 1 caveat added, 0 contradictions found</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 5: VERIFIER PASS / SELF-CHECK
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 05</div>
+                        <h2 class="concept-title">Verifier Pass & Self-Check</h2>
+                        <p class="concept-description">
+                            A lightweight second pass that outputs potential errors, edge cases, alternative 
+                            answers if assumptions change, and confidence bands. Shows the diff if the 
+                            verifier disagrees with the initial response.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">QUALITY</span>
+                        <span class="concept-tag premium">PREMIUM</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="verifier-container">
+                        <div class="verifier-section">
+                            <div class="verifier-section-title">Potential Errors</div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon warning"></div>
+                                <span>Coherence time figures may vary by measurement technique</span>
+                            </div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon"></div>
+                                <span>Some cited preprints not yet peer-reviewed</span>
+                            </div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon"></div>
+                                <span>Temperature sensitivity claims need more verification</span>
+                            </div>
+                        </div>
+                        
+                        <div class="verifier-section">
+                            <div class="verifier-section-title">Edge Cases</div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon"></div>
+                                <span>In vivo conditions may differ from isolated preparations</span>
+                            </div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon"></div>
+                                <span>Results may not generalize across neuron types</span>
+                            </div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon"></div>
+                                <span>Anesthesia effects on coherence unexplored</span>
+                            </div>
+                        </div>
+                        
+                        <div class="verifier-section">
+                            <div class="verifier-section-title">If Assumptions Change</div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon"></div>
+                                <span>If T &lt; 290K: coherence times increase ~3x</span>
+                            </div>
+                            <div class="verifier-item">
+                                <div class="verifier-icon"></div>
+                                <span>If considering bacterial systems: different mechanisms apply</span>
+                            </div>
+                        </div>
+                        
+                        <div class="verifier-section">
+                            <div class="verifier-section-title">Confidence Assessment</div>
+                            <div class="confidence-band">
+                                <div class="confidence-label">Overall</div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" style="width: 78%;"></div>
+                                    <div class="confidence-range" style="left: 65%; width: 20%;"></div>
+                                </div>
+                                <div class="confidence-value">78%</div>
+                            </div>
+                            <div style="font-size: 0.7rem; color: var(--text-dimmer); margin-top: 0.8rem;">
+                                Range: 65–85% • Based on source agreement and recency
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 6: ALTERNATIVES / FORKS VIEW
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 06</div>
+                        <h2 class="concept-title">Alternatives Considered (Forks View)</h2>
+                        <p class="concept-description">
+                            A compact list of options the model considered, with pros/cons and why the final 
+                            answer was chosen. Scratches the "show your work" itch without exposing hidden 
+                            chain-of-thought tokens.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">DECISION TREE</span>
+                        <span class="concept-tag">TRANSPARENCY</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="forks-container">
+                        <div class="fork-item selected">
+                            <div class="fork-header">
+                                <span class="fork-label">OPTION A</span>
+                                <span class="fork-selected-badge">SELECTED</span>
+                            </div>
+                            <div class="fork-title">Focus on microtubule quantum coherence with recent experimental evidence</div>
+                            <div class="fork-pros-cons">
+                                <div>
+                                    <div class="fork-list-title">PROS</div>
+                                    <ul class="fork-list">
+                                        <li>Directly addresses user's question</li>
+                                        <li>Strong empirical grounding (2023–24)</li>
+                                        <li>Appropriate complexity for expert audience</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="fork-list-title">CONS</div>
+                                    <ul class="fork-list">
+                                        <li>Controversial field, requires caveats</li>
+                                        <li>Some sources are preprints</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="fork-item">
+                            <div class="fork-header">
+                                <span class="fork-label">OPTION B</span>
+                            </div>
+                            <div class="fork-title">Broader overview of quantum biology including photosynthesis and navigation</div>
+                            <div class="fork-pros-cons">
+                                <div>
+                                    <div class="fork-list-title">PROS</div>
+                                    <ul class="fork-list">
+                                        <li>More established science</li>
+                                        <li>Less controversial</li>
+                                        <li>Better-documented mechanisms</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="fork-list-title">CONS</div>
+                                    <ul class="fork-list">
+                                        <li>Less directly relevant to neural systems</li>
+                                        <li>May not satisfy specific interest</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="fork-item">
+                            <div class="fork-header">
+                                <span class="fork-label">OPTION C</span>
+                            </div>
+                            <div class="fork-title">Skeptical take emphasizing methodological concerns</div>
+                            <div class="fork-pros-cons">
+                                <div>
+                                    <div class="fork-list-title">PROS</div>
+                                    <ul class="fork-list">
+                                        <li>Represents scientific debate fairly</li>
+                                        <li>More cautious claims</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="fork-list-title">CONS</div>
+                                    <ul class="fork-list">
+                                        <li>May be overly dismissive of valid findings</li>
+                                        <li>Less informative for interested researcher</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 7: TELEMETRY DASHBOARD
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 07</div>
+                        <h2 class="concept-title">Reasoning Telemetry Dashboard</h2>
+                        <p class="concept-description">
+                            Cockpit-level visibility into the reasoning process. Model name, reasoning effort, 
+                            latency breakdown, token counts, cache status. Power users appreciate the 
+                            performance transparency.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">METRICS</span>
+                        <span class="concept-tag">POWER USER</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="telemetry-grid">
+                        <div class="telemetry-item">
+                            <div class="telemetry-value mono">o3</div>
+                            <div class="telemetry-label">MODEL</div>
+                            <div class="telemetry-sub">Reasoning tier</div>
+                        </div>
+                        
+                        <div class="telemetry-item">
+                            <div class="telemetry-value">HIGH</div>
+                            <div class="telemetry-label">EFFORT</div>
+                            <div class="telemetry-sub">4 of 5 levels</div>
+                        </div>
+                        
+                        <div class="telemetry-item">
+                            <div class="telemetry-value mono">4.2s</div>
+                            <div class="telemetry-label">LATENCY</div>
+                            <div class="telemetry-sub">TTFT: 0.8s</div>
+                        </div>
+                        
+                        <div class="telemetry-item">
+                            <div class="telemetry-value">2,847</div>
+                            <div class="telemetry-label">INPUT TOKENS</div>
+                            <div class="telemetry-sub">1,204 cached</div>
+                        </div>
+                        
+                        <div class="telemetry-item">
+                            <div class="telemetry-value">1,523</div>
+                            <div class="telemetry-label">OUTPUT TOKENS</div>
+                            <div class="telemetry-sub">+847 reasoning</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 8: PROGRESS STATES
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 08</div>
+                        <h2 class="concept-title">Progress States Animation</h2>
+                        <p class="concept-description">
+                            Even without showing internal thoughts, show processing phases. Reduces "is it frozen?" 
+                            anxiety and feels premium. Parsing → Planning → Searching → Reasoning → Verifying → Writing.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">UX</span>
+                        <span class="concept-tag">FEEDBACK</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP — ANIMATED</div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-phases">
+                            <div class="progress-phase complete">
+                                <div class="progress-dot"></div>
+                                <span class="progress-label">PARSING</span>
+                            </div>
+                            <div class="progress-phase complete">
+                                <div class="progress-dot"></div>
+                                <span class="progress-label">PLANNING</span>
+                            </div>
+                            <div class="progress-phase complete">
+                                <div class="progress-dot"></div>
+                                <span class="progress-label">SEARCHING</span>
+                            </div>
+                            <div class="progress-phase active">
+                                <div class="progress-dot"></div>
+                                <span class="progress-label">REASONING</span>
+                            </div>
+                            <div class="progress-phase">
+                                <div class="progress-dot"></div>
+                                <span class="progress-label">VERIFYING</span>
+                            </div>
+                            <div class="progress-phase">
+                                <div class="progress-dot"></div>
+                                <span class="progress-label">WRITING</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 9: COLLAPSIBLE REASONING DRAWER
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 09</div>
+                        <h2 class="concept-title">Collapsible Reasoning Drawer</h2>
+                        <p class="concept-description">
+                            A unified container under every response: Summary, Assumptions, Sources, Checks, 
+                            Alternatives, Run History. Default collapsed for casual users, always-on for power users.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">CONTAINER</span>
+                        <span class="concept-tag">PATTERN</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP — CLICK TO EXPAND</div>
+                    
+                    <div class="drawer-container" id="drawer1" onclick="this.classList.toggle('open')">
+                        <div class="drawer-header">
+                            <div class="drawer-title">
+                                <span class="drawer-icon">▼</span>
+                                REASONING
+                            </div>
+                            <div class="drawer-meta">
+                                <span>5 sources</span>
+                                <span>78% confidence</span>
+                                <span>4.2s latency</span>
+                            </div>
+                        </div>
+                        <div class="drawer-content">
+                            <div style="color: var(--text-tertiary); font-size: 0.85rem;">
+                                This expandable panel contains all reasoning transparency features: 
+                                Summary, Assumptions, Evidence Map, Tool Trace, Verifier Results, 
+                                and Alternatives. Click header to collapse.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="height: 1rem;"></div>
+                    
+                    <div class="drawer-container open" id="drawer2">
+                        <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+                            <div class="drawer-title">
+                                <span class="drawer-icon">▼</span>
+                                REASONING
+                            </div>
+                            <div class="drawer-meta">
+                                <span>5 sources</span>
+                                <span>78% confidence</span>
+                                <span>4.2s latency</span>
+                            </div>
+                        </div>
+                        <div class="drawer-content">
+                            <div style="color: var(--text-tertiary); font-size: 0.85rem; line-height: 1.8;">
+                                <strong style="color: var(--text-primary); font-weight: 400;">Goal:</strong> Compare quantum coherence in biological systems<br>
+                                <strong style="color: var(--text-primary); font-weight: 400;">Assumptions:</strong> Expert audience, US region, recent literature preferred<br>
+                                <strong style="color: var(--text-primary); font-weight: 400;">Sources:</strong> 5 papers (3 peer-reviewed, 2 preprints)<br>
+                                <strong style="color: var(--text-primary); font-weight: 400;">Checks:</strong> Cross-validated duration claims, added caveats for disputed findings<br>
+                                <strong style="color: var(--text-primary); font-weight: 400;">Alternatives:</strong> 3 approaches considered, Option A selected (experimental focus)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 10: AUDIT MODE / REPRODUCE
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 10</div>
+                        <h2 class="concept-title">Audit Mode: Reproduce This</h2>
+                        <p class="concept-description">
+                            Scientific method UX. Generates what to search, what to calculate, what to compare, 
+                            and what result would falsify the answer. Users remember this differentiator.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag">RESEARCH</span>
+                        <span class="concept-tag premium">DIFFERENTIATOR</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="audit-container">
+                        <div class="audit-header">
+                            <span class="audit-title">Reproducibility Guide</span>
+                            <button class="audit-button">EXPORT BUNDLE</button>
+                        </div>
+                        
+                        <div class="audit-steps">
+                            <div class="audit-step">
+                                <div class="audit-step-number">1</div>
+                                <div class="audit-step-content">
+                                    <div class="audit-step-title">Search these queries</div>
+                                    <div class="audit-step-detail">
+                                        "quantum coherence microtubules room temperature"<br>
+                                        "neural quantum effects experimental 2023"<br>
+                                        "Hameroff Penrose Orch OR evidence"
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="audit-step">
+                                <div class="audit-step-number">2</div>
+                                <div class="audit-step-content">
+                                    <div class="audit-step-title">Verify these sources</div>
+                                    <div class="audit-step-detail">
+                                        Nature Physics 2023 (DOI: 10.1038/s41567-023-02104-1)<br>
+                                        arXiv:2401.04832 • PNAS 120 (42) e2304928120
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="audit-step">
+                                <div class="audit-step-number">3</div>
+                                <div class="audit-step-content">
+                                    <div class="audit-step-title">Compare these claims</div>
+                                    <div class="audit-step-detail">
+                                        Coherence duration: 80-100 ps (this response) vs literature range<br>
+                                        Temperature dependence: check if 298K is consistent across sources
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="audit-step">
+                                <div class="audit-step-number">4</div>
+                                <div class="audit-step-content">
+                                    <div class="audit-step-title">Falsification criteria</div>
+                                    <div class="audit-step-detail">
+                                        If coherence times < 10 ps in recent replication studies → conclusion weakens<br>
+                                        If measurement artifacts confirmed → fundamental claim invalid
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 11: LOGPROBS / TOKEN CONFIDENCE
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 11</div>
+                        <h2 class="concept-title">Token Confidence View (Logprobs)</h2>
+                        <p class="concept-description">
+                            Gold for power users: highlight low-confidence spans, show top alternatives per token, 
+                            quantify ambiguity. A heatmap over the response revealing where the model was 
+                            uncertain.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag premium">PREMIUM</span>
+                        <span class="concept-tag">ADVANCED</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP — HOVER TOKENS FOR ALTERNATIVES</div>
+                    
+                    <div class="logprobs-container">
+                        <div class="logprobs-text">
+                            <span class="token high">We</span>
+                            <span class="token high">observed</span>
+                            <span class="token high">quantum</span>
+                            <span class="token high">coherence</span>
+                            <span class="token high">persisting</span>
+                            <span class="token high">for</span>
+                            <span class="token medium">approximately</span>
+                            <span class="token low">87</span>
+                            <span class="token medium">picoseconds</span>
+                            <span class="token high">at</span>
+                            <span class="token high">room</span>
+                            <span class="token high">temperature,</span>
+                            <span class="token medium">which</span>
+                            <span class="token low">exceeds</span>
+                            <span class="token low">previous</span>
+                            <span class="token medium">theoretical</span>
+                            <span class="token high">predictions.</span>
+                        </div>
+                        
+                        <div class="token-alternatives">
+                            <div class="token-alt-header">ALTERNATIVES FOR "87"</div>
+                            <div class="token-alt-list">
+                                <div class="token-alt-item selected">
+                                    <span class="token-text">"87"</span>
+                                    <span class="token-prob">42.3%</span>
+                                </div>
+                                <div class="token-alt-item">
+                                    <span class="token-text">"80"</span>
+                                    <span class="token-prob">28.1%</span>
+                                </div>
+                                <div class="token-alt-item">
+                                    <span class="token-text">"100"</span>
+                                    <span class="token-prob">15.7%</span>
+                                </div>
+                                <div class="token-alt-item">
+                                    <span class="token-text">"approximately"</span>
+                                    <span class="token-prob">8.4%</span>
+                                </div>
+                                <div class="token-alt-item">
+                                    <span class="token-text">"90"</span>
+                                    <span class="token-prob">5.5%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="logprobs-legend">
+                            <div class="legend-item">
+                                <div class="legend-bar high"></div>
+                                <span>High confidence (&gt;80%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-bar medium"></div>
+                                <span>Medium (50-80%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-bar low"></div>
+                                <span>Low (&lt;50%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 12: ENCRYPTED REASONING CONTINUITY
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 12</div>
+                        <h2 class="concept-title">Encrypted Reasoning Continuity</h2>
+                        <p class="concept-description">
+                            An audit/continuity primitive for researchers. The encrypted blob of reasoning tokens 
+                            can't be decrypted, but can be exported for reproducibility. Shows that reasoning 
+                            context was maintained across turns.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag premium">RESEARCH</span>
+                        <span class="concept-tag">ADVANCED</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP</div>
+                    
+                    <div class="continuity-container">
+                        <div class="continuity-indicator">
+                            <div class="continuity-icon">
+                                <div class="lock"></div>
+                            </div>
+                            <div class="continuity-info">
+                                <div class="continuity-status">
+                                    <span class="checkmark">✓</span>
+                                    Chain-of-thought continuity present
+                                </div>
+                                <div class="continuity-detail">
+                                    847 reasoning tokens preserved from previous turn (encrypted)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="continuity-hash">
+                            encrypted_content: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWFzb25pbmdfdG9rZW5zIjo4NDcsInR1cm5faWQiOiI3ZjNkNGE4Yi0yYzE5LTRlNWYtODZhMy05YjJjMWQzZTRmNWEiLCJ0aW1lc3RhbXAiOjE3MDI1ODQ4MDB9..."
+                        </div>
+                        
+                        <div class="continuity-actions">
+                            <button class="continuity-btn">EXPORT FOR REPRODUCIBILITY</button>
+                            <button class="continuity-btn">VERIFY INTEGRITY</button>
+                            <button class="continuity-btn">CLEAR CONTEXT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 13: SEMANTIC NEIGHBORHOOD
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 13</div>
+                        <h2 class="concept-title">Semantic Neighborhood (Embeddings)</h2>
+                        <p class="concept-description">
+                            Embeddings aren't thinking, but they're one of the most useful machine-readable 
+                            representations. Show vector projections, similarity neighborhoods, nearest prior 
+                            messages, clustering, drift over time.
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag premium">RESEARCH</span>
+                        <span class="concept-tag">VISUALIZATION</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP — 2D PROJECTION</div>
+                    
+                    <div class="semantic-container">
+                        <div class="semantic-viz">
+                            <!-- Lines connecting nodes -->
+                            <div class="semantic-line" style="left: 200px; top: 150px; width: 80px; transform: rotate(25deg);"></div>
+                            <div class="semantic-line" style="left: 200px; top: 150px; width: 120px; transform: rotate(-15deg);"></div>
+                            <div class="semantic-line" style="left: 200px; top: 150px; width: 90px; transform: rotate(60deg);"></div>
+                            <div class="semantic-line" style="left: 200px; top: 150px; width: 140px; transform: rotate(110deg);"></div>
+                            
+                            <!-- Primary node (current query) -->
+                            <div class="semantic-node primary" style="left: 190px; top: 140px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Current query</span>
+                            </div>
+                            
+                            <!-- High similarity nodes -->
+                            <div class="semantic-node highlight" style="left: 280px; top: 120px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Quantum biology</span>
+                            </div>
+                            
+                            <div class="semantic-node highlight" style="left: 310px; top: 180px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Microtubules</span>
+                            </div>
+                            
+                            <!-- Related nodes -->
+                            <div class="semantic-node" style="left: 120px; top: 80px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Coherence</span>
+                            </div>
+                            
+                            <div class="semantic-node" style="left: 140px; top: 220px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Neuroscience</span>
+                            </div>
+                            
+                            <div class="semantic-node" style="left: 350px; top: 90px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Photosynthesis</span>
+                            </div>
+                            
+                            <div class="semantic-node" style="left: 380px; top: 220px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Decoherence</span>
+                            </div>
+                            
+                            <!-- Distant nodes -->
+                            <div class="semantic-node" style="left: 60px; top: 180px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Prior msg #3</span>
+                            </div>
+                            
+                            <div class="semantic-node" style="left: 450px; top: 150px;">
+                                <div class="semantic-dot"></div>
+                                <span class="semantic-label">Prior msg #1</span>
+                            </div>
+                        </div>
+                        
+                        <div class="semantic-legend">
+                            <div class="semantic-legend-item">
+                                <div class="semantic-legend-dot current"></div>
+                                <span>Current query</span>
+                            </div>
+                            <div class="semantic-legend-item">
+                                <div class="semantic-legend-dot similar"></div>
+                                <span>High similarity (>0.85)</span>
+                            </div>
+                            <div class="semantic-legend-item">
+                                <div class="semantic-legend-dot related"></div>
+                                <span>Related (0.6-0.85)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 CONCEPT 14: THREE-TAB ADVANCED PANEL
+                 ============================================ -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <div>
+                        <div class="concept-number">CONCEPT 14</div>
+                        <h2 class="concept-title">Three-Tab Advanced Reasoning Panel</h2>
+                        <p class="concept-description">
+                            The unified container researchers will actually use. Three tabs: Rationale 
+                            (summary + assumptions + alternatives), Trace (itemized event log + replay bundle), 
+                            Tokens (logprobs + usage + effort + latency).
+                        </p>
+                    </div>
+                    <div class="concept-tags">
+                        <span class="concept-tag premium">PREMIUM</span>
+                        <span class="concept-tag">UNIFIED</span>
+                    </div>
+                </div>
+
+                <div class="mockup-container">
+                    <div class="mockup-label">LIVE MOCKUP — CLICK TABS</div>
+                    
+                    <div class="tabs-container">
+                        <div class="tabs-header">
+                            <button class="tab-btn active" onclick="showTab(this, 'rationale')">RATIONALE</button>
+                            <button class="tab-btn" onclick="showTab(this, 'trace')">TRACE</button>
+                            <button class="tab-btn" onclick="showTab(this, 'tokens')">TOKENS</button>
+                        </div>
+                        
+                        <div id="rationale" class="tab-content active">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;">SUMMARY</div>
+                                    <p>Compared quantum coherence in biological neural systems vs synthetic systems at room temperature. Found evidence for 80-100ps coherence times in microtubules, exceeding theoretical predictions.</p>
+                                </div>
+                                
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;">ASSUMPTIONS</div>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span style="background: var(--bg-primary); border: 1px solid var(--border-medium); padding: 0.3rem 0.8rem; font-size: 0.8rem;">Expert audience</span>
+                                        <span style="background: var(--bg-primary); border: 1px solid var(--border-medium); padding: 0.3rem 0.8rem; font-size: 0.8rem;">US region</span>
+                                        <span style="background: var(--bg-primary); border: 1px solid var(--border-medium); padding: 0.3rem 0.8rem; font-size: 0.8rem;">Recent literature (2023-24)</span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div style="font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;">CONFIDENCE</div>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <div style="flex: 1; height: 6px; background: var(--bg-primary); border: 1px solid var(--border-subtle);">
+                                            <div style="width: 78%; height: 100%; background: linear-gradient(90deg, var(--text-dimmer), var(--text-tertiary));"></div>
+                                        </div>
+                                        <span style="color: var(--text-primary); font-weight: 400;">78%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="trace" class="tab-content">
+                            <div style="font-family: 'SF Mono', monospace; font-size: 0.8rem; color: var(--text-tertiary);">
+                                <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle);">
+                                    <span style="color: var(--text-dimmer);">00:00.000</span>
+                                    <span style="color: var(--text-secondary); margin-left: 1rem;">PARSE</span>
+                                    <span style="margin-left: 0.5rem;">Query analysis complete</span>
+                                </div>
+                                <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle);">
+                                    <span style="color: var(--text-dimmer);">00:00.234</span>
+                                    <span style="color: var(--text-secondary); margin-left: 1rem;">SEARCH</span>
+                                    <span style="margin-left: 0.5rem;">3 queries executed → 12 results</span>
+                                </div>
+                                <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle);">
+                                    <span style="color: var(--text-dimmer);">00:01.892</span>
+                                    <span style="color: var(--text-secondary); margin-left: 1rem;">FETCH</span>
+                                    <span style="margin-left: 0.5rem;">5 documents retrieved (8,400 tokens)</span>
+                                </div>
+                                <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle);">
+                                    <span style="color: var(--text-dimmer);">00:03.456</span>
+                                    <span style="color: var(--text-secondary); margin-left: 1rem;">COMPUTE</span>
+                                    <span style="margin-left: 0.5rem;">Cross-reference validation</span>
+                                </div>
+                                <div style="padding: 0.5rem 0;">
+                                    <span style="color: var(--text-dimmer);">00:04.123</span>
+                                    <span style="color: var(--text-secondary); margin-left: 1rem;">VERIFY</span>
+                                    <span style="margin-left: 0.5rem;">Self-check pass: 1 caveat added</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="tokens" class="tab-content">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                                <div style="background: var(--bg-primary); border: 1px solid var(--border-subtle); padding: 1rem; text-align: center;">
+                                    <div style="font-size: 1.5rem; color: var(--text-primary); font-weight: 200;">2,847</div>
+                                    <div style="font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;">INPUT</div>
+                                </div>
+                                <div style="background: var(--bg-primary); border: 1px solid var(--border-subtle); padding: 1rem; text-align: center;">
+                                    <div style="font-size: 1.5rem; color: var(--text-primary); font-weight: 200;">1,523</div>
+                                    <div style="font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;">OUTPUT</div>
+                                </div>
+                                <div style="background: var(--bg-primary); border: 1px solid var(--border-subtle); padding: 1rem; text-align: center;">
+                                    <div style="font-size: 1.5rem; color: var(--text-primary); font-weight: 200;">847</div>
+                                    <div style="font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;">REASONING</div>
+                                </div>
+                                <div style="background: var(--bg-primary); border: 1px solid var(--border-subtle); padding: 1rem; text-align: center;">
+                                    <div style="font-size: 1.5rem; color: var(--text-primary); font-weight: 200;">1,204</div>
+                                    <div style="font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;">CACHED</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+                                <div style="font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem;">PERFORMANCE</div>
+                                <div style="display: flex; gap: 2rem; font-size: 0.85rem; color: var(--text-tertiary);">
+                                    <span>TTFT: <span style="color: var(--text-primary);">0.8s</span></span>
+                                    <span>Total: <span style="color: var(--text-primary);">4.2s</span></span>
+                                    <span>Effort: <span style="color: var(--text-primary);">HIGH</span></span>
+                                    <span>Model: <span style="color: var(--text-primary);">o3</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+            <div class="doc-footer-text">
+                POLYPHONIC REASONING TRANSPARENCY — VISUAL CONCEPT GUIDE v1.0
+            </div>
+            <div class="doc-footer-links">
+                <a href="#" class="doc-footer-link">EXPORT PDF</a>
+                <a href="#" class="doc-footer-link">IMPLEMENTATION SPEC</a>
+                <a href="#" class="doc-footer-link">API SCHEMA</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(button, tabId) {
+            // Remove active class from all buttons and contents
+            const container = button.closest('.tabs-container');
+            container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            container.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            container.querySelector('#' + tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

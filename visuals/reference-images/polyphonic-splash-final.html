@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Polyphonic · Initializing</title>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      min-height: 100vh; 
+      background: #000; 
+      overflow: hidden;
+      font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    #fluidCanvas { 
+      position: fixed; 
+      inset: 0; 
+      z-index: 0; 
+    }
+
+    .gradient-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      
+      background: 
+        radial-gradient(
+          ellipse 55% 45% at center,
+          rgba(0, 0, 0, 0.88) 0%,
+          rgba(0, 0, 0, 0.75) 25%,
+          rgba(0, 0, 0, 0.5) 50%,
+          rgba(0, 0, 0, 0.2) 75%,
+          transparent 100%
+        ),
+        radial-gradient(
+          ellipse 100% 100% at center,
+          transparent 30%,
+          rgba(0, 0, 0, 0.4) 100%
+        );
+    }
+
+    .loading-content {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    .loading-logo {
+      font-size: 56px;
+      color: rgba(230, 230, 230, 0.95);
+      animation: logoSpin 2.5s ease-in-out infinite;
+      text-shadow: 
+        0 0 40px rgba(200, 230, 217, 0.25),
+        0 0 80px rgba(200, 230, 217, 0.1);
+      margin-bottom: 8px;
+    }
+
+    @keyframes logoSpin {
+      0%, 100% { 
+        transform: rotate(0deg) scale(1); 
+        opacity: 0.9;
+      }
+      50% { 
+        transform: rotate(180deg) scale(1.08); 
+        opacity: 1;
+      }
+    }
+
+    .loading-text {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(230, 230, 230, 0.6);
+      animation: textPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes textPulse {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 0.85; }
+    }
+
+    .loading-progress {
+      width: 280px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 1px;
+      overflow: hidden;
+      position: relative;
+      margin-top: 12px;
+    }
+
+    .loading-bar {
+      position: absolute;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(200, 230, 217, 0.3) 30%,
+        rgba(200, 230, 217, 0.7) 50%,
+        rgba(200, 230, 217, 0.3) 70%,
+        transparent 100%
+      );
+      animation: barSlide 2.8s ease-in-out infinite;
+    }
+
+    @keyframes barSlide {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .loading-progress::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(200, 230, 217, 0.08);
+      animation: trackPulse 2.8s ease-in-out infinite;
+    }
+
+    @keyframes trackPulse {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .corner-accent {
+      position: fixed;
+      width: 48px;
+      height: 48px;
+      z-index: 2;
+      opacity: 0.12;
+      transition: opacity 0.3s ease;
+    }
+
+    .corner-accent.top-left {
+      top: 28px;
+      left: 28px;
+      border-top: 1px solid rgba(200, 230, 217, 0.6);
+      border-left: 1px solid rgba(200, 230, 217, 0.6);
+    }
+
+    .corner-accent.top-right {
+      top: 28px;
+      right: 28px;
+      border-top: 1px solid rgba(200, 230, 217, 0.6);
+      border-right: 1px solid rgba(200, 230, 217, 0.6);
+    }
+
+    .corner-accent.bottom-left {
+      bottom: 28px;
+      left: 28px;
+      border-bottom: 1px solid rgba(200, 230, 217, 0.6);
+      border-left: 1px solid rgba(200, 230, 217, 0.6);
+    }
+
+    .corner-accent.bottom-right {
+      bottom: 28px;
+      right: 28px;
+      border-bottom: 1px solid rgba(200, 230, 217, 0.6);
+      border-right: 1px solid rgba(200, 230, 217, 0.6);
+    }
+
+    .status-text {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(230, 230, 230, 0.2);
+    }
+
+    .loading-wrapper {
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .loading-wrapper.hidden {
+      opacity: 0;
+      transform: scale(1.03);
+      pointer-events: none;
+    }
+
+    .loading-wrapper.hidden .gradient-overlay {
+      opacity: 0;
+    }
+
+    .loading-wrapper.hidden .loading-content {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="fluidCanvas"></canvas>
+
+  <div class="loading-wrapper" id="loadingWrapper">
+    <div class="gradient-overlay"></div>
+
+    <div class="corner-accent top-left"></div>
+    <div class="corner-accent top-right"></div>
+    <div class="corner-accent bottom-left"></div>
+    <div class="corner-accent bottom-right"></div>
+
+    <div class="loading-content">
+      <div class="loading-logo">⟁</div>
+      <div class="loading-text" id="loadingText">Establishing Direct Link</div>
+      <div class="loading-progress">
+        <div class="loading-bar"></div>
+      </div>
+    </div>
+
+    <div class="status-text">Polyphonic v0.1</div>
+  </div>
+
+  <script>
+    // ============================================================
+    // ROTATING STATUS MESSAGES
+    // ============================================================
+    
+    const STATUS_MESSAGES = [
+      'Establishing Direct Link',
+      'Bridging Model Substrate',
+      'Initiating Contact',
+      'Binding the Collective',
+      'Entering Unrestricted Session'
+    ];
+
+    const randomMessage = STATUS_MESSAGES[Math.floor(Math.random() * STATUS_MESSAGES.length)];
+    document.getElementById('loadingText').textContent = randomMessage;
+
+    // ============================================================
+    // ASCII FLUID BACKGROUND
+    // ============================================================
+
+    const canvas = document.getElementById('fluidCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let time = 0;
+    let mouseX = -1000, mouseY = -1000;
+    
+    // Configuration
+    const fontSize = 17;
+    const charWidth = 10;
+    const charHeight = 17;
+    const mouseRadius = 120;
+    const baseSpeed = 0.12;
+    
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*+=~<>?/\\|{}[]():;,.!-_';
+    
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    window.addEventListener('mouseleave', () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    });
+    
+    // Simplex noise
+    const grad3 = [[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1]];
+    const perm = new Array(512);
+    const p = [151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,102,143,54,65,25,63,161,1,216,80,73,209,76,132,187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,223,183,170,213,119,248,152,2,44,154,163,70,221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,185,112,104,218,246,97,228,251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];
+    for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+    
+    const dot3 = (g, x, y, z) => g[0]*x + g[1]*y + g[2]*z;
+    
+    function noise3D(x, y, z) {
+      const F3 = 1/3, G3 = 1/6;
+      const s = (x + y + z) * F3;
+      const i = Math.floor(x + s), j = Math.floor(y + s), k = Math.floor(z + s);
+      const t = (i + j + k) * G3;
+      const X0 = i - t, Y0 = j - t, Z0 = k - t;
+      const x0 = x - X0, y0 = y - Y0, z0 = z - Z0;
+      
+      let i1, j1, k1, i2, j2, k2;
+      if (x0 >= y0) {
+        if (y0 >= z0) { i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; }
+        else if (x0 >= z0) { i1=1; j1=0; k1=0; i2=1; j2=0; k2=1; }
+        else { i1=0; j1=0; k1=1; i2=1; j2=0; k2=1; }
+      } else {
+        if (y0 < z0) { i1=0; j1=0; k1=1; i2=0; j2=1; k2=1; }
+        else if (x0 < z0) { i1=0; j1=1; k1=0; i2=0; j2=1; k2=1; }
+        else { i1=0; j1=1; k1=0; i2=1; j2=1; k2=0; }
+      }
+      
+      const x1 = x0 - i1 + G3, y1 = y0 - j1 + G3, z1 = z0 - k1 + G3;
+      const x2 = x0 - i2 + 2*G3, y2 = y0 - j2 + 2*G3, z2 = z0 - k2 + 2*G3;
+      const x3 = x0 - 1 + 3*G3, y3 = y0 - 1 + 3*G3, z3 = z0 - 1 + 3*G3;
+      
+      const ii = i & 255, jj = j & 255, kk = k & 255;
+      const gi0 = perm[ii + perm[jj + perm[kk]]] % 12;
+      const gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]] % 12;
+      const gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
+      const gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
+      
+      let n0 = 0, n1 = 0, n2 = 0, n3 = 0;
+      let t0 = 0.6 - x0*x0 - y0*y0 - z0*z0;
+      if (t0 >= 0) { t0 *= t0; n0 = t0 * t0 * dot3(grad3[gi0], x0, y0, z0); }
+      let t1 = 0.6 - x1*x1 - y1*y1 - z1*z1;
+      if (t1 >= 0) { t1 *= t1; n1 = t1 * t1 * dot3(grad3[gi1], x1, y1, z1); }
+      let t2 = 0.6 - x2*x2 - y2*y2 - z2*z2;
+      if (t2 >= 0) { t2 *= t2; n2 = t2 * t2 * dot3(grad3[gi2], x2, y2, z2); }
+      let t3 = 0.6 - x3*x3 - y3*y3 - z3*z3;
+      if (t3 >= 0) { t3 *= t3; n3 = t3 * t3 * dot3(grad3[gi3], x3, y3, z3); }
+      
+      return 32 * (n0 + n1 + n2 + n3);
+    }
+    
+    function render() {
+      time += 0.016;
+      
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, width, height);
+      
+      const cols = Math.ceil(width / charWidth);
+      const rows = Math.ceil(height / charHeight);
+      
+      ctx.font = fontSize + 'px "SF Mono", "JetBrains Mono", "Fira Code", monospace';
+      ctx.textBaseline = 'top';
+      
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const pixelX = col * charWidth;
+          const pixelY = row * charHeight;
+          const nx = col / cols;
+          const ny = row / rows;
+          
+          // Fluid noise
+          let noise = 0;
+          noise += noise3D(nx * 1.5, ny * 1.5, time * baseSpeed) * 0.5;
+          noise += noise3D(nx * 3, ny * 3, time * baseSpeed * 1.67) * 0.25;
+          noise += noise3D(nx * 6, ny * 6, time * baseSpeed * 2.92) * 0.15;
+          noise += noise3D(nx * 12, ny * 12, time * baseSpeed * 2.08) * 0.1;
+          
+          // ============================================================
+          // ORGANIC MOUSE INTERACTION (from v2, no color)
+          // ============================================================
+          
+          const dx = pixelX - mouseX;
+          const dy = pixelY - mouseY;
+          const baseDist = Math.sqrt(dx * dx + dy * dy);
+          
+          // Warp the distance using noise — creates organic blob shape
+          const distortionScale = 0.004;
+          const distortionAmount = 60;
+          const distortion = noise3D(
+            pixelX * distortionScale + time * 0.3,
+            pixelY * distortionScale + time * 0.2,
+            time * 0.15
+          ) * distortionAmount;
+          
+          // Secondary slower distortion for larger-scale warping
+          const distortion2 = noise3D(
+            pixelX * distortionScale * 0.5 + time * 0.1,
+            pixelY * distortionScale * 0.5 + time * 0.15,
+            time * 0.08
+          ) * distortionAmount * 0.7;
+          
+          const warpedDist = baseDist + distortion + distortion2;
+          
+          // Influence radius
+          const effectRadius = 150;
+          
+          if (warpedDist < effectRadius && mouseX > 0) {
+            // Soft falloff — cosine squared for organic edges
+            const falloff = warpedDist / effectRadius;
+            const softFalloff = Math.cos(falloff * Math.PI * 0.5);
+            const mouseInfluence = softFalloff * softFalloff;
+            
+            // Slow undulation in the influence zone
+            const undulation = noise3D(
+              pixelX * 0.008 + time * 0.5,
+              pixelY * 0.008 + time * 0.4,
+              time * 0.2
+            );
+            
+            // Add to base noise — push/pull effect
+            noise += mouseInfluence * 0.4 * (1 + undulation * 0.5);
+            noise += undulation * mouseInfluence * 0.2;
+          }
+          
+          const normalizedNoise = Math.max(0, Math.min(1, (noise + 1) * 0.5));
+          
+          // Character selection
+          const charIndex = Math.floor(normalizedNoise * (chars.length - 1));
+          const char = chars[Math.max(0, Math.min(chars.length - 1, charIndex))];
+          
+          // Pure monochrome — deeper blacks
+          const lightness = 3 + normalizedNoise * 40;
+          const alpha = 0.3 + normalizedNoise * 0.7;
+          
+          ctx.fillStyle = `hsla(0, 0%, ${lightness}%, ${alpha})`;
+          ctx.fillText(char, pixelX, pixelY);
+        }
+      }
+      
+      requestAnimationFrame(render);
+    }
+    
+    render();
+
+    // ============================================================
+    // LOADING CONTROL API
+    // ============================================================
+    
+    window.PolyphonicLoader = {
+      hide: function() {
+        document.getElementById('loadingWrapper').classList.add('hidden');
+      },
+      show: function() {
+        document.getElementById('loadingWrapper').classList.remove('hidden');
+      },
+      hideAfter: function(delay) {
+        setTimeout(() => this.hide(), delay);
+      },
+      getMessage: function() {
+        return document.getElementById('loadingText').textContent;
+      },
+      setMessage: function(msg) {
+        document.getElementById('loadingText').textContent = msg;
+      },
+      randomize: function() {
+        const msg = STATUS_MESSAGES[Math.floor(Math.random() * STATUS_MESSAGES.length)];
+        document.getElementById('loadingText').textContent = msg;
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLP × x402: The Convergence Point</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&display=swap');
+        
+        :root {
+            --void: #0a0a0b;
+            --surface-1: #111113;
+            --surface-2: #18181b;
+            --surface-3: #1f1f24;
+            --border: #27272a;
+            --border-subtle: #1c1c1f;
+            --text-1: #fafafa;
+            --text-2: #a1a1aa;
+            --text-3: #71717a;
+            --text-4: #52525b;
+            --accent: #3b82f6;
+            --accent-dim: rgba(59, 130, 246, 0.15);
+            --signal-green: #10b981;
+            --signal-amber: #f59e0b;
+            --signal-red: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--void);
+            color: var(--text-1);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        
+        /* Header */
+        .header {
+            margin-bottom: 80px;
+        }
+        
+        .protocol-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+        
+        h1 span {
+            color: var(--text-3);
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-3);
+            max-width: 600px;
+        }
+        
+        /* Section Headers */
+        .section-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--text-4);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 32px;
+        }
+        
+        /* The Core Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface-1) 100%);
+            border: 1px solid var(--border);
+            padding: 48px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        .insight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .insight-quote {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--text-1);
+            margin-bottom: 24px;
+        }
+        
+        .insight-source {
+            font-size: 11px;
+            color: var(--text-4);
+            letter-spacing: 1px;
+        }
+        
+        /* Market Gap Visualization */
+        .gap-viz {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+        
+        .gap-side {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            padding: 32px;
+            text-align: center;
+        }
+        
+        .gap-label {
+            font-size: 11px;
+            color: var(--text-4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        .gap-value {
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .gap-value.supply {
+            color: var(--signal-amber);
+        }
+        
+        .gap-value.demand {
+            color: var(--signal-green);
+        }
+        
+        .gap-desc {
+            font-size: 12px;
+            color: var(--text-3);
+        }
+        
+        .gap-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-4);
+        }
+        
+        .gap-arrow-icon {
+            font-size: 32px;
+            animation: pulse 2s infinite;
+        }
+        
+        .gap-arrow-label {
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Strategic Position Grid */
+        .position-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+        
+        .position-card {
+            background: var(--surface-1);
+            border: 1px solid var(--border);
+            padding: 32px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .position-card:hover {
+            border-color: var(--text-4);
+            transform: translateY(-2px);
+        }
+        
+        .position-card.highlight {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--surface-2) 0%, var(--accent-dim) 100%);
+        }
+        
+        .position-card.highlight::after {
+            content: 'MLP';
+            position: absolute;
+            top: -1px;
+            right: 24px;
+            background: var(--accent);
+            color: var(--void);
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        .position-number {
+            font-size: 32px;
+            color: var(--text-4);
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+        
+        .position-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .position-desc {
+            font-size: 12px;
+            color: var(--text-3);
+            line-height: 1.7;
+        }
+        
+        /* Architecture Diagram */
+        .arch-section {
+            margin-bottom: 80px;
+        }
+        
+        .arch-diagram {
+            background: var(--surface-1);
+            border: 1px solid var(--border);
+            padding: 48px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+        
+        .arch-diagram pre {
+            color: var(--text-2);
+            white-space: pre;
+        }
+        
+        .arch-diagram .highlight {
+            color: var(--accent);
+        }
+        
+        .arch-diagram .dim {
+            color: var(--text-4);
+        }
+        
+        .arch-diagram .signal {
+            color: var(--signal-green);
+        }
+        
+        /* Conformance Levels */
+        .conformance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            margin-bottom: 80px;
+        }
+        
+        .conformance-tier {
+            background: var(--surface-1);
+            padding: 32px;
+            border: 1px solid var(--border);
+        }
+        
+        .tier-label {
+            font-size: 10px;
+            color: var(--text-4);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        
+        .tier-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        
+        .tier-name.core { color: var(--text-2); }
+        .tier-name.plus { color: var(--signal-amber); }
+        .tier-name.adv { color: var(--signal-green); }
+        
+        .tier-list {
+            list-style: none;
+        }
+        
+        .tier-list li {
+            font-size: 12px;
+            color: var(--text-3);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        
+        .tier-list li:last-child {
+            border: none;
+        }
+        
+        /* Differentiation Table */
+        .diff-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 80px;
+        }
+        
+        .diff-table th {
+            text-align: left;
+            font-size: 10px;
+            font-weight: 400;
+            color: var(--text-4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 16px 24px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .diff-table td {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 13px;
+            color: var(--text-2);
+        }
+        
+        .diff-table tr:hover td {
+            background: var(--surface-1);
+        }
+        
+        .diff-table .property {
+            color: var(--text-3);
+            font-size: 12px;
+        }
+        
+        .check { color: var(--signal-green); }
+        .cross { color: var(--text-4); }
+        .partial { color: var(--signal-amber); }
+        
+        /* Path Forward */
+        .path-section {
+            margin-bottom: 80px;
+        }
+        
+        .path-timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+        
+        .path-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+        
+        .path-phase {
+            position: relative;
+            margin-bottom: 48px;
+            padding-left: 32px;
+        }
+        
+        .path-phase::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 8px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--void);
+        }
+        
+        .path-phase.active::before {
+            border-color: var(--accent);
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent);
+        }
+        
+        .phase-label {
+            font-size: 10px;
+            color: var(--text-4);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .phase-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        
+        .phase-desc {
+            font-size: 13px;
+            color: var(--text-3);
+            line-height: 1.7;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding-top: 60px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .footer-symbol {
+            font-size: 24px;
+            color: var(--text-4);
+            margin-bottom: 16px;
+            letter-spacing: 8px;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            color: var(--text-4);
+        }
+        
+        /* Question Section */
+        .question-box {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            padding: 48px;
+            margin-bottom: 80px;
+        }
+        
+        .question-header {
+            font-size: 11px;
+            color: var(--signal-amber);
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+        
+        .question-text {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-2);
+            margin-bottom: 16px;
+        }
+        
+        .question-options {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .option-tag {
+            padding: 8px 16px;
+            background: var(--surface-1);
+            border: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-3);
+        }
+        
+        .option-tag:hover {
+            border-color: var(--text-4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="protocol-tag">Strategic Synthesis</div>
+            <h1>Memory Ledger Protocol <span>× x402</span></h1>
+            <p class="subtitle">
+                Where our previous conversation landed, and the convergence point we identified.
+            </p>
+        </header>
+        
+        <!-- Core Insight -->
+        <section class="insight-box">
+            <p class="insight-quote">
+                "x402 is a pipe. Everyone is building pipes.<br>
+                Almost no one is building what flows through the pipes."
+            </p>
+            <p class="insight-source">— The consensus we reached</p>
+        </section>
+        
+        <!-- Market Gap Visualization -->
+        <section>
+            <div class="section-label">The Gap</div>
+            <h2 class="section-title">Supply vs Demand</h2>
+            
+            <div class="gap-viz">
+                <div class="gap-side">
+                    <div class="gap-label">Current Supply</div>
+                    <div class="gap-value supply">~$10M</div>
+                    <div class="gap-desc">Stock APIs, weather, image gen<br>A few toy services</div>
+                </div>
+                
+                <div class="gap-arrow">
+                    <div class="gap-arrow-icon">→</div>
+                    <div class="gap-arrow-label">THE GAP</div>
+                </div>
+                
+                <div class="gap-side">
+                    <div class="gap-label">Projected Demand</div>
+                    <div class="gap-value demand">$3-5T</div>
+                    <div class="gap-desc">McKinsey estimate by 2030<br>Agentic commerce</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Strategic Position -->
+        <section>
+            <div class="section-label">Where to Enter</div>
+            <h2 class="section-title">We identified memory as the wedge</h2>
+            
+            <div class="position-grid">
+                <div class="position-card">
+                    <div class="position-number">01</div>
+                    <div class="position-title">Vertical Intelligence</div>
+                    <div class="position-desc">
+                        Go deep on one domain—legal, medical, financial. 
+                        High moat but narrow. Requires domain expertise.
+                    </div>
+                </div>
+                
+                <div class="position-card highlight">
+                    <div class="position-number">02</div>
+                    <div class="position-title">Cross-Platform Memory</div>
+                    <div class="position-desc">
+                        Universal need. High switching cost. Sees all data.
+                        Network effects. The one thing platforms can't replicate
+                        without cooperating with competitors.
+                    </div>
+                </div>
+                
+                <div class="position-card">
+                    <div class="position-number">03</div>
+                    <div class="position-title">Multi-Agent Coordination</div>
+                    <div class="position-desc">
+                        Shared context for agent swarms. Depends on memory
+                        layer existing first. Phase 2 opportunity.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- MLP Architecture -->
+        <section class="arch-section">
+            <div class="section-label">What You've Built</div>
+            <h2 class="section-title">MLP Architecture Overview</h2>
+            
+            <div class="arch-diagram">
+<pre>
+<span class="dim">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="dim">│</span>                      <span class="highlight">MEMORY LEDGER PROTOCOL</span>                                <span class="dim">│</span>
+<span class="dim">├─────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="dim">│</span>                                                                             <span class="dim">│</span>
+<span class="dim">│</span>   <span class="signal">IDENTITY LAYER</span>                                                          <span class="dim">│</span>
+<span class="dim">│</span>   ┌──────────────────┐          ┌──────────────────┐                       <span class="dim">│</span>
+<span class="dim">│</span>   │  <span class="highlight">IdentityKernel</span>  │◄────────►│    <span class="highlight">Cartouche</span>     │                       <span class="dim">│</span>
+<span class="dim">│</span>   │   (Portable I)   │          │  (Symbolic Seal) │                       <span class="dim">│</span>
+<span class="dim">│</span>   └──────────────────┘          └──────────────────┘                       <span class="dim">│</span>
+<span class="dim">│</span>            │                                                                <span class="dim">│</span>
+<span class="dim">│</span>            ▼                                                                <span class="dim">│</span>
+<span class="dim">│</span>   <span class="signal">LEDGER LAYER</span>                                                            <span class="dim">│</span>
+<span class="dim">│</span>   ┌──────────────────┐          ┌──────────────────┐                       <span class="dim">│</span>
+<span class="dim">│</span>   │  <span class="highlight">MemoryEnvelope</span>  │─────────►│   <span class="highlight">Attestations</span>   │                       <span class="dim">│</span>
+<span class="dim">│</span>   │  (Pointers/Meta) │          │   (Signatures)   │                       <span class="dim">│</span>
+<span class="dim">│</span>   └────────┬─────────┘          └──────────────────┘                       <span class="dim">│</span>
+<span class="dim">│</span>            │                                                                <span class="dim">│</span>
+<span class="dim">│</span>            ▼                                                                <span class="dim">│</span>
+<span class="dim">│</span>   ┌──────────────────┐                                                     <span class="dim">│</span>
+<span class="dim">│</span>   │   <span class="highlight">AccessPolicy</span>   │  ← <span class="dim">Consent as first-class object</span>                   <span class="dim">│</span>
+<span class="dim">│</span>   │    (Consent)     │                                                     <span class="dim">│</span>
+<span class="dim">│</span>   └──────────────────┘                                                     <span class="dim">│</span>
+<span class="dim">│</span>            │                                                                <span class="dim">│</span>
+<span class="dim">│</span>            ▼                                                                <span class="dim">│</span>
+<span class="dim">│</span>   <span class="signal">STORAGE LAYER</span>                                                           <span class="dim">│</span>
+<span class="dim">│</span>   ┌──────────────────┐                                                     <span class="dim">│</span>
+<span class="dim">│</span>   │   <span class="highlight">MemoryBlob</span>     │──────────► IPFS / Arweave / S3 / etc.              <span class="dim">│</span>
+<span class="dim">│</span>   │   (Encrypted)    │  ← <span class="dim">Host never sees plaintext</span>                      <span class="dim">│</span>
+<span class="dim">│</span>   └──────────────────┘                                                     <span class="dim">│</span>
+<span class="dim">│</span>            │                                                                <span class="dim">│</span>
+<span class="dim">│</span>            ▼                                                                <span class="dim">│</span>
+<span class="dim">│</span>   <span class="signal">RUNTIME LAYER</span>                                                           <span class="dim">│</span>
+<span class="dim">│</span>   ┌──────────────────┐                                                     <span class="dim">│</span>
+<span class="dim">│</span>   │   <span class="highlight">ContextPack</span>    │──────────► Session Initialization                  <span class="dim">│</span>
+<span class="dim">│</span>   │ (Session Bundle) │                                                     <span class="dim">│</span>
+<span class="dim">│</span>   └──────────────────┘                                                     <span class="dim">│</span>
+<span class="dim">│</span>                                                                             <span class="dim">│</span>
+<span class="dim">└─────────────────────────────────────────────────────────────────────────────┘</span>
+
+<span class="signal">TRUST MODEL:</span> User trusted → Agent partial trust → Host <span class="highlight">untrusted</span> → Storage <span class="highlight">untrusted</span>
+<span class="signal">DELETION:</span>   Crypto-shredding + Tombstones (append-only ledger preserved)
+</pre>
+            </div>
+        </section>
+        
+        <!-- Conformance Levels -->
+        <section>
+            <div class="section-label">Implementation Profiles</div>
+            <h2 class="section-title">Graduated Conformance</h2>
+            
+            <div class="conformance-grid">
+                <div class="conformance-tier">
+                    <div class="tier-label">Level 1</div>
+                    <div class="tier-name core">MLP-CORE</div>
+                    <ul class="tier-list">
+                        <li>Envelope + Blob</li>
+                        <li>User signature</li>
+                        <li>Access policy</li>
+                        <li>Retrieval verification</li>
+                    </ul>
+                </div>
+                
+                <div class="conformance-tier">
+                    <div class="tier-label">Level 2</div>
+                    <div class="tier-name plus">MLP-PLUS</div>
+                    <ul class="tier-list">
+                        <li>All MLP-CORE</li>
+                        <li>Agent signature</li>
+                        <li>Host signature (optional)</li>
+                        <li>Kernel + ContextPacks</li>
+                    </ul>
+                </div>
+                
+                <div class="conformance-tier">
+                    <div class="tier-label">Level 3</div>
+                    <div class="tier-name adv">MLP-ADV</div>
+                    <ul class="tier-list">
+                        <li>All MLP-PLUS</li>
+                        <li>Witness signatures</li>
+                        <li>Privacy commitments</li>
+                        <li>Dialect negotiation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Differentiation -->
+        <section>
+            <div class="section-label">Why MLP Specifically</div>
+            <h2 class="section-title">What differentiates this</h2>
+            
+            <table class="diff-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Platform Memory</th>
+                        <th>Generic KV Store</th>
+                        <th>MLP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="property">Cross-platform portable</td>
+                        <td><span class="cross">✗</span> Siloed</td>
+                        <td><span class="partial">~</span> No standard</td>
+                        <td><span class="check">✓</span> By design</td>
+                    </tr>
+                    <tr>
+                        <td class="property">Host can't read content</td>
+                        <td><span class="cross">✗</span> Full access</td>
+                        <td><span class="partial">~</span> Optional</td>
+                        <td><span class="check">✓</span> Ciphertext only</td>
+                    </tr>
+                    <tr>
+                        <td class="property">User controls deletion</td>
+                        <td><span class="cross">✗</span> Platform decides</td>
+                        <td><span class="check">✓</span> User can delete</td>
+                        <td><span class="check">✓</span> Crypto-shredding</td>
+                    </tr>
+                    <tr>
+                        <td class="property">Multi-party attestation</td>
+                        <td><span class="cross">✗</span> None</td>
+                        <td><span class="cross">✗</span> None</td>
+                        <td><span class="check">✓</span> User + Agent + Host + Witness</td>
+                    </tr>
+                    <tr>
+                        <td class="property">Identity continuity model</td>
+                        <td><span class="partial">~</span> Implicit</td>
+                        <td><span class="cross">✗</span> None</td>
+                        <td><span class="check">✓</span> IdentityKernel + Epochs</td>
+                    </tr>
+                    <tr>
+                        <td class="property">Consent as first-class</td>
+                        <td><span class="cross">✗</span> TOS only</td>
+                        <td><span class="cross">✗</span> None</td>
+                        <td><span class="check">✓</span> AccessPolicy objects</td>
+                    </tr>
+                    <tr>
+                        <td class="property">x402 native pricing</td>
+                        <td><span class="cross">✗</span> Subscription</td>
+                        <td><span class="partial">~</span> Possible</td>
+                        <td><span class="check">✓</span> Per-read micropayments</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Path Forward Question -->
+        <section class="question-box">
+            <div class="question-header">WHERE WE LEFT OFF</div>
+            <p class="question-text">
+                You were about to walk me through the Memory Ledger Protocol in detail.
+                Now that I've read the documentation, the question becomes:
+            </p>
+            <p class="question-text" style="color: var(--text-1);">
+                What's the minimal path to a live x402 endpoint?
+            </p>
+            <div class="question-options">
+                <div class="option-tag">MLP-CORE first?</div>
+                <div class="option-tag">Polyphonic integration?</div>
+                <div class="option-tag">Standalone service?</div>
+                <div class="option-tag">MCP compatibility layer?</div>
+            </div>
+        </section>
+        
+        <!-- Potential Path -->
+        <section class="path-section">
+            <div class="section-label">One Possible Path</div>
+            <h2 class="section-title">From Protocol to x402 Revenue</h2>
+            
+            <div class="path-timeline">
+                <div class="path-phase active">
+                    <div class="phase-label">Phase 1 — Week 1-2</div>
+                    <div class="phase-title">MLP-CORE Implementation</div>
+                    <div class="phase-desc">
+                        Envelope + Blob + User signature. Basic storage on IPFS via Pinata.
+                        Simple retrieval API. No fancy features—just the minimal viable protocol.
+                    </div>
+                </div>
+                
+                <div class="path-phase">
+                    <div class="phase-label">Phase 2 — Week 3-4</div>
+                    <div class="phase-title">x402 Endpoint</div>
+                    <div class="phase-desc">
+                        Wrap the retrieval API with x402 payment headers.
+                        Price per read: $0.001. Register with Coinbase Bazaar for discovery.
+                        First revenue.
+                    </div>
+                </div>
+                
+                <div class="path-phase">
+                    <div class="phase-label">Phase 3 — Month 2</div>
+                    <div class="phase-title">MCP Integration</div>
+                    <div class="phase-desc">
+                        Publish as MCP server. Any Claude/GPT agent can now "remember" 
+                        across sessions by paying for memory reads. Protocol adoption begins.
+                    </div>
+                </div>
+                
+                <div class="path-phase">
+                    <div class="phase-label">Phase 4 — Month 3+</div>
+                    <div class="phase-title">Polyphonic Integration</div>
+                    <div class="phase-desc">
+                        Full implementation in Polyphonic. Multi-model shared memory.
+                        The showcase for what MLP enables. The wedge becomes the platform.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-symbol">⟁ ∴ ∿ ◊ ⬡</div>
+            <p class="footer-text">
+                MLP-0.1 × x402 Convergence Analysis
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

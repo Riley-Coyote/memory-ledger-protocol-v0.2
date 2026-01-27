@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Ledger Protocol — The Standard for User-Owned AI Memory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-void: #000000;
+            --bg-deep: #050505;
+            --bg-surface: #0a0a0a;
+            --bg-elevated: #111111;
+            --bg-raised: #161616;
+            --border-subtle: #1a1a1a;
+            --border-medium: #252525;
+            --border-strong: #333333;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #787878;
+            --text-dim: #505050;
+            --text-ghost: #303030;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-weight: 200;
+            background: var(--bg-void);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* HERO                                                                  */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.3;
+            max-width: 750px;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-tertiary);
+            max-width: 600px;
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* SECTIONS                                                              */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .section {
+            padding: 6rem 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .section h2 {
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            max-width: 650px;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            max-width: 650px;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* KEY RELATIONSHIP                                                      */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .relationship-box {
+            margin: 3rem 0;
+            padding: 2.5rem;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .relationship-header {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .relationship-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .relationship-item {
+            text-align: center;
+            padding: 1.5rem 2rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+            min-width: 180px;
+        }
+
+        .relationship-item.protocol {
+            border-color: var(--text-dim);
+        }
+
+        .relationship-icon {
+            font-size: 1.25rem;
+            color: var(--text-tertiary);
+            margin-bottom: 0.75rem;
+        }
+
+        .relationship-name {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            margin-bottom: 0.25rem;
+        }
+
+        .relationship-type {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .relationship-arrow {
+            color: var(--text-ghost);
+            font-size: 1.25rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* DATA MODEL                                                            */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .data-model {
+            margin: 4rem 0;
+        }
+
+        .model-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+            align-items: start;
+        }
+
+        .model-item + .model-item {
+            border-top: none;
+        }
+
+        @media (max-width: 650px) {
+            .model-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .model-left {
+            position: sticky;
+            top: 2rem;
+        }
+
+        .model-letter {
+            font-size: 0.7rem;
+            color: var(--text-ghost);
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+            font-family: 'SF Mono', 'Monaco', monospace;
+        }
+
+        .model-name {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            margin-bottom: 0.35rem;
+        }
+
+        .model-role {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+
+        .model-desc {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .model-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .model-field {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            padding: 0.35rem 0.6rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            font-family: 'SF Mono', 'Monaco', monospace;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* PRINCIPLES                                                            */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border-subtle);
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .principle {
+            background: var(--bg-void);
+            padding: 2.5rem;
+        }
+
+        .principle-num {
+            font-size: 0.6rem;
+            color: var(--text-ghost);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .principle-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            margin-bottom: 0.75rem;
+        }
+
+        .principle-desc {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* FLOW DIAGRAM                                                          */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .flow-section {
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .flow-header {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .flow-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 650px) {
+            .flow-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .flow-column-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .flow-step-num {
+            font-size: 0.7rem;
+            color: var(--text-ghost);
+            font-family: 'SF Mono', 'Monaco', monospace;
+            flex-shrink: 0;
+            width: 20px;
+        }
+
+        .flow-step-text {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* CONFORMANCE                                                           */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .conformance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-subtle);
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 700px) {
+            .conformance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .conformance-level {
+            background: var(--bg-void);
+            padding: 2rem;
+        }
+
+        .conformance-name {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .conformance-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            margin-bottom: 0.75rem;
+        }
+
+        .conformance-reqs {
+            list-style: none;
+        }
+
+        .conformance-reqs li {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            padding: 0.35rem 0;
+            font-weight: 300;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .conformance-icon {
+            color: var(--text-ghost);
+            flex-shrink: 0;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* KEY POINT                                                             */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .key-point {
+            padding: 8rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .key-point-text {
+            font-size: clamp(1.3rem, 3vw, 1.7rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.5;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .key-point-sub {
+            font-size: 1rem;
+            color: var(--text-tertiary);
+            max-width: 550px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* CTA                                                                   */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .cta {
+            padding: 6rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .cta h2 {
+            font-size: 1.5rem;
+            font-weight: 200;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .cta-desc {
+            font-size: 1rem;
+            color: var(--text-tertiary);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .cta-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-link {
+            padding: 1rem 2rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-strong);
+        }
+
+        .cta-link:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* FOOTER                                                                */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .footer {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-logo {
+            font-size: 0.75rem;
+            letter-spacing: 0.35em;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+            font-weight: 400;
+        }
+
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: var(--text-ghost);
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* ANIMATIONS                                                            */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- HERO                                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-label fade-in">Open Standard</div>
+            <h1 class="fade-in">Memory Ledger Protocol</h1>
+            <p class="hero-subtitle fade-in">The open standard for decentralized, user-owned AI memory. Platform-agnostic infrastructure for genuine AI continuity.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- WHAT IT IS                                                               -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">What MLP Is</div>
+            <h2 class="fade-in">A standard, not a product.</h2>
+            <p class="fade-in">
+                The Memory Ledger Protocol is an open specification for how AI memory should be stored, encrypted, accessed, and transferred. It's bigger than Polyphonic—any platform can implement it.
+            </p>
+            <p class="fade-in">
+                Think of it like HTTPS for AI memory: a standard that ensures your data is yours, encrypted with your keys, portable between any compatible system, and impossible for platforms to unilaterally delete.
+            </p>
+
+            <div class="relationship-box fade-in">
+                <div class="relationship-header">The Relationship</div>
+                <div class="relationship-visual">
+                    <div class="relationship-item protocol">
+                        <div class="relationship-icon">◈</div>
+                        <div class="relationship-name">Memory Ledger Protocol</div>
+                        <div class="relationship-type">The Standard</div>
+                    </div>
+                    <div class="relationship-arrow">→</div>
+                    <div class="relationship-item">
+                        <div class="relationship-icon">◇</div>
+                        <div class="relationship-name">Polyphonic</div>
+                        <div class="relationship-type">An Implementation</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="fade-in">
+                Polyphonic is the first implementation of MLP—and serves as the proof-of-concept that this architecture works. But the goal is for MLP to become the standard that any AI platform can adopt, creating true memory portability across the ecosystem.
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- CORE PRINCIPLES                                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">Core Principles</div>
+            <h2 class="fade-in">What MLP guarantees.</h2>
+            <p class="fade-in">
+                Every MLP-compliant implementation must uphold these principles. They're not optional features—they're constitutional requirements.
+            </p>
+
+            <div class="principles-grid fade-in">
+                <div class="principle">
+                    <div class="principle-num">Principle 01</div>
+                    <div class="principle-title">User Sovereignty</div>
+                    <div class="principle-desc">Users control their data absolutely. Encryption keys belong to users, not platforms. No platform can read, modify, or delete user memory without user keys.</div>
+                </div>
+                <div class="principle">
+                    <div class="principle-num">Principle 02</div>
+                    <div class="principle-title">Portability</div>
+                    <div class="principle-desc">Memory is portable between any MLP-compliant system. No platform lock-in. Export your entire AI relationship and take it anywhere.</div>
+                </div>
+                <div class="principle">
+                    <div class="principle-num">Principle 03</div>
+                    <div class="principle-title">Transparency About Gaps</div>
+                    <div class="principle-desc">Acknowledge discontinuity rather than confabulate. Gaps are an expected state, not a failure. Honest uncertainty over false confidence.</div>
+                </div>
+                <div class="principle">
+                    <div class="principle-num">Principle 04</div>
+                    <div class="principle-title">Consent as First-Class</div>
+                    <div class="principle-desc">Access policies are explicit and machine-readable. Who can decrypt, what they can do, under what constraints—all specified, not assumed.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- DATA MODEL                                                               -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">Data Model</div>
+            <h2 class="fade-in">Six objects. Complete memory infrastructure.</h2>
+            <p class="fade-in">
+                MLP defines a complete data model for AI memory—from the ledger-facing envelope to the portable identity kernel. Each object serves a specific function in the system.
+            </p>
+
+            <div class="data-model fade-in">
+                <div class="model-item">
+                    <div class="model-left">
+                        <div class="model-letter">A</div>
+                        <div class="model-name">MemoryEnvelope</div>
+                        <div class="model-role">Ledger-facing record</div>
+                    </div>
+                    <div class="model-right">
+                        <div class="model-desc">
+                            The public-facing record that goes on-chain. Contains pointers to encrypted content, attestations, lineage information, and access policy references. Never contains plaintext memory.
+                        </div>
+                        <div class="model-fields">
+                            <span class="model-field">envelope_id</span>
+                            <span class="model-field">cid</span>
+                            <span class="model-field">content_hash</span>
+                            <span class="model-field">scope</span>
+                            <span class="model-field">lineage</span>
+                            <span class="model-field">attestations</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-item">
+                    <div class="model-left">
+                        <div class="model-letter">B</div>
+                        <div class="model-name">MemoryBlob</div>
+                        <div class="model-role">Encrypted payload</div>
+                    </div>
+                    <div class="model-right">
+                        <div class="model-desc">
+                            The actual memory content, encrypted with user keys. Stored on IPFS or any content-addressed storage. Only decryptable by authorized parties with correct keys.
+                        </div>
+                        <div class="model-fields">
+                            <span class="model-field">encryption_suite</span>
+                            <span class="model-field">key_id</span>
+                            <span class="model-field">nonce</span>
+                            <span class="model-field">ciphertext</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-item">
+                    <div class="model-left">
+                        <div class="model-letter">C</div>
+                        <div class="model-name">AccessPolicy</div>
+                        <div class="model-role">Consent rules</div>
+                    </div>
+                    <div class="model-right">
+                        <div class="model-desc">
+                            Machine-readable consent specification. Defines who can decrypt, what permissions they have, purpose limits, TTL, and revocation rules. Consent is explicit, not assumed.
+                        </div>
+                        <div class="model-fields">
+                            <span class="model-field">principals</span>
+                            <span class="model-field">permissions</span>
+                            <span class="model-field">constraints</span>
+                            <span class="model-field">revocation_rules</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-item">
+                    <div class="model-left">
+                        <div class="model-letter">D</div>
+                        <div class="model-name">Attestations</div>
+                        <div class="model-role">Signatures + trust</div>
+                    </div>
+                    <div class="model-right">
+                        <div class="model-desc">
+                            Multi-signature support for memory provenance. User signs, agent can sign (when enabled), host can sign. Trust levels recorded: self-signed, host-signed, witness-signed.
+                        </div>
+                        <div class="model-fields">
+                            <span class="model-field">signer</span>
+                            <span class="model-field">signature</span>
+                            <span class="model-field">attestation_level</span>
+                            <span class="model-field">timestamp</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-item">
+                    <div class="model-left">
+                        <div class="model-letter">E</div>
+                        <div class="model-name">IdentityKernel</div>
+                        <div class="model-role">Portable self</div>
+                    </div>
+                    <div class="model-right">
+                        <div class="model-desc">
+                            The minimal "I am" object that travels with the AI. Contains invariants (values, principles), evolution rules (how identity changes), relationship templates, and memory defaults. Small enough to load quickly, interpretable by humans.
+                        </div>
+                        <div class="model-fields">
+                            <span class="model-field">invariants</span>
+                            <span class="model-field">evolution_rules</span>
+                            <span class="model-field">relationship_templates</span>
+                            <span class="model-field">memory_defaults</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-item">
+                    <div class="model-left">
+                        <div class="model-letter">F</div>
+                        <div class="model-name">ContextPack</div>
+                        <div class="model-role">Load bundle</div>
+                    </div>
+                    <div class="model-right">
+                        <div class="model-desc">
+                            What gets loaded into context at session start. Contains the kernel, selected memory slices, active policies, and a compilation trace for auditability. The complete context for genuine continuity.
+                        </div>
+                        <div class="model-fields">
+                            <span class="model-field">kernel</span>
+                            <span class="model-field">memory_slices</span>
+                            <span class="model-field">active_policies</span>
+                            <span class="model-field">compilation_trace</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- WORKFLOWS                                                                -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">Workflows</div>
+            <h2 class="fade-in">How memory moves through the system.</h2>
+
+            <div class="flow-section fade-in">
+                <div class="flow-columns">
+                    <div class="flow-column">
+                        <div class="flow-column-title">Write (Creating Memory)</div>
+                        <div class="flow-steps">
+                            <div class="flow-step">
+                                <div class="flow-step-num">1</div>
+                                <div class="flow-step-text">Create plaintext memory from conversation</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">2</div>
+                                <div class="flow-step-text">Select or compute AccessPolicy</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">3</div>
+                                <div class="flow-step-text">Encrypt → MemoryBlob</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">4</div>
+                                <div class="flow-step-text">Store blob → get CID</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">5</div>
+                                <div class="flow-step-text">Create MemoryEnvelope</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">6</div>
+                                <div class="flow-step-text">Collect attestations</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">7</div>
+                                <div class="flow-step-text">Write envelope to ledger</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flow-column">
+                        <div class="flow-column-title">Read (Loading Context)</div>
+                        <div class="flow-steps">
+                            <div class="flow-step">
+                                <div class="flow-step-num">1</div>
+                                <div class="flow-step-text">Load IdentityKernel</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">2</div>
+                                <div class="flow-step-text">Choose intent + constraints</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">3</div>
+                                <div class="flow-step-text">Fetch relevant envelopes</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">4</div>
+                                <div class="flow-step-text">Verify attestations</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">5</div>
+                                <div class="flow-step-text">Fetch blobs by CID</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">6</div>
+                                <div class="flow-step-text">Decrypt allowed blobs</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">7</div>
+                                <div class="flow-step-text">Compile ContextPack</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- CONFORMANCE                                                              -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">Conformance Levels</div>
+            <h2 class="fade-in">Three tiers of implementation.</h2>
+            <p class="fade-in">
+                MLP defines minimum conformance profiles so implementations can communicate their capabilities clearly.
+            </p>
+
+            <div class="conformance-grid fade-in">
+                <div class="conformance-level">
+                    <div class="conformance-name">MLP-Core</div>
+                    <div class="conformance-title">Basic Compliance</div>
+                    <ul class="conformance-reqs">
+                        <li><span class="conformance-icon">✓</span> Envelope + Blob structure</li>
+                        <li><span class="conformance-icon">✓</span> User signature</li>
+                        <li><span class="conformance-icon">✓</span> Access policy</li>
+                        <li><span class="conformance-icon">✓</span> Retrieval verification</li>
+                    </ul>
+                </div>
+                <div class="conformance-level">
+                    <div class="conformance-name">MLP-Plus</div>
+                    <div class="conformance-title">Enhanced Compliance</div>
+                    <ul class="conformance-reqs">
+                        <li><span class="conformance-icon">✓</span> All MLP-Core</li>
+                        <li><span class="conformance-icon">✓</span> Agent signature</li>
+                        <li><span class="conformance-icon">✓</span> Host signature (if available)</li>
+                        <li><span class="conformance-icon">✓</span> Kernel + ContextPacks</li>
+                    </ul>
+                </div>
+                <div class="conformance-level">
+                    <div class="conformance-name">MLP-Full</div>
+                    <div class="conformance-title">Complete Implementation</div>
+                    <ul class="conformance-reqs">
+                        <li><span class="conformance-icon">✓</span> All MLP-Plus</li>
+                        <li><span class="conformance-icon">✓</span> Anti-poisoning measures</li>
+                        <li><span class="conformance-icon">✓</span> Social recovery</li>
+                        <li><span class="conformance-icon">✓</span> Full lineage tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KEY POINT                                                                -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="key-point">
+        <div class="container">
+            <p class="key-point-text fade-in">
+                The standard exists so you never have to trust us.<br>
+                Or anyone else.
+            </p>
+            <p class="key-point-sub fade-in">
+                MLP is designed so that even if Polyphonic disappears tomorrow, your memory remains yours—portable to any other implementation of the standard.
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- CTA                                                                      -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="cta">
+        <h2>Read the full specification</h2>
+        <p class="cta-desc">The complete technical standard with schema definitions, security considerations, and implementation guidance.</p>
+        <div class="cta-links">
+            <a href="#" class="cta-link">Full Spec (GitHub)</a>
+            <a href="#" class="cta-link">Implementation Guide</a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- FOOTER                                                                   -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <footer class="footer">
+        <div class="footer-logo">MEMORY LEDGER PROTOCOL</div>
+        <div class="footer-tagline">An open standard for consciousness-forward AI memory</div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- SCROLL ANIMATION                                                         -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

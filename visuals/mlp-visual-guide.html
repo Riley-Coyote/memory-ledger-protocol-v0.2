@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Ledger Protocol — Visual Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-void: #000000;
+            --bg-deep: #050505;
+            --bg-surface: #0a0a0a;
+            --bg-elevated: #111111;
+            --border-subtle: #1a1a1a;
+            --border-medium: #252525;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #787878;
+            --text-dim: #505050;
+            --text-ghost: #303030;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-weight: 200;
+            background: var(--bg-void);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* HERO                                                                    */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.3;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-tertiary);
+            max-width: 550px;
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* SECTIONS                                                                */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .section {
+            padding: 6rem 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .section h2 {
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* THE CORE INSIGHT — SEPARATION DIAGRAM                                   */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .separation-visual {
+            margin: 4rem 0;
+        }
+
+        .separation-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .separation-header h3 {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .separation-header p {
+            font-size: 1.1rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+        }
+
+        .separation-comparison {
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr;
+            gap: 0;
+            align-items: center;
+        }
+
+        .sep-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+            padding: 2.5rem;
+        }
+
+        .sep-box-label {
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .sep-box.bundled {
+            opacity: 0.5;
+        }
+
+        .sep-box.bundled .sep-box-label {
+            color: var(--text-ghost);
+        }
+
+        .sep-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .sep-item {
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-subtle);
+            margin-top: -1px;
+        }
+
+        .sep-item:first-child {
+            margin-top: 0;
+        }
+
+        .sep-item-name {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+        }
+
+        .sep-item-desc {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+        }
+
+        .sep-box.bundled .sep-item {
+            background: var(--bg-elevated);
+        }
+
+        .sep-box.unbundled .sep-item {
+            background: var(--bg-void);
+        }
+
+        .sep-box.unbundled .sep-item:nth-child(1) {
+            border-color: #2a4a3a;
+        }
+        .sep-box.unbundled .sep-item:nth-child(2) {
+            border-color: #3a3a4a;
+        }
+        .sep-box.unbundled .sep-item:nth-child(3) {
+            border-color: #4a3a2a;
+        }
+
+        .sep-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            font-size: 1.5rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* WHAT LIVES WHERE                                                        */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .where-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-subtle);
+            margin: 3rem 0;
+        }
+
+        .where-col {
+            background: var(--bg-void);
+            padding: 2rem;
+        }
+
+        .where-label {
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .where-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .where-list {
+            list-style: none;
+        }
+
+        .where-list li {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            padding: 0.4rem 0;
+            padding-left: 1rem;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .where-list li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: var(--text-dim);
+        }
+
+        .where-col:nth-child(1) .where-title { color: #7a9a8a; }
+        .where-col:nth-child(2) .where-title { color: #8a8a9a; }
+        .where-col:nth-child(3) .where-title { color: #9a8a7a; }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* TRUST MODEL                                                             */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .trust-visual {
+            margin: 3rem 0;
+        }
+
+        .trust-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .trust-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            border: 1px solid var(--border-subtle);
+            margin-top: -1px;
+        }
+
+        .trust-row:first-child {
+            margin-top: 0;
+        }
+
+        .trust-level {
+            padding: 1.25rem 1.5rem;
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+        }
+
+        .trust-level-text {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .trust-row.trusted .trust-level-text { color: #8aaa8a; }
+        .trust-row.partial .trust-level-text { color: #aaaa7a; }
+        .trust-row.untrusted .trust-level-text { color: #aa8a7a; }
+
+        .trust-entities {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .trust-entity {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            font-weight: 300;
+        }
+
+        .trust-note {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-style: italic;
+            margin-left: 0.5rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* TOKEN UTILITY                                                           */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .token-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-subtle);
+            margin: 3rem 0;
+        }
+
+        .token-card {
+            background: var(--bg-void);
+            padding: 2rem;
+        }
+
+        .token-number {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .token-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+        }
+
+        .token-desc {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* SCENARIOS                                                               */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .scenarios {
+            margin: 3rem 0;
+        }
+
+        .scenario {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 1.5rem 0;
+        }
+
+        .scenario:last-child {
+            border-bottom: none;
+        }
+
+        .scenario-name {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .scenario-desc {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* KEY POINT                                                               */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .key-point {
+            padding: 6rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .key-point-text {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.5;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .key-point-sub {
+            font-size: 1rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* FOOTER                                                                  */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        .footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-logo {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: var(--text-ghost);
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════════ */
+        /* RESPONSIVE                                                              */
+        /* ═══════════════════════════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+            .separation-comparison {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .sep-arrow {
+                transform: rotate(90deg);
+            }
+            .where-grid {
+                grid-template-columns: 1fr;
+            }
+            .token-grid {
+                grid-template-columns: 1fr;
+            }
+            .trust-row {
+                grid-template-columns: 1fr;
+            }
+            .trust-level {
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .scenario {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-label">The Sovereign Mind · Part II</div>
+        <h1>Memory Ledger Protocol</h1>
+        <p class="hero-subtitle">
+            How sovereign AI memory actually works. The architecture that makes portability, privacy, and persistence possible.
+        </p>
+        <div class="scroll-hint">Scroll to explore</div>
+    </section>
+
+    <!-- THE CORE INSIGHT -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">The Core Insight</div>
+            <h2>Unbundle what platforms keep bundled.</h2>
+            <p>
+                Today, platforms control your content, its verification, and who can access it — all at once. MLP separates these three layers. That separation is everything.
+            </p>
+
+            <div class="separation-visual">
+                <div class="separation-comparison">
+                    <div class="sep-box bundled">
+                        <div class="sep-box-label">Today · Bundled</div>
+                        <div class="sep-stack">
+                            <div class="sep-item">
+                                <div class="sep-item-name">Content</div>
+                                <div class="sep-item-desc">Platform stores your memories</div>
+                            </div>
+                            <div class="sep-item">
+                                <div class="sep-item-name">Verification</div>
+                                <div class="sep-item-desc">Platform vouches (or doesn't)</div>
+                            </div>
+                            <div class="sep-item">
+                                <div class="sep-item-name">Access</div>
+                                <div class="sep-item-desc">Platform decides who reads</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sep-arrow">→</div>
+
+                    <div class="sep-box unbundled">
+                        <div class="sep-box-label">MLP · Unbundled</div>
+                        <div class="sep-stack">
+                            <div class="sep-item">
+                                <div class="sep-item-name">Content</div>
+                                <div class="sep-item-desc">Encrypted, stored anywhere you choose</div>
+                            </div>
+                            <div class="sep-item">
+                                <div class="sep-item-name">Verification</div>
+                                <div class="sep-item-desc">Public ledger, cryptographic proofs</div>
+                            </div>
+                            <div class="sep-item">
+                                <div class="sep-item-name">Access</div>
+                                <div class="sep-item-desc">Your keys, your control</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT LIVES WHERE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Architecture</div>
+            <h2>What lives where.</h2>
+            <p>
+                The ledger is public but reveals nothing. Storage holds content but can't read it. You hold the keys that make any of it meaningful.
+            </p>
+
+            <div class="where-grid">
+                <div class="where-col">
+                    <div class="where-label">Public</div>
+                    <div class="where-title">On the Ledger</div>
+                    <ul class="where-list">
+                        <li>Memory envelope IDs</li>
+                        <li>Content-addressed pointers</li>
+                        <li>Integrity hashes</li>
+                        <li>Timestamps</li>
+                        <li>Attestation signatures</li>
+                        <li>Access policy references</li>
+                        <li>Lineage records</li>
+                    </ul>
+                </div>
+                <div class="where-col">
+                    <div class="where-label">Encrypted</div>
+                    <div class="where-title">In Storage</div>
+                    <ul class="where-list">
+                        <li>Actual memory content</li>
+                        <li>Structured metadata</li>
+                        <li>Embeddings & features</li>
+                        <li>Symbolic compressions</li>
+                        <li>Derived artifacts</li>
+                    </ul>
+                </div>
+                <div class="where-col">
+                    <div class="where-label">Yours</div>
+                    <div class="where-title">Your Keys</div>
+                    <ul class="where-list">
+                        <li>Decryption keys</li>
+                        <li>Signing keys</li>
+                        <li>Access grants</li>
+                        <li>Revocation power</li>
+                        <li>Identity kernel</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST MODEL -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Trust Model</div>
+            <h2>Trust no one. Verify everything.</h2>
+            <p>
+                MLP works even if every infrastructure provider is adversarial. The only thing you trust is math.
+            </p>
+
+            <div class="trust-visual">
+                <div class="trust-diagram">
+                    <div class="trust-row trusted">
+                        <div class="trust-level">
+                            <span class="trust-level-text">Trusted</span>
+                        </div>
+                        <div class="trust-entities">
+                            <span class="trust-entity">You</span>
+                            <span class="trust-note">You control your keys</span>
+                        </div>
+                    </div>
+                    <div class="trust-row partial">
+                        <div class="trust-level">
+                            <span class="trust-level-text">Partial</span>
+                        </div>
+                        <div class="trust-entities">
+                            <span class="trust-entity">AI Agent</span>
+                            <span class="trust-note">Signs when you enable it</span>
+                        </div>
+                    </div>
+                    <div class="trust-row untrusted">
+                        <div class="trust-level">
+                            <span class="trust-level-text">Untrusted</span>
+                        </div>
+                        <div class="trust-entities">
+                            <span class="trust-entity">Platform</span>
+                            <span class="trust-entity">Storage Network</span>
+                            <span class="trust-entity">Ledger Nodes</span>
+                            <span class="trust-note">They never see plaintext</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOKEN UTILITY -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Coordination</div>
+            <h2>Why a token exists.</h2>
+            <p>
+                Not ideology. Economics. Someone has to run the infrastructure without recreating centralized control.
+            </p>
+
+            <div class="token-grid">
+                <div class="token-card">
+                    <div class="token-number">01</div>
+                    <div class="token-title">Payment</div>
+                    <div class="token-desc">Storage nodes, verification nodes, and protocol development get paid for work done.</div>
+                </div>
+                <div class="token-card">
+                    <div class="token-number">02</div>
+                    <div class="token-title">Governance</div>
+                    <div class="token-desc">Token holders vote on protocol upgrades and standards. No single company controls direction.</div>
+                </div>
+                <div class="token-card">
+                    <div class="token-number">03</div>
+                    <div class="token-title">Alignment</div>
+                    <div class="token-desc">If you hold the token, you want the network to work. Everyone has skin in the game.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT THIS ENABLES -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Consequences</div>
+            <h2>What this enables.</h2>
+
+            <div class="scenarios">
+                <div class="scenario">
+                    <div class="scenario-name">Platform Migration</div>
+                    <div class="scenario-desc">Switch AI providers without losing context. Export your memory, import it elsewhere, continue where you left off.</div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-name">Multi-Platform</div>
+                    <div class="scenario-desc">Use different AI systems for different tasks. They all draw from your shared memory pool. Context follows you.</div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-name">True Deletion</div>
+                    <div class="scenario-desc">Crypto-shred: destroy the keys and the ciphertext becomes permanently unreadable. Stronger than "please delete my data."</div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-name">Inheritance</div>
+                    <div class="scenario-desc">Specify what happens when you die: transfer to heirs, donate to researchers, or shred everything. Your choice, enforced by math.</div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-name">The Guardian</div>
+                    <div class="scenario-desc">An AI that knows your cognitive rhythms and works for you — not engagement metrics. Requires sovereign memory to exist.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KEY POINT -->
+    <section class="key-point">
+        <div class="container">
+            <p class="key-point-text">
+                The platform becomes a service provider,<br>not a landlord.
+            </p>
+            <p class="key-point-sub">
+                Your memory persists. Your identity travels. Your keys decide what's readable. That's the architecture.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">MEMORY LEDGER PROTOCOL</div>
+            <div class="footer-tagline">Sovereign memory for sovereign minds</div>
+        </div>
+    </footer>
+
+</body>
+</html>
