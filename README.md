@@ -250,7 +250,7 @@ MIT License — see [LICENSE](LICENSE) for details.
 ## Links
 
 - **Polyphonic**: [polyphonic.chat](https://polyphonic.chat)
-- **$POLYPHONIC**: [Token Info]
+- **$POLYPHONIC**: [H1DKS5SWqPzzt4WaQahafaWe5nJ56xf2xqtYwvdapump]
 - **The Sovereign Mind**: [Article Series]
 - **Issues**: [GitHub Issues](../../issues)
 - **Discussions**: [GitHub Discussions](../../discussions)
