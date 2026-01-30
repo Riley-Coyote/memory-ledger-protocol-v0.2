@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/v0.1/attestation.schema.json",
+  "title": "MLP Attestation",
+  "description": "Cryptographic signature binding an actor to a claim about a memory",
+  "type": "object",
+  "required": [
+    "attestation_id",
+    "attester_id",
+    "attester_type",
+    "level",
+    "signature",
+    "signed_at"
+  ],
+  "properties": {
+    "attestation_id": {
+      "type": "string",
+      "description": "Unique identifier for this attestation",
+      "format": "uuid"
+    },
+    "attester_id": {
+      "type": "string",
+      "description": "Identifier of the entity making the attestation"
+    },
+    "attester_type": {
+      "type": "string",
+      "description": "Type of the attesting entity",
+      "enum": ["user", "agent", "host", "witness"]
+    },
+    "level": {
+      "type": "string",
+      "description": "Level of attestation trust",
+      "enum": ["SELF_SIGNED", "HOST_SIGNED", "WITNESS_SIGNED"]
+    },
+    "signature": {
+      "type": "string",
+      "description": "Base64-encoded cryptographic signature",
+      "contentEncoding": "base64"
+    },
+    "signature_algorithm": {
+      "type": "string",
+      "description": "Algorithm used for signing",
+      "examples": ["Ed25519", "ECDSA-P256", "RSA-PSS"]
+    },
+    "signed_at": {
+      "type": "string",
+      "description": "ISO 8601 timestamp when signature was created",
+      "format": "date-time"
+    },
+    "public_key": {
+      "type": "string",
+      "description": "Public key of the attester for verification"
+    },
+    "claims": {
+      "type": "array",
+      "description": "Specific claims being attested to",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim_type": {
+            "type": "string",
+            "enum": ["integrity", "authorship", "consent", "timestamp", "validity"]
+          },
+          "claim_value": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

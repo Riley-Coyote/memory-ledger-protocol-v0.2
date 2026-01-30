@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/v0.1/access-policy.schema.json",
+  "title": "MLP AccessPolicy",
+  "description": "Machine-readable consent rules defining who can access memory and under what conditions",
+  "type": "object",
+  "required": [
+    "policy_id",
+    "mlp_version",
+    "principals",
+    "permissions",
+    "constraints"
+  ],
+  "properties": {
+    "policy_id": {
+      "type": "string",
+      "description": "Unique identifier for this policy",
+      "format": "uuid"
+    },
+    "mlp_version": {
+      "type": "string",
+      "description": "Version of the MLP specification",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "principals": {
+      "type": "array",
+      "description": "Entities that can decrypt and access the memory",
+      "items": {
+        "type": "object",
+        "required": ["principal_id", "principal_type"],
+        "properties": {
+          "principal_id": {
+            "type": "string",
+            "description": "Unique identifier for the principal"
+          },
+          "principal_type": {
+            "type": "string",
+            "enum": ["user", "agent", "host", "witness", "group"]
+          },
+          "public_key": {
+            "type": "string",
+            "description": "Public key for the principal"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "permissions": {
+      "type": "object",
+      "description": "Permission grants for each principal",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["read", "write", "derive", "delegate", "revoke"]
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "description": "Constraints on memory access and usage",
+      "properties": {
+        "purpose_limits": {
+          "type": "array",
+          "description": "Allowed purposes for accessing this memory",
+          "items": { "type": "string" }
+        },
+        "ttl": {
+          "type": "string",
+          "description": "Time-to-live in ISO 8601 duration format",
+          "format": "duration"
+        },
+        "review_schedule": {
+          "type": "string",
+          "description": "Required review cadence in ISO 8601 duration format",
+          "format": "duration"
+        },
+        "redaction_rules": {
+          "type": "array",
+          "description": "Rules for creating redacted derivatives",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string" },
+              "action": { "type": "string", "enum": ["remove", "mask", "generalize"] }
+            }
+          }
+        },
+        "sharing_rules": {
+          "type": "object",
+          "description": "Rules governing sharing with third parties",
+          "properties": {
+            "allowed": { "type": "boolean" },
+            "requires_consent": { "type": "boolean" },
+            "allowed_recipients": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "emergency_rules": {
+      "type": "object",
+      "description": "Rules for emergency access scenarios",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "emergency_contacts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "revocation_rules": {
+      "type": "object",
+      "description": "Rules governing policy revocation",
+      "properties": {
+        "revocable": { "type": "boolean", "default": true },
+        "revocation_delay": {
+          "type": "string",
+          "format": "duration"
+        },
+        "requires_attestation": { "type": "boolean" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/v0.1/context-pack.schema.json",
+  "title": "MLP ContextPack",
+  "description": "Runtime bundle for session initialization containing kernel, memories, and policies",
+  "type": "object",
+  "required": [
+    "pack_id",
+    "mlp_version",
+    "kernel",
+    "memory_slices",
+    "active_policies",
+    "compilation_trace",
+    "compiled_at"
+  ],
+  "properties": {
+    "pack_id": {
+      "type": "string",
+      "description": "Unique identifier for this context pack",
+      "format": "uuid"
+    },
+    "mlp_version": {
+      "type": "string",
+      "description": "Version of the MLP specification",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "kernel": {
+      "$ref": "identity-kernel.schema.json",
+      "description": "The identity kernel for this session"
+    },
+    "memory_slices": {
+      "type": "array",
+      "description": "Selected memory envelopes for this session",
+      "items": {
+        "type": "object",
+        "properties": {
+          "envelope": {
+            "$ref": "memory-envelope.schema.json"
+          },
+          "decrypted_content": {
+            "type": "object",
+            "description": "Decrypted memory content (if access granted)"
+          },
+          "access_level": {
+            "type": "string",
+            "enum": ["full", "redacted", "metadata_only", "denied"]
+          }
+        }
+      }
+    },
+    "active_policies": {
+      "type": "array",
+      "description": "Currently active access policies",
+      "items": {
+        "$ref": "access-policy.schema.json"
+      }
+    },
+    "compilation_trace": {
+      "type": "object",
+      "description": "Non-secret audit trail of how the pack was compiled",
+      "properties": {
+        "requested_by": {
+          "type": "string",
+          "description": "Who requested this context pack"
+        },
+        "intent": {
+          "type": "string",
+          "description": "Stated intent for the session"
+        },
+        "constraints_applied": {
+          "type": "array",
+          "description": "Constraints that filtered the memory selection",
+          "items": { "type": "string" }
+        },
+        "memories_considered": {
+          "type": "integer",
+          "description": "Number of memories evaluated"
+        },
+        "memories_included": {
+          "type": "integer",
+          "description": "Number of memories included"
+        },
+        "memories_redacted": {
+          "type": "integer",
+          "description": "Number of memories included in redacted form"
+        },
+        "memories_denied": {
+          "type": "integer",
+          "description": "Number of memories denied access"
+        }
+      }
+    },
+    "compiled_at": {
+      "type": "string",
+      "description": "When this context pack was compiled",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "description": "When this context pack expires",
+      "format": "date-time"
+    },
+    "session_constraints": {
+      "type": "object",
+      "description": "Constraints for the session using this pack",
+      "properties": {
+        "max_duration": {
+          "type": "string",
+          "format": "duration"
+        },
+        "allowed_operations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["read", "write", "derive", "share"]
+          }
+        },
+        "requires_attestation_on_write": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

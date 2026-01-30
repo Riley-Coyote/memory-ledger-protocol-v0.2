@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/v0.1/cartouche.schema.json",
+  "title": "MLP Cartouche",
+  "description": "Optional symbolic compressed representation of the identity kernel - a seal, not a replacement",
+  "type": "object",
+  "required": [
+    "dialect_id",
+    "dialect_version",
+    "cartouche_string",
+    "cartouche_hash",
+    "cartouche_signature"
+  ],
+  "properties": {
+    "dialect_id": {
+      "type": "string",
+      "description": "Identifier for the symbolic dialect used",
+      "examples": ["GLYPH-1", "EMOJI-1", "RUNE-1"]
+    },
+    "dialect_version": {
+      "type": "string",
+      "description": "Version of the dialect",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "cartouche_string": {
+      "type": "string",
+      "description": "The symbolic representation (glyphs/tokens/sigils)",
+      "examples": ["⟁🜇↺🪞⚷", "◈∿⊛⧫", "ᚠᚢᚦᚨᚱᚲ"]
+    },
+    "cartouche_hash": {
+      "type": "string",
+      "description": "Hash of the cartouche for integrity verification",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "cartouche_signature": {
+      "type": "string",
+      "description": "Signature matching the kernel signature",
+      "contentEncoding": "base64"
+    },
+    "dictionary_ref": {
+      "type": "string",
+      "description": "URI reference to the dialect dictionary",
+      "format": "uri"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "When the cartouche was created",
+      "format": "date-time"
+    },
+    "stable_since": {
+      "type": "string",
+      "description": "When the cartouche last changed (epoch transitions)",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}
