@@ -34,8 +34,8 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "continuity-framework": "file:../../continuity",
-    "clawdbot-mlp": "file:../clawdbot",
+    "continuity-framework": "file:../../../continuity",
+    "mlp-storage": "file:../../../mlp-storage",
     "yaml": "^2.3.0"
   },
   "devDependencies": {

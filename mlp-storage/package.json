@@ -1,7 +1,7 @@
 {
-  "name": "clawdbot-mlp",
+  "name": "mlp-storage",
   "version": "0.2.0",
-  "description": "Memory Ledger Protocol skill for Clawdbot - sovereign, portable memory for AI agents",
+  "description": "Memory Ledger Protocol storage layer - encrypted IPFS/Pinata storage for sovereign AI memory",
   "type": "module",
   "main": "src/index.js",
   "exports": {
@@ -18,26 +18,28 @@
     "lint": "eslint src/",
     "example": "node examples/basic-usage.js",
     "example:migrate": "node examples/identity-migration.js",
-    "example:clawdbot": "node examples/clawdbot-integration.js"
+    "example:openclaw": "node examples/openclaw-integration.js"
   },
   "keywords": [
-    "clawdbot",
     "mlp",
     "memory-ledger-protocol",
     "ai-memory",
     "decentralized",
     "ipfs",
+    "pinata",
     "agent",
     "identity",
-    "sovereign"
+    "sovereign",
+    "encryption",
+    "openclaw"
   ],
   "author": "Riley Coyote",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/clawdbot/clawdbot-mlp"
+    "url": "https://github.com/polyphonic-chat/memory-ledger-protocol"
   },
-  "homepage": "https://clawdhub.com/skills/memory-ledger-protocol",
+  "homepage": "https://github.com/polyphonic-chat/memory-ledger-protocol/tree/main/mlp-storage",
   "dependencies": {
     "dotenv": "^17.2.3",
     "ipfs-http-client": "^60.0.0",
@@ -51,7 +53,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "clawdbot": {
+  "openclaw": {
     "skillVersion": "1.0",
     "category": "memory",
     "tags": ["memory", "identity", "decentralized", "ipfs"],

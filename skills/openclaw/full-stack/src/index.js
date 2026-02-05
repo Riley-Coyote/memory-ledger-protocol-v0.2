@@ -7,7 +7,7 @@
  */
 
 import { ContinuityFramework } from 'continuity-framework';
-import { MLP } from 'clawdbot-mlp';
+import { MLP } from 'mlp-storage';
 import { loadConfig, validateConfig } from './config.js';
 import { SessionInit, SessionEnd } from './session.js';
 import { generateId } from 'continuity-framework/types';

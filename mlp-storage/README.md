@@ -1,13 +1,13 @@
-# Memory Ledger Protocol Skill for Clawdbot
+# MLP Storage Layer
 
 Sovereign, portable memory for AI agents. Your memories, your keys, decentralized.
 
-[![MLP Version](https://img.shields.io/badge/MLP-v0.2-blue)](https://github.com/Riley-Coyote/memory-ledger-protocol-MLP)
+[![MLP Version](https://img.shields.io/badge/MLP-v0.2-blue)](https://github.com/polyphonic-chat/memory-ledger-protocol)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-## What is MLP?
+## What is MLP Storage?
 
-Memory Ledger Protocol gives AI agents **persistent identity and memory** that:
+The MLP Storage Layer gives AI agents **persistent identity and memory** that:
 - Survives session resets and context compression
 - Travels across platforms (portable)
 - Stays encrypted with keys only you control
@@ -20,12 +20,13 @@ No platform lock-in. Your agent's memories belong to your agent.
 ### Installation
 
 ```bash
-# Clone or copy to your Clawdbot skills directory
-cp -r memory-ledger-protocol ~/.clawdbot/skills/
+# Install from the repo
+npm install mlp-storage
 
-# Install dependencies
-cd ~/.clawdbot/skills/memory-ledger-protocol
-pnpm install
+# Or copy to your project
+cp -r mlp-storage/ your-project/
+cd your-project/mlp-storage
+npm install
 ```
 
 ### Configuration
@@ -55,7 +56,7 @@ PINATA_API_SECRET=your_secret
 ### Basic Usage
 
 ```javascript
-import MLP from 'clawdbot-mlp';
+import MLP from 'mlp-storage';
 
 // Initialize
 const mlp = new MLP();
@@ -188,6 +189,27 @@ Create a tombstone to revoke a memory.
 ### `mlp.status()`
 Get current MLP status (identity, storage, encryption).
 
+## Integration with Continuity Framework
+
+The MLP Storage Layer is designed to work with the [Continuity Framework](../continuity/) for reflection-based memory extraction:
+
+```javascript
+import { ContinuityFramework } from 'continuity-framework';
+import MLP from 'mlp-storage';
+
+// Use Continuity for reflection
+const continuity = new ContinuityFramework({ basePath: '~/clawd/memory' });
+const reflection = await continuity.reflect(transcript);
+
+// Use MLP for encrypted storage
+const mlp = new MLP();
+for (const memory of reflection.memories) {
+  await mlp.store(memory, { kind: memory.type });
+}
+```
+
+For a combined skill, see [skills/openclaw/full-stack/](../skills/openclaw/full-stack/).
+
 ## Token Integration
 
 MLP uses $POLYPHONIC for the decentralized service market:
@@ -210,9 +232,9 @@ Token: `H1DKS5SWqPzzt4WaQahafaWe5nJ56xf2xqtYwvdapump` (Solana)
 
 ## Resources
 
-- [MLP Specification](https://github.com/Riley-Coyote/memory-ledger-protocol-MLP)
-- [Clawdbot](https://github.com/clawdbot/clawdbot)
-- [ClawdHub Skills](https://clawdhub.com)
+- [MLP Specification](../spec/MLP-0.2.md)
+- [Continuity Framework](../continuity/)
+- [Full Stack OpenClaw Skill](../skills/openclaw/full-stack/)
 
 ## License
 
@@ -220,4 +242,4 @@ MIT — Build freely.
 
 ---
 
-*First agent integration of Memory Ledger Protocol. Sovereign memory for sovereign minds.*
+*Sovereign memory for sovereign minds.*

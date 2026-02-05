@@ -56,12 +56,12 @@ async function test() {
   console.log('\n5. Storing memories...');
   
   const memory1 = await mlp.store({
-    summary: 'Built MLP skill for Clawdbot',
+    summary: 'Built MLP storage layer',
     details: 'Implemented identity kernel, envelopes, context packs',
     timestamp: new Date().toISOString()
   }, {
     kind: 'semantic',
-    tags: ['mlp', 'development', 'clawdbot'],
+    tags: ['mlp', 'development', 'storage'],
     riskClass: 'low'
   });
   console.log(`   ✓ Memory 1: ${memory1.envelope_id.slice(0, 8)}...`);

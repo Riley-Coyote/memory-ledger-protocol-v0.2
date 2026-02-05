@@ -1,14 +1,14 @@
-# Memory Ledger Protocol Skill
+# MLP Storage Layer
 
-Sovereign, portable memory for Clawdbot agents using the Memory Ledger Protocol.
+Sovereign, portable memory storage using the Memory Ledger Protocol.
 
 ## Status
 
 🚧 **In Development** — Core implementation complete, needs testing
 
-## What This Skill Does
+## What This Does
 
-Integrates MLP (Memory Ledger Protocol) v0.2 with Clawdbot to give agents:
+The MLP Storage Layer provides AI agents with:
 
 - **Persistent memory** that survives session resets and context compression
 - **Portable identity** that travels across platforms (IdentityKernel)
@@ -42,7 +42,7 @@ Based on official MLP v0.2 schemas:
 ## Usage
 
 ```javascript
-import MLP from 'clawdbot-mlp';
+import MLP from 'mlp-storage';
 
 // Initialize
 const mlp = new MLP();
@@ -128,10 +128,10 @@ sync:
 
 ```
 ┌─────────────────────────────────────────┐
-│           Clawdbot Agent                │
+│           OpenClaw Agent                 │
 ├─────────────────────────────────────────┤
 │  ┌─────────────┐    ┌─────────────┐    │
-│  │ MEMORY.md   │───▶│ MLP Skill   │    │
+│  │ MEMORY.md   │───▶│ MLP Storage │    │
 │  │ SOUL.md     │    │             │    │
 │  │ workspace   │    │ - store()   │    │
 │  └─────────────┘    │ - load()    │    │
@@ -170,7 +170,7 @@ sync:
 
 ## Protocol Reference
 
-- Spec: https://github.com/Riley-Coyote/memory-ledger-protocol-v0.2
+- Spec: [MLP-0.2](../spec/MLP-0.2.md)
 - Token: $POLYPHONIC (Solana: H1DKS5SWqPzzt4WaQahafaWe5nJ56xf2xqtYwvdapump)
 
 ## Roadmap

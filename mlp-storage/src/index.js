@@ -1,6 +1,6 @@
 /**
- * Memory Ledger Protocol Skill for Clawdbot
- * 
+ * MLP Storage Layer
+ *
  * Provides sovereign, portable memory for agents using MLP v0.2.
  */
 

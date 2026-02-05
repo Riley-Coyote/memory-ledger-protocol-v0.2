@@ -309,8 +309,8 @@ await continuity.reflect(transcript, { session_id: sessionId });
 ### Full Stack with MLP
 
 For encrypted storage with MLP (IPFS/Pinata), see:
-- `/integrations/openclaw/` - Full stack integration
-- `/integrations/clawdbot/` - MLP storage layer
+- [Full Stack OpenClaw Skill](../skills/openclaw/full-stack/) — Continuity + MLP storage
+- [MLP Storage Layer](../mlp-storage/) — Standalone encrypted storage
 
 ## Local Development
 

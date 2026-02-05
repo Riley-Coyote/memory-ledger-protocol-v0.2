@@ -194,7 +194,7 @@ The Continuity Framework can work standalone (reflection-only) or integrate with
 For agents that want reflection without MLP infrastructure:
 
 ```
-skills/reflection-only/
+skills/openclaw/continuity/
 ├── SKILL.md
 ├── src/index.js
 └── src/local-storage.js
@@ -211,7 +211,7 @@ Commands:
 For agents that want reflection + persistent encrypted storage:
 
 ```
-integrations/openclaw/
+skills/openclaw/full-stack/
 ├── SKILL.md
 ├── src/index.js
 ├── src/session.js

@@ -192,4 +192,9 @@ Memories are stored in human-readable markdown with metadata in HTML comments:
 ## Full Stack Alternative
 
 For persistent encrypted storage with MLP (IPFS/Pinata), see:
-- `/integrations/openclaw/` — Full stack with MLP storage layer
+- [Full Stack Skill](../full-stack/) — Continuity + MLP storage layer
+
+## Related
+
+- [Continuity Framework](../../../continuity/) — Core reflection library
+- [MLP Storage](../../../mlp-storage/) — Encrypted storage layer (optional)

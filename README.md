@@ -8,6 +8,33 @@
 
 ---
 
+## Quick Start — Choose Your Path
+
+### Using Claude Code?
+
+→ Copy `skills/claude-code/SKILL.md` to your project
+→ No installation needed — just the SKILL.md file
+→ Stores memories locally in `~/clawd/memory/` as markdown
+
+### Using OpenClaw?
+
+**Want just reflection (local markdown storage)?**
+→ Use `skills/openclaw/continuity/`
+→ Stores memories in `~/clawd/memory/` as markdown
+→ No external dependencies
+
+**Want reflection + encrypted cloud storage?**
+→ Use `skills/openclaw/full-stack/`
+→ Adds IPFS/Pinata encrypted storage via MLP
+
+### Building a custom integration?
+
+→ Use `continuity/` for the reflection framework
+→ Add `mlp-storage/` for encrypted persistence
+→ Combine as needed
+
+---
+
 ## The Problem
 
 Your AI memory is trapped.
@@ -209,14 +236,6 @@ The Memory Ledger Protocol includes the **Continuity Framework** — a reflectio
 4. **Question** — Generate genuine follow-up questions from gaps
 5. **Surface** — When user returns, present relevant questions
 
-### Three Usage Paths
-
-| Path | Use Case | Storage | Location |
-|------|----------|---------|----------|
-| **Claude Code Skill** | Direct use in Claude Code | Local markdown | `skills/claude-code/` |
-| **OpenClaw Skill** | JavaScript skill for OpenClaw bots | Local markdown | `skills/reflection-only/` |
-| **Full Stack** | Continuity + MLP storage | Encrypted IPFS/Pinata | `integrations/openclaw/` |
-
 ### Quick Start
 
 ```javascript
@@ -244,35 +263,56 @@ const questions = await continuity.getQuestionsToSurface(3);
 memory-ledger-protocol/
 ├── README.md                    # You are here
 ├── LICENSE                      # MIT License
+│
 ├── spec/
 │   └── MLP-0.2.md              # Protocol specification
+│
 ├── docs/
-│   ├── continuity-framework.md # Continuity Framework overview
-│   ├── why-decentralization.md # The coordination economics case
-│   ├── token-economics.md      # $POLYPHONIC utility
-│   ├── polyphonic-integration.md # Reference implementation
-│   └── guardian-pattern.md     # The killer use case
-├── schemas/
-│   ├── memory-envelope.json    # JSON Schema
-│   ├── memory-blob.json
-│   ├── identity-kernel.json
-│   └── access-policy.json
-├── continuity/                  # Continuity Framework
-│   ├── README.md               # Library usage guide
-│   ├── agents/                 # Sub-agent definitions
-│   │   ├── classifier/         # Memory classification
-│   │   ├── scorer/             # Confidence scoring
-│   │   └── generator/          # Question generation
+│   ├── architecture.md
+│   ├── continuity-framework.md
+│   ├── why-decentralization.md
+│   ├── token-economics.md
+│   ├── polyphonic-integration.md
+│   └── guardian-pattern.md
+│
+├── schemas/                     # Core MLP JSON schemas
+│   ├── memory-envelope.schema.json
+│   ├── memory-blob.schema.json
+│   ├── identity-kernel.schema.json
+│   └── access-policy.schema.json
+│
+├── continuity/                  # Continuity Framework (library)
+│   ├── README.md               # Framework usage guide
+│   ├── package.json            # "continuity-framework"
+│   ├── agents/                 # Sub-agents (classifier, scorer, generator)
 │   ├── schemas/                # Continuity-specific schemas
-│   └── src/                    # Core library
-├── skills/
-│   ├── claude-code/            # Claude Code skill (SKILL.md only)
-│   └── reflection-only/        # OpenClaw JS skill (no MLP)
-├── integrations/
-│   ├── clawdbot/               # MLP storage layer
-│   └── openclaw/               # Full stack (Continuity + MLP)
+│   └── src/                    # Core implementation
+│
+├── mlp-storage/                 # MLP Storage Layer (library)
+│   ├── README.md               # Storage layer docs
+│   ├── package.json            # "mlp-storage"
+│   ├── schemas/                # Storage schemas
+│   └── src/                    # Storage implementation
+│
+├── skills/                      # Ready-to-use skills by platform
+│   │
+│   ├── claude-code/            # For Claude Code users
+│   │   └── SKILL.md            # Self-contained (no npm)
+│   │
+│   └── openclaw/               # For OpenClaw users
+│       │
+│       ├── continuity/         # Reflection-only (local markdown)
+│       │   ├── SKILL.md
+│       │   ├── package.json
+│       │   └── src/
+│       │
+│       └── full-stack/         # Continuity + encrypted storage
+│           ├── SKILL.md
+│           ├── package.json
+│           └── src/
+│
 └── examples/
-    └── ...                     # Example implementations
+    └── basic-identity-kernel.json
 ```
 
 ---

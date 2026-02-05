@@ -29,7 +29,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "continuity-framework": "file:../../continuity"
+    "continuity-framework": "file:../../../continuity"
   },
   "openclaw": {
     "skillVersion": "1.0",

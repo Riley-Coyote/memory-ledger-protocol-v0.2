@@ -23,24 +23,24 @@ const DEFAULT_CONFIG = {
   // MLP settings
   mlp: {
     version: '0.2',
-    configPath: join(process.env.HOME || '~', '.clawdbot', 'mlp-config.yaml')
+    configPath: join(process.env.HOME || '~', '.openclaw', 'mlp-config.yaml')
   },
 
   // Storage settings
   storage: {
     provider: 'local',
-    path: join(process.env.HOME || '~', '.clawdbot', 'mlp-blobs')
+    path: join(process.env.HOME || '~', '.openclaw', 'mlp-blobs')
   },
 
   // Encryption settings
   encryption: {
     algorithm: 'XChaCha20-Poly1305',
-    keyPath: join(process.env.HOME || '~', '.clawdbot', 'keys')
+    keyPath: join(process.env.HOME || '~', '.openclaw', 'keys')
   },
 
   // Identity settings
   identity: {
-    kernelPath: join(process.env.HOME || '~', '.clawdbot', 'identity-kernel.yaml'),
+    kernelPath: join(process.env.HOME || '~', '.openclaw', 'identity-kernel.yaml'),
     epochDuration: 'P30D'
   },
 

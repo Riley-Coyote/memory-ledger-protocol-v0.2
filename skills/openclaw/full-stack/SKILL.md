@@ -100,12 +100,12 @@ export CONTINUITY_IDLE_THRESHOLD=1800
 export CONTINUITY_QUESTION_LIMIT=3
 
 # MLP storage settings
-export MLP_CONFIG_PATH=~/.clawdbot/mlp-config.yaml
+export MLP_CONFIG_PATH=~/.openclaw/mlp-config.yaml
 export PINATA_JWT=your_pinata_jwt_token
 export PINATA_GATEWAY=your_gateway.mypinata.cloud
 ```
 
-### Config File (~/.clawdbot/mlp-config.yaml)
+### Config File (~/.openclaw/mlp-config.yaml)
 
 ```yaml
 mlp_version: "0.2"
@@ -116,14 +116,14 @@ storage:
   gateway: ${PINATA_GATEWAY}
   # Or use local for development:
   # provider: local
-  # path: ~/.clawdbot/mlp-blobs
+  # path: ~/.openclaw/mlp-blobs
 
 encryption:
   algorithm: "XChaCha20-Poly1305"
-  key_path: ~/.clawdbot/keys
+  key_path: ~/.openclaw/keys
 
 identity:
-  kernel_path: ~/.clawdbot/identity-kernel.yaml
+  kernel_path: ~/.openclaw/identity-kernel.yaml
   epoch_duration: "P30D"
 ```
 
@@ -156,7 +156,7 @@ const result = await skill.onSessionEnd(session);
 
 ## Multi-Agent Configuration
 
-Add to your clawdbot.json:
+Add to your openclaw.json:
 
 ```json
 {
@@ -267,9 +267,9 @@ const context = await skill.generateContextPack();
 - **Continuity Framework**: v1.0.0
 - **Storage**: Pinata, IPFS, local (dev mode)
 
-## Migration from Reflection-Only
+## Migration from Continuity-Only
 
-If you started with the reflection-only skill:
+If you started with the continuity-only skill (`skills/openclaw/continuity/`):
 
 ```bash
 # Sync existing local memories to MLP storage
@@ -282,3 +282,9 @@ mlp-continuity sync --source ~/clawd/memory
 # 4. Create MLP envelopes
 # 5. Keep local copies as backup
 ```
+
+## Related
+
+- [Continuity Framework](../../../continuity/) — Core reflection library
+- [MLP Storage](../../../mlp-storage/) — Encrypted storage layer
+- [Continuity-Only Skill](../continuity/) — Local storage without MLP

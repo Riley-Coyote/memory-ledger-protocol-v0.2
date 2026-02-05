@@ -1,7 +1,7 @@
 /**
- * Clawdbot Integration Example
- * 
- * Shows how to integrate MLP with Clawdbot's session lifecycle.
+ * OpenClaw Integration Example
+ *
+ * Shows how to integrate MLP with OpenClaw's session lifecycle.
  */
 
 import MLP from '../src/index.js';
@@ -67,7 +67,7 @@ async function onSessionEnd(mlp, sessionSummary) {
  * Example session flow
  */
 async function exampleSession() {
-  console.log('=== Clawdbot + MLP Session Flow ===\n');
+  console.log('=== OpenClaw + MLP Session Flow ===\n');
   
   // 1. Session starts
   console.log('1. Starting session...');
