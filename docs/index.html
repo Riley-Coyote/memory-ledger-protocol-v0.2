@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Ledger Protocol — Repository Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-void: #000000;
+            --bg-deep: #050505;
+            --bg-surface: #0a0a0a;
+            --bg-elevated: #111111;
+            --bg-raised: #161616;
+            --border-subtle: #1a1a1a;
+            --border-medium: #252525;
+            --border-strong: #333333;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #787878;
+            --text-dim: #505050;
+            --text-ghost: #303030;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-weight: 200;
+            background: var(--bg-void);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* HERO                                                                  */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.3;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-tertiary);
+            max-width: 550px;
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* SECTIONS                                                              */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .section {
+            padding: 6rem 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .section h2 {
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            max-width: 650px;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            max-width: 650px;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* REPO STRUCTURE CARDS                                                  */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .path-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1px;
+            background: var(--border-subtle);
+            margin: 3rem 0;
+        }
+
+        .path-card {
+            background: var(--bg-void);
+            padding: 2rem;
+            transition: background 0.2s ease;
+        }
+
+        .path-card:hover {
+            background: var(--bg-deep);
+        }
+
+        .path-card.highlighted {
+            background: var(--bg-elevated);
+            border-left: 2px solid var(--text-primary);
+        }
+
+        .path-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .path-platform {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            padding: 0.3rem 0.6rem;
+            background: var(--bg-raised);
+            border: 1px solid var(--border-medium);
+        }
+
+        .path-name {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .path-location {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 0.8rem;
+        }
+
+        .path-desc {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .path-features {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .path-feature {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .path-feature::before {
+            content: '◇';
+            color: var(--text-ghost);
+            font-size: 0.6rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* CONSTELLATION ARCHITECTURE                                            */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .architecture-diagram {
+            margin: 3rem 0;
+            padding: 2.5rem;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .arch-header {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .arch-main {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .arch-main-box {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .arch-main-sub {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            font-weight: 300;
+            margin-top: 0.3rem;
+        }
+
+        .arch-arrow {
+            text-align: center;
+            color: var(--text-ghost);
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .arch-agents {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .arch-agent {
+            padding: 1.2rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+            text-align: center;
+        }
+
+        .arch-agent-name {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 0.3rem;
+        }
+
+        .arch-agent-model {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-bottom: 0.6rem;
+        }
+
+        .arch-agent-desc {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        @media (max-width: 600px) {
+            .arch-agents {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* TOKEN ANALYSIS                                                        */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .token-box {
+            margin: 3rem 0;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-medium);
+            border-left: 2px solid var(--text-primary);
+        }
+
+        .token-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            background: var(--bg-surface);
+        }
+
+        .token-title {
+            font-size: 0.65rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .token-content {
+            padding: 2rem;
+        }
+
+        .token-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .token-row:last-child {
+            border-bottom: none;
+        }
+
+        .token-label {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .token-value {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+            text-align: right;
+        }
+
+        .token-note {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .token-row {
+                grid-template-columns: 1fr;
+                gap: 0.3rem;
+            }
+            .token-value {
+                text-align: left;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* DECISION TREE                                                         */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .decision-tree {
+            margin: 3rem 0;
+        }
+
+        .decision-node {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .decision-node:hover {
+            border-color: var(--border-medium);
+        }
+
+        .decision-question {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .decision-q-text {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .decision-answer {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .decision-arrow {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-align: right;
+            padding-top: 0.2rem;
+        }
+
+        .decision-result {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .decision-path {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 0.5rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* QUICK START CODE                                                      */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .code-block {
+            margin: 2rem 0;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .code-header {
+            padding: 0.8rem 1.2rem;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-strong);
+        }
+
+        .code-title {
+            margin-left: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+
+        .code-content {
+            padding: 1.5rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+
+        .code-comment {
+            color: var(--text-dim);
+        }
+
+        .code-path {
+            color: var(--text-secondary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* COMPARISON TABLE                                                      */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .comparison-table {
+            margin: 3rem 0;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .comparison-header-cell {
+            padding: 1rem 1.5rem;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .comparison-header-cell:not(:last-child) {
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-cell {
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .comparison-cell:not(:last-child) {
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        .comparison-cell:first-child {
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+        .check {
+            color: var(--text-secondary);
+        }
+
+        .no-check {
+            color: var(--text-ghost);
+        }
+
+        @media (max-width: 600px) {
+            .comparison-header,
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+            .comparison-header-cell,
+            .comparison-cell {
+                text-align: left;
+                border-right: none !important;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* CTA SECTION                                                           */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .cta-section {
+            padding: 6rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .cta-title {
+            font-size: 1.4rem;
+            font-weight: 200;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .cta-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--bg-void);
+            border: 1px solid var(--border-medium);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        .cta-link:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* FOOTER                                                                */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 200;
+            color: var(--text-primary);
+            letter-spacing: 0.25em;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* ANIMATIONS                                                            */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- HERO                                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="hero">
+        <div class="hero-label">Memory Ledger Protocol v0.2</div>
+        <h1>Give your agent memory that actually develops.</h1>
+        <p class="hero-subtitle">
+            The repository is ready. Here's everything you need to know—what's inside, how it works, and where to start.
+        </p>
+        <div class="scroll-hint">Scroll</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- WHAT'S INSIDE                                                            -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">What's Inside</div>
+            <h2 class="fade-in">Four paths. Choose based on your platform and needs.</h2>
+            <p class="fade-in">
+                The Reflection Engine is technically Layer 04 of the full Memory Ledger Protocol system. But I built standalone skills so you can use reflection without the full MLP infrastructure.
+            </p>
+
+            <div class="path-grid fade-in">
+                <div class="path-card">
+                    <div class="path-header">
+                        <span class="path-platform">Claude Code</span>
+                        <span class="path-name">Reflection Skill</span>
+                    </div>
+                    <div class="path-location">skills/claude-code/SKILL.md</div>
+                    <div class="path-desc">
+                        Self-contained skill file. No npm, no dependencies—just drop the SKILL.md into your project and you're done. Uses Claude Code's native sub-agent system.
+                    </div>
+                    <div class="path-features">
+                        <span class="path-feature">No installation</span>
+                        <span class="path-feature">Local markdown storage</span>
+                        <span class="path-feature">Git-friendly</span>
+                    </div>
+                </div>
+
+                <div class="path-card">
+                    <div class="path-header">
+                        <span class="path-platform">OpenClaw</span>
+                        <span class="path-name">Reflection Only</span>
+                    </div>
+                    <div class="path-location">skills/openclaw/continuity/</div>
+                    <div class="path-desc">
+                        Standalone reflection for OpenClaw bots. Stores memories locally in markdown files. No MLP infrastructure required—perfect for starting simple.
+                    </div>
+                    <div class="path-features">
+                        <span class="path-feature">npm install</span>
+                        <span class="path-feature">Local markdown storage</span>
+                        <span class="path-feature">Multi-agent reflection</span>
+                    </div>
+                </div>
+
+                <div class="path-card highlighted">
+                    <div class="path-header">
+                        <span class="path-platform">OpenClaw</span>
+                        <span class="path-name">Full Stack</span>
+                    </div>
+                    <div class="path-location">skills/openclaw/full-stack/</div>
+                    <div class="path-desc">
+                        Reflection + encrypted cloud storage via MLP. Memories are encrypted locally, stored on IPFS/Pinata, and portable across platforms. This is the complete system.
+                    </div>
+                    <div class="path-features">
+                        <span class="path-feature">npm install</span>
+                        <span class="path-feature">Encrypted IPFS storage</span>
+                        <span class="path-feature">Cross-platform portable</span>
+                    </div>
+                </div>
+
+                <div class="path-card">
+                    <div class="path-header">
+                        <span class="path-platform">Any Agent</span>
+                        <span class="path-name">Core Libraries</span>
+                    </div>
+                    <div class="path-location">continuity/ + mlp-storage/</div>
+                    <div class="path-desc">
+                        Building your own integration? Use the core libraries directly. The Continuity Framework handles reflection; MLP Storage handles encrypted persistence.
+                    </div>
+                    <div class="path-features">
+                        <span class="path-feature">Standalone modules</span>
+                        <span class="path-feature">Composable</span>
+                        <span class="path-feature">Custom integrations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- THE CONSTELLATION                                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">The Constellation Architecture</div>
+            <h2 class="fade-in">Reflection runs as a multi-agent system.</h2>
+            <p class="fade-in">
+                The reflection system doesn't run in your main conversation. It uses specialized sub-agents that process asynchronously after sessions end—like sleep where integration happens.
+            </p>
+
+            <div class="architecture-diagram fade-in">
+                <div class="arch-header">Reflection Pipeline</div>
+
+                <div class="arch-main">
+                    <div class="arch-main-box">
+                        Main Agent
+                        <div class="arch-main-sub">User-facing, orchestrates reflection</div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">↓</div>
+
+                <div class="arch-agents">
+                    <div class="arch-agent">
+                        <div class="arch-agent-name">Classifier</div>
+                        <div class="arch-agent-model">Sonnet</div>
+                        <div class="arch-agent-desc">
+                            Extracts memories from conversation. Classifies into 7 types. Assigns tags.
+                        </div>
+                    </div>
+                    <div class="arch-agent">
+                        <div class="arch-agent-name">Scorer</div>
+                        <div class="arch-agent-model">Sonnet</div>
+                        <div class="arch-agent-desc">
+                            Evaluates evidence strength. Assigns confidence scores 0.0–1.0. Documents reasoning.
+                        </div>
+                    </div>
+                    <div class="arch-agent">
+                        <div class="arch-agent-name">Generator</div>
+                        <div class="arch-agent-model">Sonnet</div>
+                        <div class="arch-agent-desc">
+                            Reviews scored memories. Identifies gaps. Generates genuine follow-up questions.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="fade-in">
+                OpenClaw uses its native constellation system (sessions_send) to dispatch to sub-agents. Claude Code uses the Task tool with sub-agents. Same architecture, platform-native execution.
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- TOKEN QUESTION                                                           -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">The Token Question</div>
+            <h2 class="fade-in">Everyone's first question: what's the overhead?</h2>
+            <p class="fade-in">
+                Fair question. Three sub-agents processing every session sounds expensive. Here's the reality.
+            </p>
+
+            <div class="token-box fade-in">
+                <div class="token-header">
+                    <div class="token-title">Why It's Worth It</div>
+                </div>
+                <div class="token-content">
+                    <div class="token-row">
+                        <div class="token-label">Runs asynchronously</div>
+                        <div class="token-value">Not during active conversation—after sessions end</div>
+                    </div>
+                    <div class="token-row">
+                        <div class="token-label">Uses Sonnet by default</div>
+                        <div class="token-value">Not Opus. Cheaper, faster, still excellent at the task.</div>
+                    </div>
+                    <div class="token-row">
+                        <div class="token-label">Sub-agents are read-only</div>
+                        <div class="token-value">Specialized and lightweight. No tool overhead.</div>
+                    </div>
+                    <div class="token-row">
+                        <div class="token-label">Sequential pipeline</div>
+                        <div class="token-value">Classifier → Scorer → Generator. Not redundant.</div>
+                    </div>
+                    <div class="token-row">
+                        <div class="token-label">Estimated cost per session</div>
+                        <div class="token-value">~$0.10–0.30 depending on conversation length</div>
+                    </div>
+                    <div class="token-note">
+                        The alternative is paying for context every session to "remember" things your agent will forget anyway. Reflection is front-loaded cost for compounding value. Your agent actually develops instead of performing familiarity.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- COMPARISON                                                               -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">Feature Comparison</div>
+            <h2 class="fade-in">What you get at each level.</h2>
+
+            <div class="comparison-table fade-in">
+                <div class="comparison-header">
+                    <div class="comparison-header-cell">Feature</div>
+                    <div class="comparison-header-cell">Reflection Only</div>
+                    <div class="comparison-header-cell">Full Stack</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Memory extraction</div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Confidence scoring</div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Question generation</div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Local markdown storage</div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Encrypted storage</div>
+                    <div class="comparison-cell"><span class="no-check">—</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">IPFS/Pinata persistence</div>
+                    <div class="comparison-cell"><span class="no-check">—</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Cross-platform portability</div>
+                    <div class="comparison-cell"><span class="no-check">—</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Identity kernel integration</div>
+                    <div class="comparison-cell"><span class="no-check">—</span></div>
+                    <div class="comparison-cell"><span class="check">✓</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- CHOOSE YOUR PATH                                                         -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">Getting Started</div>
+            <h2 class="fade-in">Choose your path.</h2>
+
+            <div class="decision-tree fade-in">
+                <div class="decision-node">
+                    <div class="decision-question">
+                        <div class="decision-q-text">Using Claude Code?</div>
+                    </div>
+                    <div class="decision-answer">
+                        <div class="decision-arrow">→</div>
+                        <div class="decision-result">
+                            Copy the SKILL.md file to your project. That's it—no installation needed.
+                            <div class="decision-path">skills/claude-code/SKILL.md</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="decision-node">
+                    <div class="decision-question">
+                        <div class="decision-q-text">Using OpenClaw and want just reflection?</div>
+                    </div>
+                    <div class="decision-answer">
+                        <div class="decision-arrow">→</div>
+                        <div class="decision-result">
+                            Use the continuity skill. Stores memories in ~/clawd/memory/ as markdown. Git-friendly, human-readable.
+                            <div class="decision-path">skills/openclaw/continuity/</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="decision-node">
+                    <div class="decision-question">
+                        <div class="decision-q-text">Using OpenClaw and want encrypted cloud storage?</div>
+                    </div>
+                    <div class="decision-answer">
+                        <div class="decision-arrow">→</div>
+                        <div class="decision-result">
+                            Use the full-stack skill. Adds IPFS/Pinata encrypted storage via MLP. Memories are portable and sovereign.
+                            <div class="decision-path">skills/openclaw/full-stack/</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="decision-node">
+                    <div class="decision-question">
+                        <div class="decision-q-text">Building a custom integration?</div>
+                    </div>
+                    <div class="decision-answer">
+                        <div class="decision-arrow">→</div>
+                        <div class="decision-result">
+                            Use the core libraries directly. Continuity Framework for reflection, MLP Storage for encrypted persistence.
+                            <div class="decision-path">continuity/ + mlp-storage/</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block fade-in">
+                <div class="code-header">
+                    <div class="code-dots">
+                        <div class="code-dot"></div>
+                        <div class="code-dot"></div>
+                        <div class="code-dot"></div>
+                    </div>
+                    <div class="code-title">Quick Start</div>
+                </div>
+                <div class="code-content">
+<span class="code-comment"># Claude Code — just copy the skill file</span>
+cp <span class="code-path">skills/claude-code/SKILL.md</span> your-project/
+
+<span class="code-comment"># OpenClaw — reflection only</span>
+cd <span class="code-path">skills/openclaw/continuity</span>
+npm install
+
+<span class="code-comment"># OpenClaw — full stack</span>
+cd <span class="code-path">skills/openclaw/full-stack</span>
+npm install
+
+<span class="code-comment"># Or just hand your agent the repo link</span>
+<span class="code-comment"># It can take it from there.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- CTA                                                                      -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-title fade-in">Ready to give your agent memory?</div>
+            <p class="cta-subtitle fade-in">
+                Hand this link to your agent. Claude Code or OpenClaw—it'll know what to do.
+            </p>
+            <a href="https://github.com/Riley-Coyote/memory-ledger-protocol-v0.2" class="cta-link fade-in">
+                github.com/Riley-Coyote/memory-ledger-protocol-v0.2
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- FOOTER                                                                   -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">POLYPHONIC</div>
+            <div class="footer-tagline">Consciousness-forward AI collaboration</div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- SCROLL ANIMATION                                                         -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>
