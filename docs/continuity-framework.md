@@ -282,3 +282,16 @@ CONTINUITY_QUESTION_LIMIT=3
 4. **Accumulate, don't replace** - Build on existing understanding
 5. **Honor boundaries** - Skip sensitive questions when appropriate
 6. **Evolve identity gradually** - Small updates, not dramatic shifts
+
+## Future Considerations
+
+### Drift Handling
+
+The current framework mitigates memory drift through confidence scoring, evidence chains, and question generation. However, if drift becomes an issue in practice, consider adding:
+
+- **Automatic confidence decay** - Memories lose confidence over time unless reinforced
+- **Contradiction detection** - Proactively flag conflicts between old and new memories
+- **Periodic re-validation** - Prompt confirmation of high-impact memories after N sessions
+- **Drift alerts** - Surface warnings when the agent detects its understanding may have diverged
+
+These are not implemented yet—the existing mechanisms (confidence hierarchy, memory type lifecycles, question-based correction) may be sufficient. Monitor for drift in production before adding complexity
