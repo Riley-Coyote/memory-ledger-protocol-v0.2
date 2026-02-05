@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/continuity/v1/reflection-job.schema.json",
+  "title": "Continuity Reflection Job",
+  "description": "Schema for tracking reflection job status in the Continuity Framework",
+  "definitions": {
+    "jobStatus": {
+      "type": "string",
+      "enum": ["queued", "classifying", "scoring", "generating", "integrating", "complete", "failed"],
+      "description": "Current status of the reflection job"
+    },
+    "phaseMetrics": {
+      "type": "object",
+      "properties": {
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "items_processed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["job_id", "status", "session_id", "created_at"],
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "pattern": "^job_[a-f0-9-]+$",
+      "description": "Unique identifier for this reflection job"
+    },
+    "status": {
+      "$ref": "#/definitions/jobStatus"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "ID of the session being reflected upon"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the job was created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last status update timestamp"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the job completed (success or failure)"
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "message_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "conversation_duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "existing_memory_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "phases": {
+      "type": "object",
+      "properties": {
+        "classification": {
+          "$ref": "#/definitions/phaseMetrics"
+        },
+        "scoring": {
+          "$ref": "#/definitions/phaseMetrics"
+        },
+        "generation": {
+          "$ref": "#/definitions/phaseMetrics"
+        },
+        "integration": {
+          "$ref": "#/definitions/phaseMetrics"
+        }
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "memories_extracted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "memories_integrated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "questions_generated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "identity_updates": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "phase": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stack": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "agent_ids": {
+      "type": "object",
+      "description": "IDs of sub-agents used in this job",
+      "properties": {
+        "classifier": {
+          "type": "string"
+        },
+        "scorer": {
+          "type": "string"
+        },
+        "generator": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+{
+  "id": "continuity-scorer",
+  "name": "Confidence Scorer",
+  "description": "Assigns confidence scores to classified memories based on evidence strength",
+  "model": "anthropic/claude-sonnet-4",
+  "maxTurns": 1,
+  "workspace": "~/clawd/continuity-agents/scorer",
+  "tools": {
+    "allow": ["read"],
+    "deny": ["write", "exec", "sessions_spawn"]
+  },
+  "systemPrompt": "./SOUL.md",
+  "outputFormat": "json",
+  "timeout": 30000,
+  "retryPolicy": {
+    "maxRetries": 2,
+    "backoffMs": 1000
+  }
+}

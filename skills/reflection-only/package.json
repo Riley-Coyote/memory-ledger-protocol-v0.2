@@ -1,0 +1,60 @@
+{
+  "name": "continuity-skill",
+  "version": "1.0.0",
+  "description": "Standalone reflection skill for OpenClaw bots - memory continuity without MLP storage",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "continuity": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "start": "node src/cli.js"
+  },
+  "keywords": [
+    "continuity",
+    "memory",
+    "reflection",
+    "ai",
+    "openclaw",
+    "skill"
+  ],
+  "author": "Riley Coyote",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polyphonic-chat/memory-ledger-protocol"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "continuity-framework": "file:../../continuity"
+  },
+  "openclaw": {
+    "skillVersion": "1.0",
+    "category": "memory",
+    "tags": ["memory", "reflection", "continuity"],
+    "requires": {
+      "tools": ["read", "write"]
+    },
+    "commands": [
+      {
+        "name": "reflect",
+        "description": "Reflect on recent session"
+      },
+      {
+        "name": "questions",
+        "description": "Show pending questions"
+      },
+      {
+        "name": "status",
+        "description": "Show memory status"
+      },
+      {
+        "name": "greet",
+        "description": "Generate greeting with questions"
+      }
+    ]
+  }
+}

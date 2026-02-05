@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/continuity/v1/memory-types.schema.json",
+  "title": "Continuity Memory Types",
+  "description": "Schema for structured memory extraction in the Continuity Framework",
+  "definitions": {
+    "memoryType": {
+      "type": "string",
+      "enum": ["fact", "preference", "relationship", "principle", "commitment", "moment", "skill"],
+      "description": "Classification of memory content"
+    },
+    "memory": {
+      "type": "object",
+      "required": ["id", "type", "content", "tags"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^mem_[a-f0-9-]+$",
+          "description": "Unique memory identifier"
+        },
+        "type": {
+          "$ref": "#/definitions/memoryType"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "description": "The extracted memory content"
+        },
+        "source_quote": {
+          "type": "string",
+          "description": "Direct quote from conversation if available"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "minItems": 0,
+          "maxItems": 10,
+          "description": "Tags for categorization and retrieval"
+        },
+        "context": {
+          "type": "string",
+          "description": "Brief context about when/why this was stated"
+        },
+        "uncertain": {
+          "type": "boolean",
+          "default": false,
+          "description": "Flag indicating classification uncertainty"
+        },
+        "uncertainty_reason": {
+          "type": "string",
+          "description": "Reason for uncertainty if flagged"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of extraction"
+        },
+        "session_id": {
+          "type": "string",
+          "description": "ID of session this memory was extracted from"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["memories", "extraction_metadata"],
+  "properties": {
+    "memories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/memory"
+      },
+      "description": "Array of extracted memories"
+    },
+    "extraction_metadata": {
+      "type": "object",
+      "required": ["messages_analyzed", "memories_extracted"],
+      "properties": {
+        "messages_analyzed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of messages analyzed"
+        },
+        "memories_extracted": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of memories successfully extracted"
+        },
+        "skipped_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Reasons why potential memories were skipped"
+        },
+        "extraction_time_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Time taken to extract memories in milliseconds"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

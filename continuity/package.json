@@ -1,0 +1,60 @@
+{
+  "name": "continuity-framework",
+  "version": "1.0.0",
+  "description": "Asynchronous reflection and memory integration for genuine AI development",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./orchestrator": "./src/orchestrator.js",
+    "./memory-store": "./src/memory-store.js",
+    "./types": "./src/types.js"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "continuity",
+    "memory",
+    "reflection",
+    "ai",
+    "agents",
+    "mlp",
+    "development"
+  ],
+  "author": "Riley Coyote",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polyphonic-chat/memory-ledger-protocol"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  },
+  "continuity": {
+    "agents": {
+      "classifier": {
+        "id": "continuity-classifier",
+        "model": "anthropic/claude-sonnet-4"
+      },
+      "scorer": {
+        "id": "continuity-scorer",
+        "model": "anthropic/claude-sonnet-4"
+      },
+      "generator": {
+        "id": "continuity-generator",
+        "model": "anthropic/claude-sonnet-4"
+      }
+    },
+    "defaults": {
+      "basePath": "~/clawd/memory",
+      "questionLimit": 3,
+      "idleThreshold": 1800
+    }
+  }
+}

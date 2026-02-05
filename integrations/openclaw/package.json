@@ -1,0 +1,78 @@
+{
+  "name": "mlp-continuity",
+  "version": "1.0.0",
+  "description": "Full-stack memory continuity combining Continuity Framework with MLP storage",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./session": "./src/session.js",
+    "./config": "./src/config.js"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "mlp",
+    "continuity",
+    "memory",
+    "reflection",
+    "ai",
+    "openclaw",
+    "ipfs",
+    "pinata",
+    "decentralized"
+  ],
+  "author": "Riley Coyote",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polyphonic-chat/memory-ledger-protocol"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "continuity-framework": "file:../../continuity",
+    "clawdbot-mlp": "file:../clawdbot",
+    "yaml": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  },
+  "openclaw": {
+    "skillVersion": "1.0",
+    "category": "memory",
+    "tags": ["memory", "reflection", "continuity", "mlp", "ipfs"],
+    "requires": {
+      "tools": ["read", "write", "exec"]
+    },
+    "commands": [
+      {
+        "name": "reflect",
+        "description": "Reflect on recent session and store to MLP"
+      },
+      {
+        "name": "questions",
+        "description": "Show pending questions"
+      },
+      {
+        "name": "status",
+        "description": "Show memory and MLP status"
+      },
+      {
+        "name": "greet",
+        "description": "Generate greeting with questions"
+      },
+      {
+        "name": "context-pack",
+        "description": "Generate MLP context pack"
+      },
+      {
+        "name": "sync",
+        "description": "Sync local memories to MLP storage"
+      }
+    ]
+  }
+}

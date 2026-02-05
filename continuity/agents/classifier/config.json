@@ -1,0 +1,19 @@
+{
+  "id": "continuity-classifier",
+  "name": "Memory Classifier",
+  "description": "Classifies conversation content into structured memory types",
+  "model": "anthropic/claude-sonnet-4",
+  "maxTurns": 1,
+  "workspace": "~/clawd/continuity-agents/classifier",
+  "tools": {
+    "allow": ["read"],
+    "deny": ["write", "exec", "sessions_spawn"]
+  },
+  "systemPrompt": "./SOUL.md",
+  "outputFormat": "json",
+  "timeout": 30000,
+  "retryPolicy": {
+    "maxRetries": 2,
+    "backoffMs": 1000
+  }
+}

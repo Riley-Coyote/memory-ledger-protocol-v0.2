@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/continuity/v1/curiosity-question.schema.json",
+  "title": "Continuity Curiosity Questions",
+  "description": "Schema for generated follow-up questions in the Continuity Framework",
+  "definitions": {
+    "curiosityType": {
+      "type": "string",
+      "enum": ["gap", "implication", "clarification", "exploration", "connection"],
+      "description": "Category of curiosity that generated this question"
+    },
+    "timing": {
+      "type": "string",
+      "enum": ["next_session", "when_relevant", "low_priority"],
+      "description": "When to surface this question"
+    },
+    "sensitivity": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Sensitivity level of the question topic"
+    },
+    "questionStatus": {
+      "type": "string",
+      "enum": ["pending", "asked", "answered", "skipped", "expired"],
+      "description": "Current status of the question"
+    },
+    "question": {
+      "type": "object",
+      "required": ["id", "question", "context", "curiosity_type", "curiosity_score", "timing", "sensitivity"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^q_[a-f0-9-]+$",
+          "description": "Unique question identifier"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "The actual question to ask"
+        },
+        "context": {
+          "type": "string",
+          "description": "Why this question emerged from reflection"
+        },
+        "source_memory_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^mem_[a-f0-9-]+$"
+          },
+          "description": "Memory IDs that prompted this question"
+        },
+        "curiosity_type": {
+          "$ref": "#/definitions/curiosityType"
+        },
+        "curiosity_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Priority score for this question"
+        },
+        "timing": {
+          "$ref": "#/definitions/timing"
+        },
+        "sensitivity": {
+          "$ref": "#/definitions/sensitivity"
+        },
+        "status": {
+          "$ref": "#/definitions/questionStatus",
+          "default": "pending"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "asked_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the question was surfaced to user"
+        },
+        "answered_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the question was answered"
+        },
+        "answer_summary": {
+          "type": "string",
+          "description": "Brief summary of the answer received"
+        },
+        "skip_reason": {
+          "type": "string",
+          "description": "Reason if question was skipped"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["questions", "generation_metadata"],
+  "properties": {
+    "questions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/question"
+      },
+      "description": "Array of generated questions"
+    },
+    "generation_metadata": {
+      "type": "object",
+      "required": ["memories_analyzed", "questions_generated"],
+      "properties": {
+        "memories_analyzed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "questions_generated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "curiosity_types_distribution": {
+          "type": "object",
+          "properties": {
+            "gap": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "implication": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "clarification": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "exploration": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "connection": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "generation_time_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -197,6 +197,47 @@ The system works even if every infrastructure provider is adversarial.
 
 ---
 
+## Continuity Framework
+
+The Memory Ledger Protocol includes the **Continuity Framework** — a reflection system that transforms passive memory logging into active development.
+
+### What It Does
+
+1. **Reflect** — After sessions end, analyze what happened
+2. **Extract** — Pull structured memories with 7 types and confidence scores
+3. **Score** — Assign 0.0-1.0 confidence based on evidence strength
+4. **Question** — Generate genuine follow-up questions from gaps
+5. **Surface** — When user returns, present relevant questions
+
+### Three Usage Paths
+
+| Path | Use Case | Storage | Location |
+|------|----------|---------|----------|
+| **Claude Code Skill** | Direct use in Claude Code | Local markdown | `skills/claude-code/` |
+| **OpenClaw Skill** | JavaScript skill for OpenClaw bots | Local markdown | `skills/reflection-only/` |
+| **Full Stack** | Continuity + MLP storage | Encrypted IPFS/Pinata | `integrations/openclaw/` |
+
+### Quick Start
+
+```javascript
+import { ContinuityFramework } from 'continuity-framework';
+
+const continuity = new ContinuityFramework({
+  basePath: '~/clawd/memory'
+});
+await continuity.init();
+
+// Reflect on a conversation
+const result = await continuity.reflect(transcript);
+
+// Get questions for session start
+const questions = await continuity.getQuestionsToSurface(3);
+```
+
+→ [Full documentation: Continuity Framework](docs/continuity-framework.md)
+
+---
+
 ## Repository Structure
 
 ```
@@ -206,6 +247,7 @@ memory-ledger-protocol/
 ├── spec/
 │   └── MLP-0.2.md              # Protocol specification
 ├── docs/
+│   ├── continuity-framework.md # Continuity Framework overview
 │   ├── why-decentralization.md # The coordination economics case
 │   ├── token-economics.md      # $POLYPHONIC utility
 │   ├── polyphonic-integration.md # Reference implementation
@@ -215,6 +257,20 @@ memory-ledger-protocol/
 │   ├── memory-blob.json
 │   ├── identity-kernel.json
 │   └── access-policy.json
+├── continuity/                  # Continuity Framework
+│   ├── README.md               # Library usage guide
+│   ├── agents/                 # Sub-agent definitions
+│   │   ├── classifier/         # Memory classification
+│   │   ├── scorer/             # Confidence scoring
+│   │   └── generator/          # Question generation
+│   ├── schemas/                # Continuity-specific schemas
+│   └── src/                    # Core library
+├── skills/
+│   ├── claude-code/            # Claude Code skill (SKILL.md only)
+│   └── reflection-only/        # OpenClaw JS skill (no MLP)
+├── integrations/
+│   ├── clawdbot/               # MLP storage layer
+│   └── openclaw/               # Full stack (Continuity + MLP)
 └── examples/
     └── ...                     # Example implementations
 ```

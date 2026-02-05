@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://mlp.dev/schemas/continuity/v1/confidence.schema.json",
+  "title": "Continuity Confidence Scoring",
+  "description": "Schema for confidence scoring in the Continuity Framework",
+  "definitions": {
+    "confidenceLevel": {
+      "type": "string",
+      "enum": ["explicit", "implied", "inferred", "speculative"],
+      "description": "Confidence tier based on evidence strength"
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "user_stated",
+        "user_confirmed",
+        "context_implied",
+        "pattern_inferred",
+        "behavioral_signal",
+        "hypothesis"
+      ],
+      "description": "How the information was obtained"
+    },
+    "confidence": {
+      "type": "object",
+      "required": ["score", "level", "source", "evidence"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Confidence score from 0.0 to 1.0"
+        },
+        "level": {
+          "$ref": "#/definitions/confidenceLevel"
+        },
+        "source": {
+          "$ref": "#/definitions/sourceType"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Evidence supporting the confidence score"
+        },
+        "decay_rate": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": 0.0,
+          "description": "Rate at which confidence decays over time (0 = no decay)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "scoredMemory": {
+      "type": "object",
+      "required": ["id", "type", "content", "confidence"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^mem_[a-f0-9-]+$",
+          "description": "Memory identifier from classification"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["fact", "preference", "relationship", "principle", "commitment", "moment", "skill"]
+        },
+        "content": {
+          "type": "string",
+          "description": "Original memory content"
+        },
+        "confidence": {
+          "$ref": "#/definitions/confidence"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_quote": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["scored_memories", "scoring_metadata"],
+  "properties": {
+    "scored_memories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/scoredMemory"
+      },
+      "description": "Array of scored memories"
+    },
+    "scoring_metadata": {
+      "type": "object",
+      "required": ["memories_scored", "average_confidence", "confidence_distribution"],
+      "properties": {
+        "memories_scored": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "average_confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "confidence_distribution": {
+          "type": "object",
+          "properties": {
+            "explicit": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "implied": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "inferred": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "speculative": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "scoring_time_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
